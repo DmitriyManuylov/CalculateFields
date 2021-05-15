@@ -65,6 +65,7 @@ namespace Calculating_Magnetic_Field.Models
 
         #endregion
 
+
         #region для Интегральной формулы Грина
         public List<ElementBasisFunction> boundElements;
 
@@ -122,6 +123,9 @@ namespace Calculating_Magnetic_Field.Models
                 physicalField = value;
             }
         }
+
+
+        IScalarPotencial scalarPotencial;
 
         #endregion
 
@@ -333,15 +337,15 @@ namespace Calculating_Magnetic_Field.Models
         /// <param name="pointM">Точка наблюдения</param>
         /// <param name="Density">Плотность тока на носителе</param>
         /// <returns></returns>
-        public double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
+        public double Integral_Potencial(PointD pointM, Bound_Rib rib)
         {
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
             if (r < rib.LenthElement * 1e-5)
-                return rib.LenthElement * Density * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
+                return rib.LenthElement * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
                                                      Math.Log(1.0 / Math.Sqrt((rib.Point2.X - pointM.X) * (rib.Point2.X - pointM.X) + (rib.Point2.Y - pointM.Y) * (rib.Point2.Y - pointM.Y)))) / 2;
-            return rib.LenthElement * Density * Math.Log(1.0 / r);
+            return rib.LenthElement * Math.Log(1.0 / r);
         }
 
         /*public double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
@@ -657,17 +661,41 @@ namespace Calculating_Magnetic_Field.Models
 
         private Vector2D CalculateReactionInduction(PointD pointM)
         {
-            PointD p1, p2;
-            p1 = new PointD(0, 0);
-            Vector2D f1, f2, d_fun;
-            f1.X_component = 0;
-            f1.Y_component = 0;
-            f2.X_component = 0;
-            f2.Y_component = 0;
             Bound_Rib rib;
             double lenth;
             Vector2D result;
-            double coef = 0.1;
+
+            double eps = 1e-6;
+
+            result.X_component = 0;
+            result.Y_component = 0;
+            PointD midP;
+            int ni = 0;
+            double r = 0;
+            for (int i = 0; i < bounds.Count; i++)
+            {
+                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
+                {
+                    rib = bounds[i].Bound_Ribs[j];
+                    midP = new PointD(rib.GetMiddleOfRib());
+                    r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
+                    
+                    lenth = rib.LenthElement;
+                    
+                    result.X_component += (pointM.X - midP.X) / (r * r) * ArrDencities[ni + j] * lenth;
+                    result.Y_component += (pointM.Y - midP.Y) / (r * r) * ArrDencities[ni + j] * lenth;
+                }
+                ni += bounds[i].Bound_Ribs.Count;
+            }
+
+            return depth * result / (2 * Math.PI);
+        }
+
+        private Vector2D CalculateReactionIntensity(PointD pointM)
+        {
+            Bound_Rib rib;
+            double lenth;
+            Vector2D result;
 
             double eps = 1e-6;
 
@@ -683,136 +711,7 @@ namespace Calculating_Magnetic_Field.Models
                     rib = bounds[i].Bound_Ribs[j];
                     midP = new PointD(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
                     r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    
                     lenth = bounds[i].Bound_Ribs[j].LenthElement;
-                    //eps = lenth;
-
-                    #region чушь
-                    /*if (r < lenth * coef)
-                    {
-                        if (rib.Classify(pointM) == PointPosition.LEFT)
-                        {
-                            p1 = new PointD(pointM.X - rib.Normal.CosAlpha * lenth, pointM.Y - rib.Normal.CosBeta * lenth);
-                            p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * lenth, pointM.Y - 2 * rib.Normal.CosBeta * lenth);
-                            r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                            f1.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p1.X) / (r * r));
-                            f1.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p1.Y) / (r * r));
-                            r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                            f2.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p2.X) / (r * r));
-                            f2.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p2.Y) / (r * r));
-                        }
-                        if (rib.Classify(pointM) == PointPosition.RIGHT)
-                        {
-                            p1 = new PointD(pointM.X + rib.Normal.CosAlpha * lenth, pointM.Y + rib.Normal.CosBeta * lenth);
-                            p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * lenth, pointM.Y + 2 * rib.Normal.CosBeta * lenth);
-                            r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                            f1.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p1.X) / (r * r));
-                            f1.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p1.Y) / (r * r));
-                            r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                            f2.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p2.X) / (r * r));
-                            f2.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p2.Y) / (r * r));
-                        }
-                        d_fun = f1 - f2;
-
-                        result += f1 + 2 * d_fun;
-                        continue;
-                    }*/
-                    #endregion
-
-                    /*if (r < eps)
-                    {
-                        r = eps;
-                        PointPosition position = rib.Classify(pointM);
-                        switch (position)
-                        {
-                            case PointPosition.LEFT:
-                                {
-                                    p1 = new PointD(midP.X - rib.Normal.CosAlpha * r, midP.Y - rib.Normal.CosBeta * r);
-
-                                    break;
-                                }
-                            case PointPosition.RIGHT:
-                                {
-                                    p1 = new PointD(midP.X + rib.Normal.CosAlpha * r, midP.Y + rib.Normal.CosBeta * r);
-                                    break;
-                                }
-                            default:
-                                {
-
-                                    break;
-                                }
-                        }
-                        f1.X_component = lenth * ArrDencities[ni + j] * ((p1.X - midP.X) / (r * r));
-                        f1.Y_component = lenth * ArrDencities[ni + j] * ((p1.Y - midP.Y) / (r * r));
-                        result += f1;
-                        continue;
-                    }*/
-
-
-                    result.X_component += (pointM.X - midP.X) / (r * r) * ArrDencities[ni + j] * lenth;
-                    result.Y_component += (pointM.Y - midP.Y) / (r * r) * ArrDencities[ni + j] * lenth;
-                }
-                ni += bounds[i].Bound_Ribs.Count;
-            }
-
-            return depth * result / (2 * Math.PI);
-        }
-
-        private Vector2D CalculateReactionIntensity(PointD pointM)
-        {
-            PointD p1, p2;
-            Vector2D f1, f2, d_fun;
-            f1.X_component = 0;
-            f1.Y_component = 0;
-            f2.X_component = 0;
-            f2.Y_component = 0;
-            Bound_Rib rib;
-            double lenth;
-            Vector2D result;
-            double coef = 0.1;
-            result.X_component = 0;
-            result.Y_component = 0;
-            PointD midP;
-            int ni = 0;
-            double r = 0;
-            for (int i = 0; i < bounds.Count; i++)
-            {
-                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
-                {
-                    rib = bounds[i].Bound_Ribs[j];
-                    midP = new PointD(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
-                    r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    lenth = bounds[i].Bound_Ribs[j].LenthElement;
-
-                    if (r < lenth * coef)
-                    {
-                        if (rib.Classify(pointM) == PointPosition.LEFT)
-                        {
-                            p1 = new PointD(pointM.X - rib.Normal.CosAlpha * lenth, pointM.Y - rib.Normal.CosBeta * lenth);
-                            p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * lenth, pointM.Y - 2 * rib.Normal.CosBeta * lenth);
-                            r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                            f1.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p1.X) / (r * r));
-                            f1.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p1.Y) / (r * r));
-                            r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                            f2.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p2.X) / (r * r));
-                            f2.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p2.Y) / (r * r));
-                        }
-                        if (rib.Classify(pointM) == PointPosition.RIGHT)
-                        {
-                            p1 = new PointD(pointM.X + rib.Normal.CosAlpha * lenth, pointM.Y + rib.Normal.CosBeta * lenth);
-                            p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * lenth, pointM.Y + 2 * rib.Normal.CosBeta * lenth);
-                            r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                            f1.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p1.X) / (r * r));
-                            f1.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p1.Y) / (r * r));
-                            r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                            f2.X_component += lenth * ArrDencities[ni + j] * ((pointM.X - p2.X) / (r * r));
-                            f2.Y_component += lenth * ArrDencities[ni + j] * ((pointM.Y - p2.Y) / (r * r));
-                        }
-                        d_fun = f1 - f2;
-
-                        result += f1 + 2 * d_fun;
-                        continue;
-                    }
 
                     result.X_component += (pointM.X - midP.X) / (r * r) * ArrDencities[ni + j] * lenth;
                     result.Y_component += (pointM.Y - midP.Y) / (r * r) * ArrDencities[ni + j] * lenth;
@@ -863,7 +762,7 @@ namespace Calculating_Magnetic_Field.Models
             for (int i = 0; i < bounds.Count; i++)
             {
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
-                    result += Integral_Potencial(bounds[i].Bound_Ribs[j], pointM, ArrDencities[ni + j]);
+                    result += Integral_Potencial(pointM, bounds[i].Bound_Ribs[j]) * ArrDencities[ni + j];
                 ni += bounds[i].Bound_Ribs.Count;
             }
             return depth / (2.0 * Math.PI * standart_field_property) * result;

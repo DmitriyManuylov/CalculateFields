@@ -23,7 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>3</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -150,6 +150,7 @@
     <Compile Include="ModelFactories\ScalarModelFactory.cs" />
     <Compile Include="ModelFactories\VectorModelFactory.cs" />
     <Compile Include="Models\IModel.cs" />
+    <Compile Include="Models\IScalarPotencial.cs" />
     <Compile Include="Models\ScalarPDL.cs" />
     <Compile Include="Models\ScalarPotencialModel.cs" />
     <Compile Include="Models\ScalarPSL.cs" />
@@ -230,6 +231,15 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Calculating_Magnetic_Field_TemporaryKey.pfx" />
+    <None Include="NewFolder1\c.dat" />
+    <None Include="NewFolder1\new.geo" />
+    <None Include="NewFolder1\new.msh" />
+    <None Include="NewFolder1\new2.geo" />
+    <None Include="NewFolder1\new2.msh" />
+    <None Include="NewFolder1\new3.geo" />
+    <None Include="NewFolder1\new3.msh" />
+    <None Include="NewFolder1\tri.dat" />
+    <None Include="NewFolder1\xy.dat" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -246,6 +256,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />
+    <Content Include="NewFolder1\flux.exe" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

@@ -1,0 +1,23 @@
+$Model
+Current
+Scalar
+1
+$EndModel
+$Fields
+1
+Rectangle
+-0,02 0,02 0,04 0,04 1200 0 200
+Rectangle
+-0,0015 0,01775 0,003 0,0355 1200 200 800
+$EndFields
+$Sources
+2
+Point PointSource
+-0,001 0,01985 5e-5
+Point PointSource
+0,001 0,01985 5e-5
+Point PointSource
+-0,001 -0,01985 -5e-5
+Point PointSource
+0,001 -0,01985 -5e-5
+$EndSources

@@ -37,5 +37,10 @@ namespace Calculating_Magnetic_Field
         {
             return Math.Sqrt((point.X - X) * (point.X - X) + (point.Y - Y) * (point.Y - Y));
         }
+
+        public double SquareOfDistanceToOtherPoint(PointD point)
+        {
+            return (point.X - X) * (point.X - X) + (point.Y - Y) * (point.Y - Y);
+        }
     }
 }
