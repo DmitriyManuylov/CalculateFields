@@ -9,22 +9,8 @@ namespace Calculating_Magnetic_Field.Models
     /// <summary>
     /// Скалярный потенциал простого слоя
     /// </summary>
-    class ScalarPSL : IScalarPotencial
+    public class ScalarPSL : IPotencial
     {
-
-        private double[] arr_dencities;
-
-        public double[] Arr_Dencities
-        {
-            get
-            {
-                return arr_dencities;
-            }
-            set
-            {
-                arr_dencities = value;
-            }
-        }
 
         public int Sign
         {
@@ -55,17 +41,14 @@ namespace Calculating_Magnetic_Field.Models
             double r2;
             double lenth;
             Vector2D result;
-
-            result.X_component = 0;
-            result.Y_component = 0;
+        
             PointD midP;
             midP = new PointD(ribN.GetMiddleOfRib());
             r2 = pointM.SquareOfDistanceToOtherPoint(midP);
-
             lenth = ribN.LenthElement;
-
-            result.X_component += (pointM.X - midP.X) / r2 * lenth;
-            result.Y_component += (pointM.Y - midP.Y) / r2 * lenth;
+         
+            result.X_component = (pointM.X - midP.X) / r2 * lenth;
+            result.Y_component = (pointM.Y - midP.Y) / r2 * lenth;
             return result;
         }
 

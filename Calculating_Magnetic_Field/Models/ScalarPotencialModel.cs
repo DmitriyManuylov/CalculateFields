@@ -11,6 +11,7 @@ using Extreme.Mathematics;
 using Extreme.Mathematics.LinearAlgebra;
 using Extreme.Mathematics.LinearAlgebra.IterativeSolvers;
 using Extreme.Mathematics.LinearAlgebra.IterativeSolvers.Preconditioners;
+using Calculating_Magnetic_Field.ModelFactories;
 
 
 namespace Calculating_Magnetic_Field.Models
@@ -124,8 +125,33 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
+        private IPotencialFactoryMethod potencialFactoryMethod;
 
-        IScalarPotencial scalarPotencial;
+        public IPotencialFactoryMethod PotencialFactoryMethod
+        {
+            get
+            {
+                return potencialFactoryMethod;
+            }
+            set
+            {
+                potencialFactoryMethod = value;
+            }
+        }
+
+        private IPotencial scalarPotencial;
+
+        public IPotencial Potencial
+        {
+            get
+            {
+                return scalarPotencial;
+            }
+            set
+            {
+                scalarPotencial = value;
+            }
+        }
 
         #endregion
 

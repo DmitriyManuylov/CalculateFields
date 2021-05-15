@@ -397,6 +397,22 @@ namespace Calculating_Magnetic_Field
                         }
                 }
                 str = reader.ReadLine();
+                switch (str)
+                {
+                    case "PSL":
+                        {
+                            model.PotencialFactoryMethod = new PSL_Factory_Method();
+                            model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialType());
+                            break;
+                        }
+                    case "PDL":
+                        {
+                            model.PotencialFactoryMethod = new PDL_Factory_Method();
+                            model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialType());
+                            break;
+                        }
+                }
+                str = reader.ReadLine();
                 model = modelFactory.CreateModel(Convert.ToDouble(str));
 
                 while ((str = reader.ReadLine()) != "$Fields") { }

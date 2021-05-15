@@ -146,14 +146,19 @@
       <DependentUpon>PicBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphicsCalculating.cs" />
+    <Compile Include="ModelFactories\PDL_Factory_Method.cs" />
+    <Compile Include="ModelFactories\PSL_Factory_Method.cs" />
+    <Compile Include="ModelFactories\IPotencialFactoryMethod.cs" />
     <Compile Include="ModelFactories\ModelFactory.cs" />
     <Compile Include="ModelFactories\ScalarModelFactory.cs" />
     <Compile Include="ModelFactories\VectorModelFactory.cs" />
     <Compile Include="Models\IModel.cs" />
-    <Compile Include="Models\IScalarPotencial.cs" />
+    <Compile Include="Models\IPotencial.cs" />
     <Compile Include="Models\ScalarPDL.cs" />
     <Compile Include="Models\ScalarPotencialModel.cs" />
     <Compile Include="Models\ScalarPSL.cs" />
+    <Compile Include="Models\VectorPDL.cs" />
+    <Compile Include="Models\VectorPSL.cs" />
     <Compile Include="PhysicalConstants.cs" />
     <Compile Include="PhysicalField.cs" />
     <Compile Include="Sources\IResidualIntensitySource.cs" />

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Calculating_Magnetic_Field.ModelFactories;
 using Calculating_Magnetic_Field.Models;
 using MathNet.Numerics.LinearAlgebra;
 using MathNet.Numerics.LinearAlgebra.Double;
@@ -116,6 +117,34 @@ namespace Calculating_Magnetic_Field
                         }
                 }
                 physicalField = value;
+            }
+        }
+
+        private IPotencialFactoryMethod potencialFactoryMethod;
+
+        public IPotencialFactoryMethod PotencialFactoryMethod
+        {
+            get
+            {
+                return potencialFactoryMethod;
+            }
+            set
+            {
+                potencialFactoryMethod = value;
+            }
+        }
+
+        private IPotencial vectorPotencial;
+
+        public IPotencial Potencial
+        {
+            get
+            {
+                return vectorPotencial;
+            }
+            set
+            {
+                vectorPotencial = value;
             }
         }
 

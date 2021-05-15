@@ -2,10 +2,6 @@
 using Calculating_Magnetic_Field.Sources;
 using Calculating_Magnetic_Field.Sources.PotencialSources;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Calculating_Magnetic_Field.ModelFactories
 {
