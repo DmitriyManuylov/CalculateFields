@@ -539,7 +539,7 @@ namespace Calculating_Magnetic_Field
             //int n = 1000;
             
             int k = 1001;
-            double[] X = new double[k];
+            List<double> X = new List<double>(k);
             List<double> Bn = new List<double>(k);
             Bn = graphicsCalculating.Calculate(new PointD(-0.05, 0), new PointD(0.05, 0), k, GraphicTypes.Intensity_Y_component);
             X = graphicsCalculating.GetLenth();
@@ -793,7 +793,7 @@ namespace Calculating_Magnetic_Field
         private void butBuildGraphic_Click(object sender, EventArgs e)
         {
             int k = 1001;
-            double[] X;
+            List<double> X;
             List<double> Bn;
             //горизонтальная линия
             PointD Point1 = new PointD(-0.02, 0);
@@ -845,7 +845,30 @@ namespace Calculating_Magnetic_Field
             PointD Point25 = new PointD(-0.02, 0.0194);
             PointD Point26 = new PointD(0.02, 0.0194);
 
-            Bn = graphicsCalculating.Calculate(Point21, Point22, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
+            //горизонтальная линия 6
+            PointD Point27 = new PointD(-0.02, 0);
+            PointD Point28 = new PointD(0.02, 0);
+            //горизонтальная линия 7
+            PointD Point29 = new PointD(-0.02, 0.0038);
+            PointD Point30 = new PointD(0.02, 0.0038);
+
+            //горизонтальная линия 7
+            PointD Point31 = new PointD(-0.02, 0.0175);
+            PointD Point32 = new PointD(0.02, 0.0175);
+
+            //вертикальная линия 7
+            PointD Point33 = new PointD(0.00175, -0.02);
+            PointD Point34 = new PointD(0.00175, 0.02);
+
+            //вертикальная линия 8
+            PointD Point35 = new PointD(0.0011, -0.02);
+            PointD Point36 = new PointD(0.0011, 0.02);
+
+            //горизонтальная линия 8
+            PointD Point37 = new PointD(-0.02, 0.003);
+            PointD Point38 = new PointD(0.02, 0.003);
+
+            Bn = graphicsCalculating.Calculate(Point22, Point21, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
             X = graphicsCalculating.GetLenth();
 
             BuilderPotencialGraphic graphic = new BuilderPotencialGraphic(X, Bn, (GraphicTypes)cbChooseGraphicType.SelectedItem, model.PhysicalField);

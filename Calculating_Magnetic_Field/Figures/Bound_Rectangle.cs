@@ -115,5 +115,14 @@ namespace Calculating_Magnetic_Field
             }
             return false;
         }
+
+        public bool IsPointOnBorder(PointD point, float epsilon)
+        {
+            float old_eps = eps;
+            eps = epsilon;
+            bool result = IsPointOnBorder(point);
+            eps = old_eps;
+            return result;
+        }
     }
 }

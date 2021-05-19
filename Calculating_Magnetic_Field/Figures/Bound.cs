@@ -507,9 +507,15 @@ namespace Calculating_Magnetic_Field
 
         }
 
+
         public bool IsPointOnBorder(PointD point)
         {
             return ThisFigure.IsPointOnBorder(point);
+        }
+
+        public bool IsPointOnBorder(PointD point, float epsilon)
+        {
+            return ThisFigure.IsPointOnBorder(point, epsilon);
         }
     }
 }

@@ -21,6 +21,14 @@ namespace Calculating_Magnetic_Field.Models
 
         }
 
+        public PotencialTypes TypeOFPotencial
+        {
+            get
+            {
+                return PotencialTypes.PSL;
+            }
+        }
+
         public double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN)
         {
             PointD MiddleOFRib = ribN.GetMiddleOfRib();
@@ -28,7 +36,7 @@ namespace Calculating_Magnetic_Field.Models
             /*if (r < ribN.LenthElement * 1e-5)
                 return ribN.LenthElement * (Math.Log(1.0 / Math.Sqrt((ribN.Point1.X - pointM.X) * (ribN.Point1.X - pointM.X) + (ribN.Point1.Y - pointM.Y) * (ribN.Point1.Y - pointM.Y))) +
                                                      Math.Log(1.0 / Math.Sqrt((ribN.Point2.X - pointM.X) * (ribN.Point2.X - pointM.X) + (ribN.Point2.Y - pointM.Y) * (ribN.Point2.Y - pointM.Y)))) / 2;*/
-            return - ribN.LenthElement * Math.Log(r2) * 0.25 / Math.PI;
+            return - ribN.LenthElement * Math.Log(r2) * 0.5;
         }
 
         public Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN)
@@ -55,9 +63,9 @@ namespace Calculating_Magnetic_Field.Models
         public double Integral_dAdn(Bound_Rib ribN, Bound_Rib ribM)
         {
             PointD pointM = ribM.GetMiddleOfRib();
-            PointD midP = ribN.GetMiddleOfRib();
-            double r2 = pointM.SquareOfDistanceToOtherPoint(midP);
-            return ribN.LenthElement * ((pointM.X - midP.X) * ribM.Normal.CosAlpha + (pointM.Y - midP.Y) * ribM.Normal.CosBeta) / r2;
+            PointD pointN = ribN.GetMiddleOfRib();
+            double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
+            return ribN.LenthElement * ((pointM.X - pointN.X) * ribM.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribM.Normal.CosBeta) / r2;
         }
 
     }

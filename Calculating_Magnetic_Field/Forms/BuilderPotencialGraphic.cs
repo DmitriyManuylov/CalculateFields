@@ -14,22 +14,29 @@ namespace Calculating_Magnetic_Field
 {
     public partial class BuilderPotencialGraphic : Form
     {
-        double[] points1D;
+        List<double> points1D;
         List<double> function;
         GraphPane pane;
        // double[] fInf;
         GraphicTypes graphicType;
         PhysicalField physicalField;
+        string name_in_legend;
+        Color color;
 
-        List<double> femm_function;
+        List<double> femm_elcut_function;
+
+        List<List<double>> femm_elcut_functions_list = new List<List<double>>();
+        int current_femm_elcut_function = 0;
 
         LineItem myCurve0;
         LineItem myCurve1;
+        LineItem myCurve2;
 
         PointPairList f0_list;
         PointPairList f1_list;
+        PointPairList f2_list;
 
-        public BuilderPotencialGraphic(double[] points, List<double> function, GraphicTypes graphicType, PhysicalField physicalField)
+        public BuilderPotencialGraphic(List<double> points, List<double> function, GraphicTypes graphicType, PhysicalField physicalField)
         {
             InitializeComponent();
             this.points1D = points;
@@ -276,10 +283,12 @@ namespace Calculating_Magnetic_Field
 
             f0_list = new PointPairList();
             f1_list = new PointPairList();
+            f2_list = new PointPairList();
+
 
 
             double xmin;
-            int n = points1D.Length;
+            int n = points1D.Count;
             double xmax = 2 * points1D[n - 1] - points1D[n - 2];
             for (int i = 0; i < n; i++)
             {
@@ -321,11 +330,12 @@ namespace Calculating_Magnetic_Field
             myCurve0.Line.Style = System.Drawing.Drawing2D.DashStyle.Solid; // Тип линии курвы
             myCurve0.Label.IsVisible = true;
 
-            if (femm_function != null)
+            /*if (femm_elcut_functions_list != null)
             {
-                for (int i = 0; i < n; i++)
+                for (int i = 0; i < current_femm_elcut_function; i ++)
                 {
-                    f1_list.Add(points1D[i], femm_function[i]);
+                    for (int j = 0; j < n; j++)
+                        f1_list.Add(points1D[j], femm_elcut_functions_list[i][j]);
                 }
                 myCurve1 = pane.AddCurve("Femm", f1_list, Color.Green, SymbolType.None);
                 myCurve1.Line.Width = 4.0f; // толщина линии курвы
@@ -333,7 +343,7 @@ namespace Calculating_Magnetic_Field
                 myCurve1.Line.IsAntiAlias = true;
                 myCurve1.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash; // Тип линии курвы
                 myCurve1.Label.IsVisible = true;
-            }
+            }*/
 
 
             double max = function.Max() + 0.1 * Math.Abs(function.Max());
@@ -368,17 +378,17 @@ namespace Calculating_Magnetic_Field
 
         private void добавитьГрафикToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            int n = points1D.Length;
+            List<double> points = new List<double>();
+            int n;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             StreamReader reader;
             string path;
             string str;
             string[] str2;
             string[] str3;
-            femm_function = new List<double>(n);
-            
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            femm_elcut_functions_list.Add(new List<double>());
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 path = openFileDialog.FileName;
                 using (reader = new StreamReader(path))
@@ -389,15 +399,17 @@ namespace Calculating_Magnetic_Field
                     {
                         str = reader.ReadLine();
                         str2 = str.Split('\t');
+                        str3 = str2[0].Split('e');
+                        points.Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1]))/1000);
                         str3 = str2[2].Split('e');
-                        femm_function.Add(double.Parse(str3[0].Replace('.',',')) * Math.Pow(10, Int32.Parse(str3[1])));
+                        femm_elcut_functions_list[current_femm_elcut_function].Add(double.Parse(str3[0].Replace('.',',')) * Math.Pow(10, Int32.Parse(str3[1])));
                     }
 
                 }
-
+                n = points.Count;
                 for (int i = 0; i < n; i++)
                 {
-                    f1_list.Add(points1D[i], femm_function[i]);
+                    f1_list.Add(points[i], femm_elcut_functions_list[current_femm_elcut_function][i]);
                 }
 
                 myCurve1 = pane.AddCurve("Femm", f1_list, Color.Green, SymbolType.None);
@@ -408,6 +420,7 @@ namespace Calculating_Magnetic_Field
                 myCurve1.Label.IsVisible = true;
                 ZDc.Refresh();
             }
+            current_femm_elcut_function++;
         }
 
         private void сохранитьРисунокToolStripMenuItem_Click(object sender, EventArgs e)
@@ -418,14 +431,15 @@ namespace Calculating_Magnetic_Field
 
         private void добавитьГрафикИзElcutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            int n = points1D.Length;
+            List<double> points = new List<double>();
+            int n;
             OpenFileDialog openFileDialog = new OpenFileDialog();
             StreamReader reader;
             string path;
             string str;
             string[] str2;
             string[] str3;
-            femm_function = new List<double>(n);
+            femm_elcut_functions_list.Add(new List<double>());
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -437,24 +451,33 @@ namespace Calculating_Magnetic_Field
                         str = reader.ReadLine();
                         str2 = str.Split('\t');
                         //str3 = str2[1].Split('e');
-                        femm_function.Add(double.Parse(str2[2].Replace('.', ',')));
+                        points.Add(double.Parse(str2[1].Replace('.', ',')));
+                        femm_elcut_functions_list[current_femm_elcut_function].Add(double.Parse(str2[2].Replace('.', ',')) );
                     }
 
+                }
+                n = points.Count;
+                double p = points[0];
+                for (int i = 0; i < n; i++)
+                {
+                    points[i] -= p;
+                    points[i] /= 1000;
                 }
 
                 for (int i = 0; i < n; i++)
                 {
-                    f1_list.Add(points1D[i], femm_function[i]);
+                    f2_list.Add(points[i], femm_elcut_functions_list[current_femm_elcut_function][i]);
                 }
 
-                myCurve1 = pane.AddCurve("Elcut", f1_list, Color.Black, SymbolType.None);
-                myCurve1.Line.Width = 3.0f; // толщина линии курвы
-                myCurve1.Line.IsSmooth = false; //Сглаживание курвы.
-                myCurve1.Line.IsAntiAlias = true;
-                myCurve1.Line.Style = System.Drawing.Drawing2D.DashStyle.Dot; // Тип линии курвы
-                myCurve1.Label.IsVisible = true;
+                myCurve2 = pane.AddCurve("Elcut", f2_list, Color.Black, SymbolType.None);
+                myCurve2.Line.Width = 3.0f; // толщина линии курвы
+                myCurve2.Line.IsSmooth = false; //Сглаживание курвы.
+                myCurve2.Line.IsAntiAlias = true;
+                myCurve2.Line.Style = System.Drawing.Drawing2D.DashStyle.Dot; // Тип линии курвы
+                myCurve2.Label.IsVisible = true;
                 ZDc.Refresh();
             }
+            current_femm_elcut_function++;
         }
     }
 }

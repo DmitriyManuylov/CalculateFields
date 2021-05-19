@@ -4,6 +4,6 @@ namespace Calculating_Magnetic_Field.ModelFactories
 {
     public interface IPotencialFactoryMethod
     {
-        IPotencial CreatePotencial(PotencialTypes potencialType);
+        IPotencial CreatePotencial(DimensionsOfPotencial potencialType);
     }
 }

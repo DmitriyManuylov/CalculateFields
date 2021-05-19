@@ -28,7 +28,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
             return new VectorPotencialModel(depth, physicalField);
         }
 
-        public override IPointSource CreatePointSource(PointD location, double SourcePower)
+        public override IPointSource CreatePointSource(PointD location, double SourcePower, IModel model)
         {
             IPointSource result;
             result = new ThreadCurrent(location, SourcePower);

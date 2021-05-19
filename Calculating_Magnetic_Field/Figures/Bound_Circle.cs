@@ -63,5 +63,14 @@ namespace Calculating_Magnetic_Field
         {
             return ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) + (Location.Y - point.Y)) < (Radius * Radius) - eps;
         }
+
+        public bool IsPointOnBorder(PointD point, float epsilon)
+        {
+            float old_eps = eps;
+            eps = epsilon;
+            bool result = IsPointOnBorder(point);
+            eps = old_eps;
+            return result;
+        }
     }
 }

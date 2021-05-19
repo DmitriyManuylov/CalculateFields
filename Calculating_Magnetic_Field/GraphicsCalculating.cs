@@ -18,10 +18,11 @@ namespace Calculating_Magnetic_Field
         private IModel model;
 
         private List<PointD> points;
+        private PointD startPoint;
 
         private List<double> function;
 
-        double[] L;
+        List<double> L;
         public GraphicsCalculating(IModel model)
         {
             this.model = model;
@@ -32,10 +33,12 @@ namespace Calculating_Magnetic_Field
             return points;
         }
 
-        public double[] GetLenth()
+        public List<double> GetLenth()
         {
             return L;
         }
+
+        float eps = 1e-8f;
         
         public List<double> Calculate(PointD p1, PointD p2, int n, GraphicTypes graphicTypes)
         {
@@ -55,14 +58,33 @@ namespace Calculating_Magnetic_Field
             this.n = n;
             double dx = (p2.X - p1.X) / (n - 1);
             double dy = (p2.Y - p1.Y) / (n - 1);
+
             points = new List<PointD>(n);
             function = new List<double>(n);
-            L = new double[n];
+            L = new List<double>(n);
             for (int i = 0; i < n; i++)
             {
                 points.Add(new PointD(p1.X + i * dx, p1.Y + i * dy));
-                L[i] = points[i].DistanceToOtherPoint(points[0]);
             }
+            startPoint = points[0];
+            for(int i = n - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < model.Bounds.Count; j++)
+                {
+                    if (model.Bounds[j].IsPointOnBorder(points[i], eps))
+                    {
+                        points.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            n = points.Count;
+            this.n = n;
+            for (int i = 0; i < n; i++)
+            {
+                L.Add(points[i].DistanceToOtherPoint(startPoint));
+            }
+            function = new List<double>(n);
             switch (graphicTypes)
             {
                 case GraphicTypes.InductionModul:

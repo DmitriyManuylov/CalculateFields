@@ -106,5 +106,10 @@ namespace Calculating_Magnetic_Field
         {
             throw new NotImplementedException();
         }
+
+        public bool IsPointOnBorder(PointD point, float eps)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -25,7 +25,7 @@ namespace Calculating_Magnetic_Field.Figures
         /// </summary>
         public float Width { get; set; }
 
-        private float eps = 1e-9f;
+        private float eps = 5e-9f;
 
         Bound_Rib[] ribs = new Bound_Rib[2];
 
@@ -121,18 +121,20 @@ namespace Calculating_Magnetic_Field.Figures
             PointD p = point;
             PointD c = new PointD();
             bool res = false;
-            res = ((p.X >= Location.X + eps) && (p.Y <= Location.Y - eps) && 
-                   (p.X <= (Location.X + Length - eps)) && (p.Y >= (Location.Y - Width + eps)));
+            /*res = ((p.X >= Location.X + eps) && (p.Y <= Location.Y - eps) && 
+                   (p.X <= (Location.X + Length - eps)) && (p.Y >= (Location.Y - Width + eps)));*/
             switch (Orientation)
             {
                 case StadiumOrientation.HorizontalHalfRings:
                     {
+                        res = res || ((p.X >= Location.X) && (p.Y <= Location.Y - eps) &&
+                               (p.X <= (Location.X + Length)) && (p.Y >= (Location.Y - Width + eps)));
                         c.X = Location.X;
                         c.Y = Location.Y - Width / 2;
                         res = res ||
                         // ***********************************************************************************
                         // левый полукруг 
-                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Width / 2) * (Width / 2) - eps)
+                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
                         && p.X <= Location.X);
                         //************************************************************************************
 
@@ -141,7 +143,7 @@ namespace Calculating_Magnetic_Field.Figures
                         c.X = Location.X + Length;
                         c.Y = Location.Y - Width / 2;
                         res = res ||
-                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Width / 2) * (Width / 2) - eps)
+                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
                         && p.X >= Location.X + Length);
                             //***********************************************************************************
                         break;
@@ -150,12 +152,14 @@ namespace Calculating_Magnetic_Field.Figures
 
                 case StadiumOrientation.VerticalHalfRings:
                     {
+                        res = res || ((p.X >= Location.X + eps) && (p.Y <= Location.Y) &&
+                               (p.X <= (Location.X + Length - eps)) && (p.Y >= (Location.Y - Width)));
                         c.X = Location.X + Length / 2;
                         c.Y = Location.Y;
                         res = res ||
                         // ***********************************************************************************
                         // верхний полукруг 
-                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Length / 2) * (Length / 2) - eps)
+                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
                         && p.Y >= Location.Y);
                         //***********************************************************************************
 
@@ -164,7 +168,7 @@ namespace Calculating_Magnetic_Field.Figures
                         c.X = Location.X + Length / 2;
                         c.Y = Location.Y - Width;
                         res = res ||
-                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Length / 2) * (Length / 2) - eps)
+                        (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
                         && p.Y <= Location.Y - Width);
                         //***********************************************************************************
                         break;
@@ -191,8 +195,6 @@ namespace Calculating_Magnetic_Field.Figures
             PointD p = point;
             PointD c = new PointD();
             bool res = false;
-            res = ((p.X >= Location.X + eps) && (p.Y <= Location.Y - eps) &&
-                   (p.X <= (Location.X + Length - eps)) && (p.Y >= (Location.Y - Width + eps)));
             PointPosition pointPosition;
             for (int i = 0; i < 2; i++)
             {
@@ -210,8 +212,8 @@ namespace Calculating_Magnetic_Field.Figures
                         c.Y = Location.Y - Width / 2;
                         // ***********************************************************************************
                         // левая полуокружность 
-                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Width / 2) * (Width / 2) + eps)
-                            || ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= (Width / 2) * (Width / 2) - eps))
+                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
+                            && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
                         && p.X <= Location.X)
                             return true;
                         //************************************************************************************
@@ -221,8 +223,8 @@ namespace Calculating_Magnetic_Field.Figures
                         c.X = Location.X + Length;
                         c.Y = Location.Y - Width / 2;
 
-                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Width / 2) * (Width / 2) + eps)
-                            || ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= (Width / 2) * (Width / 2) - eps))
+                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
+                            && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
                         && p.X >= Location.X + Length)
                             return true;
                         //************************************************************************************
@@ -236,9 +238,9 @@ namespace Calculating_Magnetic_Field.Figures
                         c.Y = Location.Y;
                         // ***********************************************************************************
                         // верхняя полуокружность
-                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Length / 2) * (Length / 2) + eps)
-                            || ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= (Length / 2) * (Length / 2) - eps))
-                        && p.Y >= Location.Y)
+                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
+                            && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
+                        && (p.Y >= Location.Y))
                             return true;
                         //************************************************************************************
 
@@ -246,15 +248,24 @@ namespace Calculating_Magnetic_Field.Figures
                         // нижняя полуокружность
                         c.X = Location.X + Length / 2;
                         c.Y = Location.Y - Width;
-                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= (Length / 2) * (Length / 2) + eps)
-                            || ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= (Length / 2) * (Length / 2) - eps))
-                        && p.Y <= Location.Y - Width)
+                        if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
+                            && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
+                        && (p.Y <= Location.Y - Width))
                             return true;
                         //************************************************************************************
                         break;
                     }
             }
             return res;
+        }
+
+        public bool IsPointOnBorder(PointD point, float epsilon)
+        {
+            float old_eps = eps;
+            eps = epsilon;
+            bool result = IsPointOnBorder(point);
+            eps = old_eps;
+            return result;
         }
     }
 }

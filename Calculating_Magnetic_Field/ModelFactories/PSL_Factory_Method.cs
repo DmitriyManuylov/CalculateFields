@@ -6,17 +6,17 @@ namespace Calculating_Magnetic_Field.ModelFactories
     public class PSL_Factory_Method : IPotencialFactoryMethod
     {
 
-        public IPotencial CreatePotencial(PotencialTypes potencialType)
+        public IPotencial CreatePotencial(DimensionsOfPotencial potencialType)
         {
             IPotencial result = null;
             switch (potencialType)
             {
-                case PotencialTypes.Scalar:
+                case DimensionsOfPotencial.Scalar:
                     {
                         result = new ScalarPSL();
                         break;
                     }
-                case PotencialTypes.Vector:
+                case DimensionsOfPotencial.Vector:
                     {
                         result = new VectorPSL();
                         break;

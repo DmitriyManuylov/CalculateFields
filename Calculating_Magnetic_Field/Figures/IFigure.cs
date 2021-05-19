@@ -8,6 +8,8 @@
 
         bool IsPointOnBorder(PointD point);
 
+        bool IsPointOnBorder(PointD point, float eps);
+
         bool IsContaisPoint(PointD point);
 
 

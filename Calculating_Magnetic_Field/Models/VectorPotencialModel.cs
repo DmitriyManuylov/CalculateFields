@@ -943,9 +943,9 @@ namespace Calculating_Magnetic_Field
             result = freeF;
         }
 
-        public PotencialTypes GetPotencialType()
+        public DimensionsOfPotencial GetPotencialDimensionType()
         {
-            return PotencialTypes.Vector;
+            return DimensionsOfPotencial.Vector;
         }
 
         public Vector2D CalculateIntensity(PointD pointM)

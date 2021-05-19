@@ -15,7 +15,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
 
         public abstract ILinearSource CreateLinearSource(PointD point1, PointD point2, double density, int n);
 
-        public abstract IPointSource CreatePointSource(PointD location, double SourcePower);
+        public abstract IPointSource CreatePointSource(PointD location, double SourcePower, IModel model);
 
         public abstract IResidualIntensitySource CreateResidualIntensitySource(IFigure figure, SimpleDirections direction, double Intensity, int N);
 

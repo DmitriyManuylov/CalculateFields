@@ -3,11 +3,6 @@ using Calculating_Magnetic_Field.ModelFactories;
 
 namespace Calculating_Magnetic_Field.Models
 {
-    public enum PotencialTypes
-    {
-        Scalar,
-        Vector
-    }
     public interface IModel
     {
         PhysicalField PhysicalField { get; set; } 
@@ -23,7 +18,7 @@ namespace Calculating_Magnetic_Field.Models
         void AddSource(ISource source);
         void AddBorderOfEnvironments(IFigure figure, int n, double right_invironment_property, double left_invironment_property);
 
-        PotencialTypes GetPotencialType();
+        DimensionsOfPotencial GetPotencialDimensionType();
 
         Vector2D CalculateInduction(PointD pointM);
 

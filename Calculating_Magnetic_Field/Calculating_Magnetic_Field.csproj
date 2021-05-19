@@ -30,7 +30,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -152,8 +152,10 @@
     <Compile Include="ModelFactories\ModelFactory.cs" />
     <Compile Include="ModelFactories\ScalarModelFactory.cs" />
     <Compile Include="ModelFactories\VectorModelFactory.cs" />
+    <Compile Include="Models\DimensionsOfPotencial.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\IPotencial.cs" />
+    <Compile Include="Models\PotencialTypes.cs" />
     <Compile Include="Models\ScalarPDL.cs" />
     <Compile Include="Models\ScalarPotencialModel.cs" />
     <Compile Include="Models\ScalarPSL.cs" />

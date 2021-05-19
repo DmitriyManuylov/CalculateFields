@@ -221,7 +221,9 @@ namespace Calculating_Magnetic_Field
             using (StreamWriter writer = new StreamWriter(file))
             {
                 writer.WriteLine("$Model");
-                writer.WriteLine($"{model.GetPotencialType()}");
+                writer.WriteLine($"{model.GetPotencialDimensionType()}");
+                writer.WriteLine($"{model.Potencial.TypeOFPotencial}");
+                writer.WriteLine($"{model.Potencial}");
                 writer.WriteLine($"{model.Depth}");
                 writer.WriteLine($"{model.PhysicalField}");
                 writer.WriteLine("$EndModel");
@@ -397,23 +399,23 @@ namespace Calculating_Magnetic_Field
                         }
                 }
                 str = reader.ReadLine();
+                model = modelFactory.CreateModel(Convert.ToDouble(str));
+
+                str = reader.ReadLine();
                 switch (str)
                 {
                     case "PSL":
                         {
                             model.PotencialFactoryMethod = new PSL_Factory_Method();
-                            model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialType());
                             break;
                         }
                     case "PDL":
                         {
                             model.PotencialFactoryMethod = new PDL_Factory_Method();
-                            model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialType());
                             break;
                         }
                 }
-                str = reader.ReadLine();
-                model = modelFactory.CreateModel(Convert.ToDouble(str));
+                model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialDimensionType());
 
                 while ((str = reader.ReadLine()) != "$Fields") { }
                 FerrCount = Convert.ToInt32(reader.ReadLine());
@@ -549,7 +551,7 @@ namespace Calculating_Magnetic_Field
                                 model.AddSource(modelFactory.CreatePointSource(new PointD(
                                                                                     Convert.ToSingle(data[0]),
                                                                                     Convert.ToSingle(data[1])),
-                                                                                Convert.ToDouble(data[2])));
+                                                                                Convert.ToDouble(data[2]), model));
                                 break;
                             }
                     }

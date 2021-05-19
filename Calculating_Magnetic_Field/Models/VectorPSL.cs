@@ -6,6 +6,14 @@ namespace Calculating_Magnetic_Field.Models
     {
         public int Sign => throw new System.NotImplementedException();
 
+        public PotencialTypes TypeOFPotencial
+        {
+            get
+            {
+                return PotencialTypes.PSL;
+            }
+        }
+
         public Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN)
         {
             throw new System.NotImplementedException();

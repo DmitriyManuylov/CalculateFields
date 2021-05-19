@@ -68,26 +68,26 @@ namespace Calculating_Magnetic_Field
 
         public bool IsVertical()
         {
-            if (Math.Abs((Point1.X - Point2.X)/LenthElement)< 0.001) return true;
+            if (Math.Abs((Point1.X - Point2.X)/LenthElement)< eps) return true;
             return false;
         }
 
         public bool IsHorizontal()
         {
-            if (Math.Abs((Point1.Y - Point2.Y) / LenthElement) < 0.001) return true;
+            if (Math.Abs((Point1.Y - Point2.Y) / LenthElement) < eps) return true;
             return false;
         }
 
         public bool IsPointOnLine(PointD point)
         {
-            if (DistanceFromPointToLine(point) < LenthElement * 0.001) return true;
+            if (DistanceFromPointToLine(point) < eps) return true;
             return false;
         }
 
         public bool IsPointOnRib(PointD point)
         {
             double p = (point.X - Point2.X) / (Point1.X - Point2.X);
-            if (Math.Abs(p - (point.Y - Point2.Y) / (Point1.Y - Point2.Y)) / LenthElement < 0.001 && p >= 0 && p <= 1) return true;
+            if (Math.Abs(p - (point.Y - Point2.Y) / (Point1.Y - Point2.Y)) / LenthElement < eps && p >= 0 && p <= 1) return true;
             return false;
         }
 
