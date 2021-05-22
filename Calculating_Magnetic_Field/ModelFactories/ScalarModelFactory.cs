@@ -100,38 +100,38 @@ namespace Calculating_Magnetic_Field.ModelFactories
                 if (bound.IsPointOnBorder(location))
                 {
                     owner_bound = bound;
-                    for (int i = 0; i < bound.Bound_Ribs.Count; i++)
-                    {
-                        PointPosition pointPosition = bound.Bound_Ribs[i].Classify(location);
-                        switch (pointPosition)
-                        {
-                            case PointPosition.BETWEEN:
-                                {
-                                    //bound.Bound_Ribs.RemoveAt(i);
-                                    return true;
-                                }
-                            case PointPosition.ORIGIN:
-                                {
-                                    if (i == 0)
-                                    {
-                                        //bound.Bound_Ribs.RemoveAt(i);
-                                        //bound.Bound_Ribs.RemoveAt(bound.Bound_Ribs.Count - 1);
-                                    }
-                                    else
-                                    {
-                                        //bound.Bound_Ribs.RemoveAt(i);
-                                        //bound.Bound_Ribs.RemoveAt(i-1);
-                                    }
-                                    return true;
-                                }
-                            case PointPosition.DESTINATION:
-                                {
-                                    //bound.Bound_Ribs.RemoveRange(i, 2);
-                                    return true;
-                                }
-                        }
+                    //for (int i = 0; i < bound.Bound_Ribs.Count; i++)
+                    //{
+                    //    PointPosition pointPosition = bound.Bound_Ribs[i].Classify(location);
+                    //    switch (pointPosition)
+                    //    {
+                    //        case PointPosition.BETWEEN:
+                    //            {
+                    //                bound.Bound_Ribs.RemoveAt(i);
+                    //                return true;
+                    //            }
+                    //        case PointPosition.ORIGIN:
+                    //            {
+                    //                if (i == 0)
+                    //                {
+                    //                    bound.Bound_Ribs.RemoveAt(i);
+                    //                    bound.Bound_Ribs.RemoveAt(bound.Bound_Ribs.Count - 1);
+                    //                }
+                    //                else
+                    //                {
+                    //                    bound.Bound_Ribs.RemoveAt(i);
+                    //                    bound.Bound_Ribs.RemoveAt(i-1);
+                    //                }
+                    //                return true;
+                    //            }
+                    //        case PointPosition.DESTINATION:
+                    //            {
+                    //                bound.Bound_Ribs.RemoveRange(i, 2);
+                    //                return true;
+                    //            }
+                    //    }
 
-                    }
+                    //}
                 }
             }
             owner_bound = null;

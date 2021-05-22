@@ -12,12 +12,13 @@ using ZedGraph;
 
 namespace Calculating_Magnetic_Field
 {
-    public partial class BuilderPotencialGraphic : Form
+    public partial class GraphicsBildingForm : Form
     {
         List<double> points1D;
         List<double> function;
+        List<List<double>> functions = new List<List<double>>();
         GraphPane pane;
-       // double[] fInf;
+        // double[] fInf;
         GraphicTypes graphicType;
         PhysicalField physicalField;
         string name_in_legend;
@@ -28,28 +29,29 @@ namespace Calculating_Magnetic_Field
         List<List<double>> femm_elcut_functions_list = new List<List<double>>();
         int current_femm_elcut_function = 0;
 
+        List<LineItem> curves = new List<LineItem>();
         LineItem myCurve0;
         LineItem myCurve1;
         LineItem myCurve2;
 
+        List<PointPairList> pointPairs = new List<PointPairList>();
         PointPairList f0_list;
         PointPairList f1_list;
         PointPairList f2_list;
 
-        public BuilderPotencialGraphic(List<double> points, List<double> function, GraphicTypes graphicType, PhysicalField physicalField)
+        public GraphicsBildingForm(List<double> points, List<double> function, GraphicTypes graphicType, PhysicalField physicalField)
         {
             InitializeComponent();
             this.points1D = points;
             this.function = function;
             this.graphicType = graphicType;
             this.physicalField = physicalField;
+            pane = ZDc.GraphPane;
+            Init(graphicType, physicalField);
         }
 
-
-        private void DrawGraphic()
+        private void Init(GraphicTypes graphicType, PhysicalField physicalField)
         {
-            pane = ZDc.GraphPane;
-
             switch (graphicType)
             {
                 case GraphicTypes.Potencial:
@@ -274,33 +276,13 @@ namespace Calculating_Magnetic_Field
                         break;
                     }
             }
-            
-            
+
+
+            #region Настройки полотна 
             pane = ZDc.GraphPane;
             pane.Title.IsVisible = true;
             pane.XAxis.Title.Text = "Координата"; //Подписи к осям XY
 
-
-            f0_list = new PointPairList();
-            f1_list = new PointPairList();
-            f2_list = new PointPairList();
-
-
-
-            double xmin;
-            int n = points1D.Count;
-            double xmax = 2 * points1D[n - 1] - points1D[n - 2];
-            for (int i = 0; i < n; i++)
-            {
-                f0_list.Add(points1D[i], function[i]);
-            }
-
-
-            
-
-            
-
-            #region
             // !!!
             // Включаем отображение сетки напротив крупных рисок по оси X
             pane.XAxis.MajorGrid.IsVisible = true;
@@ -320,8 +302,17 @@ namespace Calculating_Magnetic_Field
             pane.YAxis.MajorGrid.DashOn = 10;
             pane.YAxis.MajorGrid.DashOff = 10;
             pane.CurveList.Clear();
+            #endregion
 
-
+            #region Настройки первого графика МГЭ
+            f0_list = new PointPairList();
+            double xmin;
+            int n = points1D.Count;
+            double xmax = 2 * points1D[n - 1] - points1D[n - 2];
+            for (int i = 0; i < n; i++)
+            {
+                f0_list.Add(points1D[i], function[i]);
+            }
 
             myCurve0 = pane.AddCurve("МГЭ", f0_list, Color.Gray, SymbolType.None);
             myCurve0.Line.Width = 2.0f; // толщина линии курвы
@@ -329,26 +320,11 @@ namespace Calculating_Magnetic_Field
             myCurve0.Line.IsAntiAlias = true;
             myCurve0.Line.Style = System.Drawing.Drawing2D.DashStyle.Solid; // Тип линии курвы
             myCurve0.Label.IsVisible = true;
+            #endregion
 
-            /*if (femm_elcut_functions_list != null)
-            {
-                for (int i = 0; i < current_femm_elcut_function; i ++)
-                {
-                    for (int j = 0; j < n; j++)
-                        f1_list.Add(points1D[j], femm_elcut_functions_list[i][j]);
-                }
-                myCurve1 = pane.AddCurve("Femm", f1_list, Color.Green, SymbolType.None);
-                myCurve1.Line.Width = 4.0f; // толщина линии курвы
-                myCurve1.Line.IsSmooth = false; //Сглаживание курвы.
-                myCurve1.Line.IsAntiAlias = true;
-                myCurve1.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash; // Тип линии курвы
-                myCurve1.Label.IsVisible = true;
-            }*/
-
-
+            #region Настройка осей
             double max = function.Max() + 0.1 * Math.Abs(function.Max());
             double min = function.Min() - 0.1 * Math.Abs(function.Min());
-            #endregion
             xmin = points1D[0] - 0.1 * Math.Abs(points1D[0]);
             xmax = points1D.Last() + 0.1 * Math.Abs(points1D.Last());
 
@@ -357,29 +333,28 @@ namespace Calculating_Magnetic_Field
             pane.YAxis.Scale.Min = min;
             pane.YAxis.Scale.Max = max;
             ZDc.AxisChange();
+            #endregion
+
             ZDc.Refresh();
         }
 
         private void BuilderPotencialGraphic_Load(object sender, EventArgs e)
         {
-            DrawGraphic();
+            ZDc.Refresh();
         }
 
 
         private void ButRedraw_Click(object sender, EventArgs e)
         {
-            DrawGraphic();
+            ZDc.Refresh();
         }
 
-        private void BuilderPotencialGraphic_Resize(object sender, EventArgs e)
-        {
-
-        }
 
         private void добавитьГрафикToolStripMenuItem_Click(object sender, EventArgs e)
         {
             List<double> points = new List<double>();
             int n;
+            f1_list = new PointPairList();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             StreamReader reader;
             string path;
@@ -400,9 +375,9 @@ namespace Calculating_Magnetic_Field
                         str = reader.ReadLine();
                         str2 = str.Split('\t');
                         str3 = str2[0].Split('e');
-                        points.Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1]))/1000);
+                        points.Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1])) / 1000);
                         str3 = str2[2].Split('e');
-                        femm_elcut_functions_list[current_femm_elcut_function].Add(double.Parse(str3[0].Replace('.',',')) * Math.Pow(10, Int32.Parse(str3[1])));
+                        femm_elcut_functions_list[current_femm_elcut_function].Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1])));
                     }
 
                 }
@@ -433,6 +408,7 @@ namespace Calculating_Magnetic_Field
         {
             List<double> points = new List<double>();
             int n;
+            f2_list = new PointPairList();
             OpenFileDialog openFileDialog = new OpenFileDialog();
             StreamReader reader;
             string path;
@@ -452,7 +428,7 @@ namespace Calculating_Magnetic_Field
                         str2 = str.Split('\t');
                         //str3 = str2[1].Split('e');
                         points.Add(double.Parse(str2[1].Replace('.', ',')));
-                        femm_elcut_functions_list[current_femm_elcut_function].Add(double.Parse(str2[2].Replace('.', ',')) );
+                        femm_elcut_functions_list.Last().Add(double.Parse(str2[2].Replace('.', ',')));
                     }
 
                 }
@@ -466,7 +442,7 @@ namespace Calculating_Magnetic_Field
 
                 for (int i = 0; i < n; i++)
                 {
-                    f2_list.Add(points[i], femm_elcut_functions_list[current_femm_elcut_function][i]);
+                    f2_list.Add(points[i], femm_elcut_functions_list.Last()[i]);
                 }
 
                 myCurve2 = pane.AddCurve("Elcut", f2_list, Color.Black, SymbolType.None);
@@ -479,6 +455,85 @@ namespace Calculating_Magnetic_Field
             }
             current_femm_elcut_function++;
         }
+
+        private void AddGraphic_Click(object sender, EventArgs e)
+        {
+            string comment = "МГЭ доп";
+            Forms.AddCommentToGraphic addCommentToGraphic = new Forms.AddCommentToGraphic();
+            if (addCommentToGraphic.ShowDialog() == DialogResult.OK)
+            {
+                comment = addCommentToGraphic.Comment;
+            }
+            List<double> points = new List<double>();
+            int n;
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            StreamReader reader;
+            string path;
+            string str;
+            string[] str2;
+            functions.Add(new List<double>());
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                path = openFileDialog.FileName;
+                using (reader = new StreamReader(path))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        str = reader.ReadLine();
+                        str2 = str.Split('\t');
+                        points.Add(double.Parse(str2[0]));
+                        functions.Last().Add(double.Parse(str2[1]));
+                    }
+
+                }
+                n = points.Count;
+                double p = points[0];
+                pointPairs.Add(new PointPairList());
+                for (int i = 0; i < n; i++)
+                {
+                    pointPairs.Last().Add(points[i], functions.Last()[i]);
+                }
+
+                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, SymbolType.None));
+                curves.Last().Line.Width = 3.0f; // толщина линии курвы
+                curves.Last().Line.IsSmooth = false; //Сглаживание курвы.
+                curves.Last().Line.IsAntiAlias = true;
+                curves.Last().Line.Style = System.Drawing.Drawing2D.DashStyle.DashDotDot; // Тип линии курвы
+                curves.Last().Label.IsVisible = true;
+                ZDc.Refresh();
+            }
+        }
+
+        private void DeleteGraphic_Click(object sender, EventArgs e)
+        {
+            int count = pane.CurveList.Count;
+            List<string> labels = new List<string>(count);
+            for (int i = 0; i < count; i++)
+            {
+                labels.Add(pane.CurveList[i].Label.Text);
+            }
+            string label;
+            Forms.Graphics.ChooseGraphic chooseGraphic = new Forms.Graphics.ChooseGraphic(labels);
+            switch (chooseGraphic.ShowDialog())
+            {
+                case DialogResult.OK:
+                    {
+                        label = chooseGraphic.Label;
+                        int index = pane.CurveList.FindIndex(c => c.Label.Text == label);
+                        pane.CurveList.RemoveAt(index);
+
+                        ZDc.Refresh();
+                        break;
+                    }
+                case DialogResult.Cancel:
+                    {
+                        return;
+                    }
+            }
+        }
+
     }
 }
+
 

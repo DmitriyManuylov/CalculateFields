@@ -792,9 +792,15 @@ namespace Calculating_Magnetic_Field
 
         private void butBuildGraphic_Click(object sender, EventArgs e)
         {
-            int k = 1001;
+            int k = 1500;
+            double k1 = 1;
+            double q = 1e-2;
+            double w = q * 2;
+            double k2 = k1 / 5000;
+            double k3 = k2 / 5000;
+            double k4 = k3 / 5000;
             List<double> X;
-            List<double> Bn;
+            List<double> function;
             //горизонтальная линия
             PointD Point1 = new PointD(-0.02, 0);
             PointD Point2 = new PointD( 0.02,  0);
@@ -868,12 +874,21 @@ namespace Calculating_Magnetic_Field
             PointD Point37 = new PointD(-0.02, 0.003);
             PointD Point38 = new PointD(0.02, 0.003);
 
-            Bn = graphicsCalculating.Calculate(Point22, Point21, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
+            //горизонтальная линия 8
+            PointD Point39 = new PointD(-20, 3);
+            PointD Point40 = new PointD(20, 3);
+
+
+
+            function = graphicsCalculating.Calculate(Point21, Point22, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
             X = graphicsCalculating.GetLenth();
 
-            BuilderPotencialGraphic graphic = new BuilderPotencialGraphic(X, Bn, (GraphicTypes)cbChooseGraphicType.SelectedItem, model.PhysicalField);
+            Work_With_Files.SaveGraphicData(X, function);
+
+            GraphicsBildingForm graphic = new GraphicsBildingForm(X, function, (GraphicTypes)cbChooseGraphicType.SelectedItem, model.PhysicalField);
             graphic.ShowDialog();
         }
+
 
         private void ButCulcNormInduction_Click(object sender, EventArgs e)
         {

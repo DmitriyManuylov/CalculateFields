@@ -47,13 +47,18 @@ namespace Calculating_Magnetic_Field
         /// </summary>
         public PointD Point2 { get; set; }
 
-        private double eps = 1e-9;
+        private PointD middleOfRib;
+
+        private double eps = 1e-12;
+
+
 
         public Bound_Rib(PointD point1, PointD point2)
         {
             BasisFunction = new ElementBasisFunction(point1, point2);
             this.Point1 = point1;
             this.Point2 = point2;
+            middleOfRib = new PointD((Point1.X + Point2.X) / 2, (Point1.Y + Point2.Y) / 2);
             LenthElement =  Math.Sqrt((point2.X - point1.X) * (point2.X - point1.X) + (point2.Y - point1.Y) * (point2.Y - point1.Y));
             Normal = new Normal(point1, point2, LenthElement);
             Rib_Position = Rib_Position.Sloping;
@@ -63,7 +68,7 @@ namespace Calculating_Magnetic_Field
 
         public PointD GetMiddleOfRib()
         {
-            return new PointD((Point1.X + Point2.X) / 2, (Point1.Y + Point2.Y) / 2);
+            return middleOfRib;
         }
 
         public bool IsVertical()

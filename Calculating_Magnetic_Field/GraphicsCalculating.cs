@@ -38,7 +38,7 @@ namespace Calculating_Magnetic_Field
             return L;
         }
 
-        float eps = 1e-8f;
+        float eps = 1e-9f;
         
         public List<double> Calculate(PointD p1, PointD p2, int n, GraphicTypes graphicTypes)
         {

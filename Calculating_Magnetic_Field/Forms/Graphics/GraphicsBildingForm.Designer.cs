@@ -1,6 +1,6 @@
 ﻿namespace Calculating_Magnetic_Field
 {
-    partial class BuilderPotencialGraphic
+    partial class GraphicsBildingForm
     {
         /// <summary>
         /// Required designer variable.
@@ -35,6 +35,8 @@
             this.добавитьГрафикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьРисунокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.добавитьГрафикИзElcutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.AddGraphic = new System.Windows.Forms.ToolStripMenuItem();
+            this.DeleteGraphic = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -68,7 +70,9 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.добавитьГрафикToolStripMenuItem,
             this.сохранитьРисунокToolStripMenuItem,
-            this.добавитьГрафикИзElcutToolStripMenuItem});
+            this.добавитьГрафикИзElcutToolStripMenuItem,
+            this.AddGraphic,
+            this.DeleteGraphic});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(927, 24);
@@ -78,8 +82,8 @@
             // добавитьГрафикToolStripMenuItem
             // 
             this.добавитьГрафикToolStripMenuItem.Name = "добавитьГрафикToolStripMenuItem";
-            this.добавитьГрафикToolStripMenuItem.Size = new System.Drawing.Size(114, 20);
-            this.добавитьГрафикToolStripMenuItem.Text = "Добавить график";
+            this.добавитьГрафикToolStripMenuItem.Size = new System.Drawing.Size(166, 20);
+            this.добавитьГрафикToolStripMenuItem.Text = "Добавить график из Femm";
             this.добавитьГрафикToolStripMenuItem.Click += new System.EventHandler(this.добавитьГрафикToolStripMenuItem_Click);
             // 
             // сохранитьРисунокToolStripMenuItem
@@ -96,7 +100,21 @@
             this.добавитьГрафикИзElcutToolStripMenuItem.Text = "Добавить график из Elcut";
             this.добавитьГрафикИзElcutToolStripMenuItem.Click += new System.EventHandler(this.добавитьГрафикИзElcutToolStripMenuItem_Click);
             // 
-            // BuilderPotencialGraphic
+            // AddGraphic
+            // 
+            this.AddGraphic.Name = "AddGraphic";
+            this.AddGraphic.Size = new System.Drawing.Size(141, 20);
+            this.AddGraphic.Text = "Добавить график МГЭ";
+            this.AddGraphic.Click += new System.EventHandler(this.AddGraphic_Click);
+            // 
+            // DeleteGraphic
+            // 
+            this.DeleteGraphic.Name = "DeleteGraphic";
+            this.DeleteGraphic.Size = new System.Drawing.Size(106, 20);
+            this.DeleteGraphic.Text = "Удалить график";
+            this.DeleteGraphic.Click += new System.EventHandler(this.DeleteGraphic_Click);
+            // 
+            // GraphicsBildingForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -105,7 +123,7 @@
             this.Controls.Add(this.butRedraw);
             this.Controls.Add(this.ZDc);
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "BuilderPotencialGraphic";
+            this.Name = "GraphicsBildingForm";
             this.Text = "Построитель графика";
             this.Load += new System.EventHandler(this.BuilderPotencialGraphic_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -123,5 +141,7 @@
         private System.Windows.Forms.ToolStripMenuItem добавитьГрафикToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьРисунокToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem добавитьГрафикИзElcutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem AddGraphic;
+        private System.Windows.Forms.ToolStripMenuItem DeleteGraphic;
     }
 }

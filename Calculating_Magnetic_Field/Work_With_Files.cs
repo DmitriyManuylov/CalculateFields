@@ -602,5 +602,21 @@ namespace Calculating_Magnetic_Field
             
         }
 
+        public static void SaveGraphicData(List<double> X, List<double> func)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                {
+                    for (int i = 0; i < X.Count; i++)
+                    {
+                        writer.WriteLine(X[i] + "\t" + func[i]);
+                    }
+                }
+            }
+        }
+
     }
 }

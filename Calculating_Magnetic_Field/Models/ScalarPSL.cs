@@ -50,13 +50,13 @@ namespace Calculating_Magnetic_Field.Models
             double lenth;
             Vector2D result;
         
-            PointD midP;
-            midP = new PointD(ribN.GetMiddleOfRib());
-            r2 = pointM.SquareOfDistanceToOtherPoint(midP);
+            PointD pointN;
+            pointN = new PointD(ribN.GetMiddleOfRib());
+            r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
             lenth = ribN.LenthElement;
          
-            result.X_component = (pointM.X - midP.X) / r2 * lenth;
-            result.Y_component = (pointM.Y - midP.Y) / r2 * lenth;
+            result.X_component = (pointM.X - pointN.X) / r2 * lenth;
+            result.Y_component = (pointM.Y - pointN.Y) / r2 * lenth;
             return result;
         }
 
@@ -65,6 +65,11 @@ namespace Calculating_Magnetic_Field.Models
             PointD pointM = ribM.GetMiddleOfRib();
             PointD pointN = ribN.GetMiddleOfRib();
             double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
+
+            if (ribM == ribN) return 0;
+            PointPosition pointPosition = ribN.Classify(pointM);
+            if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return 0;
+
             return ribN.LenthElement * ((pointM.X - pointN.X) * ribM.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribM.Normal.CosBeta) / r2;
         }
 

@@ -113,6 +113,12 @@
     <Compile Include="Forms\AddCoilForm.Designer.cs">
       <DependentUpon>AddCoilForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Graphics\AddCommentToGraphic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Graphics\AddCommentToGraphic.Designer.cs">
+      <DependentUpon>AddCommentToGraphic.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\AddMagnetForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -138,6 +144,12 @@
       <DependentUpon>Calculate.cs</DependentUpon>
     </Compile>
     <Compile Include="Figures\Bound_Circle.cs" />
+    <Compile Include="Forms\Graphics\ChooseGraphic.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Graphics\ChooseGraphic.Designer.cs">
+      <DependentUpon>ChooseGraphic.cs</DependentUpon>
+    </Compile>
     <Compile Include="GraphicTypes.cs" />
     <Compile Include="Forms\PicBox.cs">
       <SubType>UserControl</SubType>
@@ -175,11 +187,11 @@
     <Compile Include="Forms\DepthForm.Designer.cs">
       <DependentUpon>DepthForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\BuilderPotencialGraphic.cs">
+    <Compile Include="Forms\Graphics\GraphicsBildingForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\BuilderPotencialGraphic.Designer.cs">
-      <DependentUpon>BuilderPotencialGraphic.cs</DependentUpon>
+    <Compile Include="Forms\Graphics\GraphicsBildingForm.Designer.cs">
+      <DependentUpon>GraphicsBildingForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Graphic.cs">
       <SubType>Form</SubType>
@@ -206,6 +218,9 @@
     <EmbeddedResource Include="Forms\AddCoilForm.resx">
       <DependentUpon>AddCoilForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Graphics\AddCommentToGraphic.resx">
+      <DependentUpon>AddCommentToGraphic.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\AddMagnetForm.resx">
       <DependentUpon>AddMagnetForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -218,8 +233,11 @@
     <EmbeddedResource Include="Forms\DepthForm.resx">
       <DependentUpon>DepthForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\BuilderPotencialGraphic.resx">
-      <DependentUpon>BuilderPotencialGraphic.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Graphics\ChooseGraphic.resx">
+      <DependentUpon>ChooseGraphic.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Graphics\GraphicsBildingForm.resx">
+      <DependentUpon>GraphicsBildingForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graphic.resx">
       <DependentUpon>Graphic.cs</DependentUpon>
@@ -238,15 +256,6 @@
       <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Calculating_Magnetic_Field_TemporaryKey.pfx" />
-    <None Include="NewFolder1\c.dat" />
-    <None Include="NewFolder1\new.geo" />
-    <None Include="NewFolder1\new.msh" />
-    <None Include="NewFolder1\new2.geo" />
-    <None Include="NewFolder1\new2.msh" />
-    <None Include="NewFolder1\new3.geo" />
-    <None Include="NewFolder1\new3.msh" />
-    <None Include="NewFolder1\tri.dat" />
-    <None Include="NewFolder1\xy.dat" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -263,7 +272,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="License-LGPL.txt" />
-    <Content Include="NewFolder1\flux.exe" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">

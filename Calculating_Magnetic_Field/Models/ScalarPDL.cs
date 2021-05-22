@@ -8,6 +8,7 @@ namespace Calculating_Magnetic_Field.Models
     public class ScalarPDL : IPotencial
     {
 
+        
         public int Sign
         {
             get
@@ -23,6 +24,8 @@ namespace Calculating_Magnetic_Field.Models
                 return PotencialTypes.PDL;
             }
         }
+
+        private const float eps = 2e-8f;
 
         public double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN)
         {
@@ -47,6 +50,10 @@ namespace Calculating_Magnetic_Field.Models
             double cosA = ribN.Normal.CosAlpha;
             double cosB = ribN.Normal.CosBeta;
 
+            //if (Math.Sqrt(r2) < eps) return new Vector2D { X_component = 0, Y_component = 0 };
+            //PointPosition pointPosition = ribN.Classify(pointM);
+            //if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return new Vector2D { X_component = 0, Y_component = 0 };
+
             result.X_component = (2 * (pointN.X - pointM.X) * ((pointN.X - pointM.X) * cosA + (pointN.Y - pointM.Y) * cosB) - r2 * cosA) / (r2 * r2);
             result.Y_component = (2 * (pointN.Y - pointM.Y) * ((pointN.X - pointM.X) * cosA + (pointN.Y - pointM.Y) * cosB) - r2 * cosB) / (r2 * r2);
             return  ribN.LenthElement * result;
@@ -57,6 +64,11 @@ namespace Calculating_Magnetic_Field.Models
             PointD pointM = ribM.GetMiddleOfRib();
             PointD pointN = ribN.GetMiddleOfRib();
             double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
+
+            if (ribN == ribM) return 0;
+            PointPosition pointPosition = ribN.Classify(pointM);
+            if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return 0;
+
             return ribN.LenthElement * ((pointM.X - pointN.X) * ribN.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribN.Normal.CosBeta) / r2;
         }
     }

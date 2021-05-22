@@ -696,7 +696,7 @@ namespace Calculating_Magnetic_Field.Models
 
             for (int i = 0; i < sources.Count; i++)
             {
-                result += depth * sources[i].GetInductionValue(pointM);
+                result += sources[i].GetInductionValue(pointM);
             }
             result += CalculateReactionInduction(pointM);
 
@@ -711,7 +711,7 @@ namespace Calculating_Magnetic_Field.Models
             }
             
 
-            return result;
+            return depth * result;
             //return result;
         }
 
@@ -733,19 +733,13 @@ namespace Calculating_Magnetic_Field.Models
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                 {
                     rib = bounds[i].Bound_Ribs[j];
-                    /*midP = new PointD(rib.GetMiddleOfRib());
-                    r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    
-                    lenth = rib.LenthElement;
-                    
-                    result.X_component += (pointM.X - midP.X) / (r * r) * ArrDencities[ni + j] * lenth;
-                    result.Y_component += (pointM.Y - midP.Y) / (r * r) * ArrDencities[ni + j] * lenth;*/
+
                     result += Potencial.Calculate_Induction_from_Element(pointM, rib) * ArrDencities[ni + j];
                 }
                 ni += bounds[i].Bound_Ribs.Count;
             }
 
-            return depth * 0.5 / Math.PI * result;
+            return 0.5 / Math.PI * result;
         }
 
         private Vector2D CalculateReactionIntensity(PointD pointM)
