@@ -113,14 +113,14 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LenthElement;
+                lenth = ribs[j].LengthElement;
                 if (r < lenth)
                 {
 
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
@@ -130,8 +130,8 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
@@ -176,14 +176,14 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LenthElement;
+                lenth = ribs[j].LengthElement;
                 if (r < lenth)
                 {
 
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
@@ -193,8 +193,8 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
@@ -222,7 +222,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double dx, dy;
             double f1 = 0, f2 = 0, d_fun;
-            double lenth = rib.LenthElement;
+            double lenth = rib.LengthElement;
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
             if (r < lenth * 0.5)
@@ -276,14 +276,14 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LenthElement;
+                lenth = ribs[j].LengthElement;
                 if (r < lenth)
                 {
 
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
@@ -293,8 +293,8 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * density * ((pointM.X - p1.X) / (r * r));
                         f1.Y_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));

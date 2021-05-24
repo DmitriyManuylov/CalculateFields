@@ -235,14 +235,14 @@ namespace Calculating_Magnetic_Field
                 rib = ribsForVect[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribsForVect[j].LenthElement;
+                lenth = ribsForVect[j].LengthElement;
                 if (r < lenth)
                 {
 
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component -= lenth * densities[j] * ((p1.X - pointM.X) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((p1.Y - pointM.Y) / (r * r));
@@ -252,8 +252,8 @@ namespace Calculating_Magnetic_Field
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component -= lenth * densities[j] * ((p1.X - pointM.X) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((p1.Y - pointM.Y) / (r * r));
@@ -299,14 +299,14 @@ namespace Calculating_Magnetic_Field
                 rib = ribsForVect[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribsForVect[j].LenthElement;
+                lenth = ribsForVect[j].LengthElement;
                 if (r < lenth)
                 {
                     
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * densities[j] * ((pointM.Y - p1.Y) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((pointM.X - p1.X) / (r * r));
@@ -316,8 +316,8 @@ namespace Calculating_Magnetic_Field
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * densities[j] * ((pointM.Y - p1.Y) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((pointM.X - p1.X) / (r * r));
@@ -345,7 +345,7 @@ namespace Calculating_Magnetic_Field
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double dx, dy;
             double f1 = 0, f2 = 0, d_fun;
-            double lenth = rib.LenthElement;
+            double lenth = rib.LengthElement;
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
             if (r < lenth * 0.5)
@@ -432,14 +432,14 @@ namespace Calculating_Magnetic_Field
                 rib = ribsForVect[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribsForVect[j].LenthElement;
+                lenth = ribsForVect[j].LengthElement;
                 if (r < lenth)
                 {
 
                     if (rib.Classify(pointM) == PointPosition.LEFT)
                     {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * densities[j] * ((pointM.Y - p1.Y) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((pointM.X - p1.X) / (r * r));
@@ -449,8 +449,8 @@ namespace Calculating_Magnetic_Field
                     }
                     if (rib.Classify(pointM) == PointPosition.RIGHT)
                     {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LenthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LenthElement * coef);
+                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
+                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * bigRibsForVect[0].LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * bigRibsForVect[0].LengthElement * coef);
                         r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
                         f1.X_component += lenth * densities[j] * ((pointM.Y - p1.Y) / (r * r));
                         f1.Y_component -= lenth * densities[j] * ((pointM.X - p1.X) / (r * r));

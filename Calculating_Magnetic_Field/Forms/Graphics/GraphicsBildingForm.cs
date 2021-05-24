@@ -314,7 +314,9 @@ namespace Calculating_Magnetic_Field
                 f0_list.Add(points1D[i], function[i]);
             }
 
-            myCurve0 = pane.AddCurve("МГЭ", f0_list, Color.Gray, SymbolType.None);
+
+            string comment = SetComment("МГЭ");
+            myCurve0 = pane.AddCurve(comment, f0_list, Color.Gray, SymbolType.None);
             myCurve0.Line.Width = 2.0f; // толщина линии курвы
             myCurve0.Line.IsSmooth = false; //Сглаживание курвы.
             myCurve0.Line.IsAntiAlias = true;
@@ -352,6 +354,7 @@ namespace Calculating_Magnetic_Field
 
         private void добавитьГрафикToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string comment = SetComment("Femm");
             List<double> points = new List<double>();
             int n;
             f1_list = new PointPairList();
@@ -387,7 +390,7 @@ namespace Calculating_Magnetic_Field
                     f1_list.Add(points[i], femm_elcut_functions_list[current_femm_elcut_function][i]);
                 }
 
-                myCurve1 = pane.AddCurve("Femm", f1_list, Color.Green, SymbolType.None);
+                myCurve1 = pane.AddCurve(comment, f1_list, Color.Green, SymbolType.None);
                 myCurve1.Line.Width = 4.0f; // толщина линии курвы
                 myCurve1.Line.IsSmooth = false; //Сглаживание курвы.
                 myCurve1.Line.IsAntiAlias = true;
@@ -406,6 +409,7 @@ namespace Calculating_Magnetic_Field
 
         private void добавитьГрафикИзElcutToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            string comment = SetComment("Elcut");
             List<double> points = new List<double>();
             int n;
             f2_list = new PointPairList();
@@ -445,7 +449,7 @@ namespace Calculating_Magnetic_Field
                     f2_list.Add(points[i], femm_elcut_functions_list.Last()[i]);
                 }
 
-                myCurve2 = pane.AddCurve("Elcut", f2_list, Color.Black, SymbolType.None);
+                myCurve2 = pane.AddCurve(comment, f2_list, Color.Black, SymbolType.None);
                 myCurve2.Line.Width = 3.0f; // толщина линии курвы
                 myCurve2.Line.IsSmooth = false; //Сглаживание курвы.
                 myCurve2.Line.IsAntiAlias = true;
@@ -458,12 +462,7 @@ namespace Calculating_Magnetic_Field
 
         private void AddGraphic_Click(object sender, EventArgs e)
         {
-            string comment = "МГЭ доп";
-            Forms.AddCommentToGraphic addCommentToGraphic = new Forms.AddCommentToGraphic();
-            if (addCommentToGraphic.ShowDialog() == DialogResult.OK)
-            {
-                comment = addCommentToGraphic.Comment;
-            }
+            string comment = SetComment("МГЭ доп");
             List<double> points = new List<double>();
             int n;
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -495,14 +494,46 @@ namespace Calculating_Magnetic_Field
                     pointPairs.Last().Add(points[i], functions.Last()[i]);
                 }
 
-                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, SymbolType.None));
-                curves.Last().Line.Width = 3.0f; // толщина линии курвы
+                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, SymbolType.Star));
+                curves.Last().Line.Width = 1.0f; // толщина линии курвы
                 curves.Last().Line.IsSmooth = false; //Сглаживание курвы.
                 curves.Last().Line.IsAntiAlias = true;
                 curves.Last().Line.Style = System.Drawing.Drawing2D.DashStyle.DashDotDot; // Тип линии курвы
                 curves.Last().Label.IsVisible = true;
+                curves.Last().Symbol.Size = 3f;
+
+
+                var graphics = ZDc.CreateGraphics();
+                var curve = pane.CurveList.Last();
+                var line = curve as LineItem;
+
+                string coords;
+                curve.GetCoords(pane, line.Points.Count / 3, out coords);
+                string[] coords_arr = coords.Split(',');
+                float[] arr = new float[4];
+                for (int i = 0; i < 4; i++)
+                {
+                    arr[i] = Single.Parse(coords_arr[i]);
+                }
+                PointF point1 = new PointF(arr[0], arr[1]);
+                float width = arr[2] - arr[0];
+                float height = arr[3] - arr[1];
+                RectangleF rectangleF = new RectangleF(point1, new SizeF(width, height));
+                pane.CurveList.Last().DrawLegendKey(graphics, pane, rectangleF, pane.CalcScaleFactor());
                 ZDc.Refresh();
             }
+        }
+
+        private static string SetComment(string default_comment)
+        {
+            Forms.AddCommentToGraphic addCommentToGraphic = new Forms.AddCommentToGraphic();
+            if (addCommentToGraphic.ShowDialog() == DialogResult.OK)
+            {
+                return addCommentToGraphic.Comment;
+
+            }
+
+            return default_comment;
         }
 
         private void DeleteGraphic_Click(object sender, EventArgs e)

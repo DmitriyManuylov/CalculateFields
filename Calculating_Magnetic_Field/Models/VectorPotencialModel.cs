@@ -320,7 +320,7 @@ namespace Calculating_Magnetic_Field
             for (int j = 0; j < n; j++)
             {
                 magnet_dAdy_On_carg = Integral_dAdy_M(bounds[1].MiddlePoints[j]) + CoilsPotencialGradientOnBound[ni + j].Y_component;
-                resultY += magnet_dAdy_On_carg * ArrDencities[ni + j] * bounds[1].Bound_Ribs[j].LenthElement;
+                resultY += magnet_dAdy_On_carg * ArrDencities[ni + j] * bounds[1].Bound_Ribs[j].LengthElement;
             }
             result = resultY;
             return depth * depth * result / (2 * Math.PI * standart_field_property);
@@ -336,7 +336,7 @@ namespace Calculating_Magnetic_Field
             for (int j = 0; j < n; j++)
             {
                 magnet_dAdy_On_carg = CoilsPotencialGradientOnBound[j].Y_component;
-                resultY += magnet_dAdy_On_carg * ArrDencities[j] * bounds[0].Bound_Ribs[j].LenthElement;
+                resultY += magnet_dAdy_On_carg * ArrDencities[j] * bounds[0].Bound_Ribs[j].LengthElement;
             }
             result = resultY;
             return depth * depth * result / (2 * Math.PI * standart_field_property);
@@ -355,10 +355,10 @@ namespace Calculating_Magnetic_Field
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
-            if (r < rib.LenthElement * 1e-5)
-                return rib.LenthElement * Density * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
+            if (r < rib.LengthElement * 1e-5)
+                return rib.LengthElement * Density * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
                                                      Math.Log(1.0 / Math.Sqrt((rib.Point2.X - pointM.X) * (rib.Point2.X - pointM.X) + (rib.Point2.Y - pointM.Y) * (rib.Point2.Y - pointM.Y)))) / 2;
-            return rib.LenthElement * Density * Math.Log(1.0 / r);
+            return rib.LengthElement * Density * Math.Log(1.0 / r);
         }
 
         /*public double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
@@ -422,7 +422,7 @@ namespace Calculating_Magnetic_Field
                         for (int j = 0; j < n; j++)
                         {
                             ribN = bounds[i].Bound_Ribs[j];
-                            middleKernelValues[i, nk + p] += kernelValues[ni + j, nk + p] * ribN.LenthElement;
+                            middleKernelValues[i, nk + p] += kernelValues[ni + j, nk + p] * ribN.LengthElement;
                         }
                         middleKernelValues[i, nk + p] /= bounds[i].BoundLenth;
                     }
@@ -442,7 +442,7 @@ namespace Calculating_Magnetic_Field
             //if (ribN.Rib_Position == Rib_Position.Horizontal && pointM.Y == ribN.Point1.Y) return 0;
 
             //if (ribN.Rib_Position == Rib_Position.Horizontal && pointM.DistanceToOtherPoint(MiddleOFRib) < ribN.LenthElement)
-                return ribN.LenthElement * ((pointM.X - MiddleOFRib.X) * ribM.Normal.CosAlpha + (pointM.Y - MiddleOFRib.Y) * ribM.Normal.CosBeta) /
+                return ribN.LengthElement * ((pointM.X - MiddleOFRib.X) * ribM.Normal.CosAlpha + (pointM.Y - MiddleOFRib.Y) * ribM.Normal.CosBeta) /
                    ((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) + (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
             //return GaussIntegralDn(ribN, ribM, dAdn_pps);
         }
@@ -513,9 +513,9 @@ namespace Calculating_Magnetic_Field
                         for (int p = 0; p < bounds[k].Bound_Ribs.Count; p++)
                         {
                             if (i == k && j == p)
-                                MatrixA[ni + j, nk + p] = 1 + lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LenthElement * middleKernelValues[i, nk + p];
+                                MatrixA[ni + j, nk + p] = 1 + lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthElement * middleKernelValues[i, nk + p];
                             else
-                                MatrixA[ni + j, nk + p] = -lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LenthElement * (kernelValues[ni + j, nk + p] - middleKernelValues[i, nk + p]);
+                                MatrixA[ni + j, nk + p] = -lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthElement * (kernelValues[ni + j, nk + p] - middleKernelValues[i, nk + p]);
                         }
                         nk += bounds[k].Bound_Ribs.Count;
 
@@ -592,7 +592,7 @@ namespace Calculating_Magnetic_Field
             {
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                 {
-                    MidValuesBn[i] += bounds[i].Bound_Ribs[j].LenthElement * BnOnBound[ni + j];
+                    MidValuesBn[i] += bounds[i].Bound_Ribs[j].LengthElement * BnOnBound[ni + j];
                 }
                 MidValuesBn[i] /= bounds[i].BoundLenth;
                 ni += bounds[i].Bound_Ribs.Count;
@@ -619,7 +619,7 @@ namespace Calculating_Magnetic_Field
                 PointN = new PointD(x, y);
                 result += d[i] * func(PointN, pointM);
             }
-            result *= rib.LenthElement / 2;
+            result *= rib.LengthElement / 2;
             return result;
         }
         public double GaussIntegralDn(Bound_Rib ribN,Bound_Rib ribM, Func<PointD, Bound_Rib, double> func)
@@ -634,7 +634,7 @@ namespace Calculating_Magnetic_Field
                 PointN = new PointD(x, y);
                 result += d[i] * func(PointN, ribM);
             }
-            result *= ribN.LenthElement / 2;
+            result *= ribN.LengthElement / 2;
             return result;
         }
         public Vector2D CalculateInduction(PointD pointM)
@@ -672,7 +672,7 @@ namespace Calculating_Magnetic_Field
                     rib = bounds[i].Bound_Ribs[j];
                     midP = new PointD(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
                     r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    lenth = bounds[i].Bound_Ribs[j].LenthElement;
+                    lenth = bounds[i].Bound_Ribs[j].LengthElement;
 
                     if (r < lenth * coef)
                     {
@@ -738,7 +738,7 @@ namespace Calculating_Magnetic_Field
                     rib = bounds[i].Bound_Ribs[j];
                     midP = new PointD(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
                     r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    lenth = bounds[i].Bound_Ribs[j].LenthElement;
+                    lenth = bounds[i].Bound_Ribs[j].LengthElement;
 
                     if (r < lenth * coef)
                     {

@@ -31,12 +31,16 @@ namespace Calculating_Magnetic_Field.Models
 
         public double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN)
         {
-            PointD MiddleOFRib = ribN.GetMiddleOfRib();
-            double r2 = pointM.SquareOfDistanceToOtherPoint(MiddleOFRib);
-            /*if (r < ribN.LenthElement * 1e-5)
-                return ribN.LenthElement * (Math.Log(1.0 / Math.Sqrt((ribN.Point1.X - pointM.X) * (ribN.Point1.X - pointM.X) + (ribN.Point1.Y - pointM.Y) * (ribN.Point1.Y - pointM.Y))) +
-                                                     Math.Log(1.0 / Math.Sqrt((ribN.Point2.X - pointM.X) * (ribN.Point2.X - pointM.X) + (ribN.Point2.Y - pointM.Y) * (ribN.Point2.Y - pointM.Y)))) / 2;*/
-            return - ribN.LenthElement * Math.Log(r2) * 0.5;
+            PointD pointN = ribN.GetMiddleOfRib();
+            double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
+            double length = ribN.LengthElement;
+
+            if (pointM.X == ribN.Point1.X && pointM.Y == ribN.Point1.Y ||
+                pointM.X == ribN.Point2.X && pointM.Y == ribN.Point2.Y)
+                return length * (1 - Math.Log(length));
+            if (pointM.X == pointN.X && pointM.Y == pointN.Y)
+                return length * (1 - Math.Log(length / 2));
+            return - length * Math.Log(r2) * 0.5;
         }
 
         public Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN)
@@ -53,7 +57,7 @@ namespace Calculating_Magnetic_Field.Models
             PointD pointN;
             pointN = new PointD(ribN.GetMiddleOfRib());
             r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
-            lenth = ribN.LenthElement;
+            lenth = ribN.LengthElement;
          
             result.X_component = (pointM.X - pointN.X) / r2 * lenth;
             result.Y_component = (pointM.Y - pointN.Y) / r2 * lenth;
@@ -70,7 +74,7 @@ namespace Calculating_Magnetic_Field.Models
             PointPosition pointPosition = ribN.Classify(pointM);
             if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return 0;
 
-            return ribN.LenthElement * ((pointM.X - pointN.X) * ribM.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribM.Normal.CosBeta) / r2;
+            return ribN.LengthElement * ((pointM.X - pointN.X) * ribM.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribM.Normal.CosBeta) / r2;
         }
 
     }

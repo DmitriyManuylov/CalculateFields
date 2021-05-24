@@ -97,6 +97,7 @@
     <Compile Include="BorderConditionType.cs" />
     <Compile Include="Figures\Bound_Stadium.cs" />
     <Compile Include="Figures\LinesIntersection.cs" />
+    <Compile Include="Figures\PointsPair.cs" />
     <Compile Include="Figures\StadiumOrientation.cs" />
     <Compile Include="Figure_Drawers\ConstantMagnetDrawer.cs" />
     <Compile Include="Figure_Drawers\DrawerBuilder.cs" />

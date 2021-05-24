@@ -49,6 +49,10 @@ namespace Calculating_Magnetic_Field
         public Models.IModel model;
         public GraphicsCalculating graphicsCalculating;
 
+        public List<PointsPair> pointsPairs = new List<PointsPair>();
+        PointsPair? selectedPair = null;
+
+
         PointD[] points;
         List<IDrawable> figuresForDrawing;
         List<Bound_Rectangle> bound_Rectangles;
@@ -132,10 +136,10 @@ namespace Calculating_Magnetic_Field
             figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil1, DrawingScale)));
             figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil2, DrawingScale)));*/
             
-            Bound_Rectangle rect = new Bound_Rectangle(new PointF(-20f, 20f), 40f, 40f, SizeScale);
+            //Bound_Rectangle rect = new Bound_Rectangle(new PointF(-20f, 20f), 40f, 40f, SizeScale);
             //Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-8f, 8f), 16f, 16f, SizeScale);
 
-            Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-12f, 12f), 8f, 24f, SizeScale);
+            //Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-12f, 12f), 8f, 24f, SizeScale);
             //Bound_Rectangle coil2 = new Bound_Rectangle(new PointF(4f, 12f), 8f, 24f, SizeScale);
 
             //model.AddMagnet(coil2, 50000, SimpleDirections.FromTopToBottom);
@@ -211,6 +215,7 @@ namespace Calculating_Magnetic_Field
 
             DrawAxes(graphics);
             DrawFigures(graphics);
+            DrawSelectedLine(graphics);
 
         }
 
@@ -238,6 +243,18 @@ namespace Calculating_Magnetic_Field
             brush.Dispose();
             pen.Dispose();
 
+        }
+
+        private void DrawSelectedLine(Graphics graphics)
+        {
+            if (selectedPair == null)
+                return;
+            brush = new SolidBrush(Color.Black);
+            pen = new Pen(brush, 1);
+            pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+            PointD p1 = selectedPair.Value.Point1;
+            PointD p2 = selectedPair.Value.Point2;
+            graphics.DrawLine(pen, new PointF((float)p1.X, (float)p1.Y), new PointF((float)p1.X, (float)p1.Y));       
         }
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
@@ -793,92 +810,12 @@ namespace Calculating_Magnetic_Field
         private void butBuildGraphic_Click(object sender, EventArgs e)
         {
             int k = 1500;
-            double k1 = 1;
-            double q = 1e-2;
-            double w = q * 2;
-            double k2 = k1 / 5000;
-            double k3 = k2 / 5000;
-            double k4 = k3 / 5000;
+
             List<double> X;
             List<double> function;
             //горизонтальная линия
-            PointD Point1 = new PointD(-0.02, 0);
-            PointD Point2 = new PointD( 0.02,  0);
-
-            //вертикальная линия
-            PointD Point3 = new PointD(0, -0.02);
-            PointD Point4 = new PointD(0,  0.02);
-
-            //вертикальная линия 2
-            PointD Point7 = new PointD(0.001, -0.02);
-            PointD Point8 = new PointD(0.001,  0.02);
-
-            PointD Point5 = new PointD(-0.05, 0.005);
-            PointD Point6 = new PointD( 0.05, 0.005);
-
-            PointD Point9  = new PointD(-0.02, 0);
-            PointD Point10 = new PointD( 0.02, 0);
-            PointD Point11 = new PointD(-0.02, 0.0021);
-            PointD Point12 = new PointD( 0.02, 0.0021);
-
-
-
-            //горизонтальная линия 3
-            PointD Point13 = new PointD(-0.02, 0.0045);
-            PointD Point14 = new PointD( 0.02, 0.0045);
-
-            //вертикальная линия 3
-            PointD Point15 = new PointD(-0.0071, -0.02);
-            PointD Point16 = new PointD(-0.0071,  0.02);
-
-            //горизонтальная линия
-            PointD Point17 = new PointD(-0.05, 0.00175);
-            PointD Point18 = new PointD(0.05,  0.00175);
-
-            //вертикальная линия 4
-            PointD Point19 = new PointD(0, -0.02);
-            PointD Point20 = new PointD(0, 0.02);
-
-            //вертикальная линия 5
-            PointD Point21 = new PointD(0.0016, -0.02);
-            PointD Point22 = new PointD(0.0016, 0.02);
-
-            //вертикальная линия 6
-            PointD Point23 = new PointD(0.0016, -0.02993);
-            PointD Point24 = new PointD(0.0016, 0.02993);
-
-            //горизонтальная линия 5
-            PointD Point25 = new PointD(-0.02, 0.0194);
-            PointD Point26 = new PointD(0.02, 0.0194);
-
-            //горизонтальная линия 6
-            PointD Point27 = new PointD(-0.02, 0);
-            PointD Point28 = new PointD(0.02, 0);
-            //горизонтальная линия 7
-            PointD Point29 = new PointD(-0.02, 0.0038);
-            PointD Point30 = new PointD(0.02, 0.0038);
-
-            //горизонтальная линия 7
-            PointD Point31 = new PointD(-0.02, 0.0175);
-            PointD Point32 = new PointD(0.02, 0.0175);
-
-            //вертикальная линия 7
-            PointD Point33 = new PointD(0.00175, -0.02);
-            PointD Point34 = new PointD(0.00175, 0.02);
-
-            //вертикальная линия 8
-            PointD Point35 = new PointD(0.0011, -0.02);
-            PointD Point36 = new PointD(0.0011, 0.02);
-
-            //горизонтальная линия 8
-            PointD Point37 = new PointD(-0.02, 0.003);
-            PointD Point38 = new PointD(0.02, 0.003);
-
-            //горизонтальная линия 8
-            PointD Point39 = new PointD(-20, 3);
-            PointD Point40 = new PointD(20, 3);
-
-
+            PointD Point21, Point22;
+            InitPointsForGraphic(out Point21, out Point22);
 
             function = graphicsCalculating.Calculate(Point21, Point22, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
             X = graphicsCalculating.GetLenth();
@@ -889,6 +826,103 @@ namespace Calculating_Magnetic_Field
             graphic.ShowDialog();
         }
 
+        private void InitPointsForGraphic(out PointD Point21, out PointD Point22)
+        {
+            PointD Point1 = new PointD(-0.02, 0);
+            PointD Point2 = new PointD(0.02, 0);
+            pointsPairs.Add(new PointsPair { Point1 = Point1, Point2 = Point2 });
+
+            //вертикальная линия
+            PointD Point3 = new PointD(0, -0.02);
+            PointD Point4 = new PointD(0, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point3, Point2 = Point4 });
+
+
+            PointD Point5 = new PointD(-0.05, 0.005);
+            PointD Point6 = new PointD(0.05, 0.005);
+            pointsPairs.Add(new PointsPair { Point1 = Point5, Point2 = Point6 });
+            //вертикальная линия 2
+            PointD Point7 = new PointD(0.001, -0.02);
+            PointD Point8 = new PointD(0.001, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point7, Point2 = Point8 });
+
+
+            PointD Point9 = new PointD(-0.02, 0);
+            PointD Point10 = new PointD(0.02, 0);
+            pointsPairs.Add(new PointsPair { Point1 = Point9, Point2 = Point10 });
+
+            PointD Point11 = new PointD(-0.02, 0.0021);
+            PointD Point12 = new PointD(0.02, 0.0021);
+            pointsPairs.Add(new PointsPair { Point1 = Point11, Point2 = Point12 });
+
+
+
+            //горизонтальная линия 3
+            PointD Point13 = new PointD(-0.02, 0.0045);
+            PointD Point14 = new PointD(0.02, 0.0045);
+            pointsPairs.Add(new PointsPair { Point1 = Point13, Point2 = Point14 });
+
+            //вертикальная линия 3
+            PointD Point15 = new PointD(-0.0071, -0.02);
+            PointD Point16 = new PointD(-0.0071, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point15, Point2 = Point16 });
+
+            //горизонтальная линия
+            PointD Point17 = new PointD(-0.05, 0.00175);
+            PointD Point18 = new PointD(0.05, 0.00175);
+            pointsPairs.Add(new PointsPair { Point1 = Point17, Point2 = Point18 });
+
+            //вертикальная линия 4
+            PointD Point19 = new PointD(0, -0.02);
+            PointD Point20 = new PointD(0, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point19, Point2 = Point20 });
+
+            //вертикальная линия 5
+            Point21 = new PointD(0.0016, -0.02);
+            Point22 = new PointD(0.0016, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point21, Point2 = Point22 });
+
+            //вертикальная линия 6
+            PointD Point23 = new PointD(0.0016, -0.02993);
+            PointD Point24 = new PointD(0.0016, 0.02993);
+            pointsPairs.Add(new PointsPair { Point1 = Point23, Point2 = Point24 });
+
+            //горизонтальная линия 5
+            PointD Point25 = new PointD(-0.02, 0.0194);
+            PointD Point26 = new PointD(0.02, 0.0194);
+            pointsPairs.Add(new PointsPair { Point1 = Point25, Point2 = Point26 });
+
+            //горизонтальная линия 6
+            PointD Point27 = new PointD(-0.02, 0);
+            PointD Point28 = new PointD(0.02, 0);
+            pointsPairs.Add(new PointsPair { Point1 = Point27, Point2 = Point28 });
+
+            //горизонтальная линия 7
+            PointD Point29 = new PointD(-0.02, 0.0038);
+            PointD Point30 = new PointD(0.02, 0.0038);
+            pointsPairs.Add(new PointsPair { Point1 = Point29, Point2 = Point30 });
+
+            //горизонтальная линия 7
+            PointD Point31 = new PointD(-0.02, 0.0175);
+            PointD Point32 = new PointD(0.02, 0.0175);
+            pointsPairs.Add(new PointsPair { Point1 = Point31, Point2 = Point32 });
+
+            //вертикальная линия 7
+            PointD Point33 = new PointD(0.00175, -0.02);
+            PointD Point34 = new PointD(0.00175, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point33, Point2 = Point34 });
+
+            //вертикальная линия 8
+            PointD Point35 = new PointD(0.0011, -0.02);
+            PointD Point36 = new PointD(0.0011, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point35, Point2 = Point36 });
+
+            //горизонтальная линия 8
+            PointD Point37 = new PointD(-0.02, 0.003);
+            PointD Point38 = new PointD(0.02, 0.003);
+            pointsPairs.Add(new PointsPair { Point1 = Point37, Point2 = Point38 });
+
+        }
 
         private void ButCulcNormInduction_Click(object sender, EventArgs e)
         {

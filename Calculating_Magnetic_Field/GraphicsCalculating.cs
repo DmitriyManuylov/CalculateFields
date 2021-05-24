@@ -51,8 +51,8 @@ namespace Calculating_Magnetic_Field
 
             tangent = new Vector2D
             {
-                X_component = (p2.X - p1.X) / rib.LenthElement,
-                Y_component = (p2.Y - p1.Y) / rib.LenthElement
+                X_component = (p2.X - p1.X) / rib.LengthElement,
+                Y_component = (p2.Y - p1.Y) / rib.LengthElement
             };
 
             this.n = n;
