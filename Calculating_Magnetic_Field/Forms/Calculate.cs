@@ -64,15 +64,11 @@ namespace Calculating_Magnetic_Field
         {
             InitializeComponent();
             groupBoxPhysicsElements.Enabled = false;
-            groupBoxForces.Enabled = false;
             changeDirToolStripMenuItem.Enabled = false;
             //butBuildPowerLines.Enabled = false;
             groupBoxGraphicsCalc.Enabled = false;
             groupBoxPowerLines.Enabled = false;
             ProblemDataToolStripMenuItem.Enabled = false;
-            butCalcPotencialForGraphic.Enabled = false;
-            butCulcNormInduction.Enabled = false;
-            butCulcInduction.Enabled = false;
             
             //points = new List<PointD>();
             bound_Rectangles = new List<Bound_Rectangle>();
@@ -207,7 +203,19 @@ namespace Calculating_Magnetic_Field
             path_to_directory_of_power_lines_data = Work_With_Files.path_to_directory_of_power_lines_data;
             path_to_data_files = Work_With_Files.path_to_data_files;
             pictureBox1.Paint += PictureBox1_Paint;
+            InitPointsForGraphic();
+            selectedPair = pointsPairs[10];
+            FillComboBoxOfLineSelecting();
+            cbSelectGraphicLine.SelectedIndex = 10;
             pictureBox1.Invalidate();
+        }
+
+        private void FillComboBoxOfLineSelecting()
+        {
+            for (int i = 0; i < pointsPairs.Count; i++)
+            {
+                cbSelectGraphicLine.Items.Add($"Line {i + 1}");
+            }
         }
 
         private void Redraw(Graphics graphics)
@@ -254,8 +262,20 @@ namespace Calculating_Magnetic_Field
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             PointD p1 = selectedPair.Value.Point1;
             PointD p2 = selectedPair.Value.Point2;
-            graphics.DrawLine(pen, new PointF((float)p1.X, (float)p1.Y), new PointF((float)p1.X, (float)p1.Y));       
+            graphics.DrawLine(pen, ModifyPoint(new PointF((float)p1.X, (float)p1.Y)), ModifyPoint(new PointF((float)p2.X, (float)p2.Y)));
+
+            brush.Dispose();
+            pen.Dispose();
         }
+
+        private PointF ModifyPoint(PointF point)
+        {
+            PointF result = new PointF(point.X * DrawingScale, -point.Y * DrawingScale);
+            result.X += pictureBox1.Width / 2;
+            result.Y += pictureBox1.Height / 2;
+            return result;
+        }
+
         private void PictureBox1_Paint(object sender, PaintEventArgs e)
         {
             Redraw(e.Graphics);
@@ -809,15 +829,19 @@ namespace Calculating_Magnetic_Field
 
         private void butBuildGraphic_Click(object sender, EventArgs e)
         {
-            int k = 1500;
+            int k;
+            if (!int.TryParse(tbNumOfGraphicPoints.Text, out k) || k <= 0)
+            {
+                MessageBox.Show("Некорректное число!");
+                return;
+            }
 
             List<double> X;
             List<double> function;
             //горизонтальная линия
-            PointD Point21, Point22;
-            InitPointsForGraphic(out Point21, out Point22);
+            InitPointsForGraphic();
 
-            function = graphicsCalculating.Calculate(Point21, Point22, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
+            function = graphicsCalculating.Calculate(selectedPair.Value.Point1, selectedPair.Value.Point2, k, (GraphicTypes)cbChooseGraphicType.SelectedItem);
             X = graphicsCalculating.GetLenth();
 
             Work_With_Files.SaveGraphicData(X, function);
@@ -826,7 +850,7 @@ namespace Calculating_Magnetic_Field
             graphic.ShowDialog();
         }
 
-        private void InitPointsForGraphic(out PointD Point21, out PointD Point22)
+        private void InitPointsForGraphic()
         {
             PointD Point1 = new PointD(-0.02, 0);
             PointD Point2 = new PointD(0.02, 0);
@@ -878,8 +902,8 @@ namespace Calculating_Magnetic_Field
             pointsPairs.Add(new PointsPair { Point1 = Point19, Point2 = Point20 });
 
             //вертикальная линия 5
-            Point21 = new PointD(0.0016, -0.02);
-            Point22 = new PointD(0.0016, 0.02);
+            PointD Point21 = new PointD(0.0016, -0.02);
+            PointD Point22 = new PointD(0.0016, 0.02);
             pointsPairs.Add(new PointsPair { Point1 = Point21, Point2 = Point22 });
 
             //вертикальная линия 6
@@ -924,10 +948,16 @@ namespace Calculating_Magnetic_Field
 
         }
 
-        private void ButCulcNormInduction_Click(object sender, EventArgs e)
+        private void cbSelectGraphicLine_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CalculateNormalPartOfInduction_ForGraphic();
+            selectedPair = pointsPairs[cbSelectGraphicLine.SelectedIndex];
+            tbX1.Text = selectedPair.Value.Point1.X.ToString();
+            tbY1.Text = selectedPair.Value.Point1.Y.ToString();
+            tbX2.Text = selectedPair.Value.Point2.X.ToString();
+            tbY2.Text = selectedPair.Value.Point2.Y.ToString();
+            pictureBox1.Invalidate();
         }
+
     }
 }
 

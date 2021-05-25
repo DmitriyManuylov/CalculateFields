@@ -606,6 +606,8 @@ namespace Calculating_Magnetic_Field
         {
             SaveFileDialog saveFileDialog = new SaveFileDialog();
 
+            saveFileDialog.DefaultExt = ".dat";
+            saveFileDialog.Filter = "Data files (*.dat)|*.dat|All files|*.*";
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
                 using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))

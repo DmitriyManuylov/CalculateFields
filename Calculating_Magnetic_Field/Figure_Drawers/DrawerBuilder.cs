@@ -89,7 +89,7 @@ namespace Calculating_Magnetic_Field.Figure_Drawers
 
                 }
             }
-                return result;
+            return result;
         }
     }
 }

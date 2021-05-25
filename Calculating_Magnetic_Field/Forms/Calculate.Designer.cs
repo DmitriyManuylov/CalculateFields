@@ -50,25 +50,34 @@
             this.changeDirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.butGetNodes = new System.Windows.Forms.Button();
             this.butCalcPotencial = new System.Windows.Forms.Button();
-            this.butCulcInduction = new System.Windows.Forms.Button();
-            this.butCulcForces = new System.Windows.Forms.Button();
-            this.butCalculatePower = new System.Windows.Forms.Button();
             this.groupBoxPhysicsElements = new System.Windows.Forms.GroupBox();
             this.butAddMagnet = new System.Windows.Forms.Button();
-            this.groupBoxForces = new System.Windows.Forms.GroupBox();
             this.groupBoxPowerLines = new System.Windows.Forms.GroupBox();
-            this.butBuildPowerLines = new System.Windows.Forms.Button();
             this.groupBoxGraphicsCalc = new System.Windows.Forms.GroupBox();
-            this.butCulcNormInduction = new System.Windows.Forms.Button();
-            this.butCalcPotencialForGraphic = new System.Windows.Forms.Button();
-            this.cbChooseGraphicType = new System.Windows.Forms.ComboBox();
+            this.groupBoxLinePoints = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbX2 = new System.Windows.Forms.TextBox();
+            this.tbY2 = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.tbX1 = new System.Windows.Forms.TextBox();
+            this.tbY1 = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.cbSelectGraphicLine = new System.Windows.Forms.ComboBox();
             this.butBuildGraphic = new System.Windows.Forms.Button();
+            this.cbChooseGraphicType = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbNumOfGraphicPoints = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBoxPhysicsElements.SuspendLayout();
-            this.groupBoxForces.SuspendLayout();
             this.groupBoxPowerLines.SuspendLayout();
             this.groupBoxGraphicsCalc.SuspendLayout();
+            this.groupBoxLinePoints.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // pictureBox1
@@ -78,7 +87,7 @@
             this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Right;
             this.pictureBox1.Location = new System.Drawing.Point(231, 24);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(758, 629);
+            this.pictureBox1.Size = new System.Drawing.Size(758, 716);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
@@ -261,36 +270,6 @@
             this.butCalcPotencial.UseVisualStyleBackColor = true;
             this.butCalcPotencial.Click += new System.EventHandler(this.ButCalcPotencial_Click);
             // 
-            // butCulcInduction
-            // 
-            this.butCulcInduction.Location = new System.Drawing.Point(16, 477);
-            this.butCulcInduction.Name = "butCulcInduction";
-            this.butCulcInduction.Size = new System.Drawing.Size(200, 34);
-            this.butCulcInduction.TabIndex = 11;
-            this.butCulcInduction.Text = "Рассчитать модуль индукции";
-            this.butCulcInduction.UseVisualStyleBackColor = true;
-            this.butCulcInduction.Click += new System.EventHandler(this.Button6_Click);
-            // 
-            // butCulcForces
-            // 
-            this.butCulcForces.Location = new System.Drawing.Point(3, 68);
-            this.butCulcForces.Name = "butCulcForces";
-            this.butCulcForces.Size = new System.Drawing.Size(206, 37);
-            this.butCulcForces.TabIndex = 12;
-            this.butCulcForces.Text = "Рассчитать силы при разных проницаемостях";
-            this.butCulcForces.UseVisualStyleBackColor = true;
-            this.butCulcForces.Click += new System.EventHandler(this.ButCulcForces_Click);
-            // 
-            // butCalculatePower
-            // 
-            this.butCalculatePower.Location = new System.Drawing.Point(3, 19);
-            this.butCalculatePower.Name = "butCalculatePower";
-            this.butCalculatePower.Size = new System.Drawing.Size(206, 38);
-            this.butCalculatePower.TabIndex = 10;
-            this.butCalculatePower.Text = "Рассчитать силу действия на груз";
-            this.butCalculatePower.UseVisualStyleBackColor = true;
-            this.butCalculatePower.Click += new System.EventHandler(this.CalculatePower_Click);
-            // 
             // groupBoxPhysicsElements
             // 
             this.groupBoxPhysicsElements.Controls.Add(this.butAddMagnet);
@@ -313,69 +292,155 @@
             this.butAddMagnet.UseVisualStyleBackColor = true;
             this.butAddMagnet.Click += new System.EventHandler(this.butAddMagnet_Click);
             // 
-            // groupBoxForces
-            // 
-            this.groupBoxForces.Controls.Add(this.butCalculatePower);
-            this.groupBoxForces.Controls.Add(this.butCulcForces);
-            this.groupBoxForces.Location = new System.Drawing.Point(7, 517);
-            this.groupBoxForces.Name = "groupBoxForces";
-            this.groupBoxForces.Size = new System.Drawing.Size(209, 124);
-            this.groupBoxForces.TabIndex = 15;
-            this.groupBoxForces.TabStop = false;
-            this.groupBoxForces.Text = "Расчёт сил";
-            // 
             // groupBoxPowerLines
             // 
-            this.groupBoxPowerLines.Controls.Add(this.butBuildPowerLines);
             this.groupBoxPowerLines.Controls.Add(this.butGetNodes);
             this.groupBoxPowerLines.Controls.Add(this.butCalcPotencial);
-            this.groupBoxPowerLines.Location = new System.Drawing.Point(10, 189);
+            this.groupBoxPowerLines.Location = new System.Drawing.Point(10, 197);
             this.groupBoxPowerLines.Name = "groupBoxPowerLines";
-            this.groupBoxPowerLines.Size = new System.Drawing.Size(206, 125);
+            this.groupBoxPowerLines.Size = new System.Drawing.Size(206, 98);
             this.groupBoxPowerLines.TabIndex = 16;
             this.groupBoxPowerLines.TabStop = false;
             this.groupBoxPowerLines.Text = "Расчёт картины поля";
             // 
-            // butBuildPowerLines
-            // 
-            this.butBuildPowerLines.Location = new System.Drawing.Point(2, 96);
-            this.butBuildPowerLines.Name = "butBuildPowerLines";
-            this.butBuildPowerLines.Size = new System.Drawing.Size(204, 23);
-            this.butBuildPowerLines.TabIndex = 12;
-            this.butBuildPowerLines.Text = "Построить силовые линии";
-            this.butBuildPowerLines.UseVisualStyleBackColor = true;
-            this.butBuildPowerLines.Click += new System.EventHandler(this.ButBuildPowerLines_Click);
-            // 
             // groupBoxGraphicsCalc
             // 
+            this.groupBoxGraphicsCalc.Controls.Add(this.groupBoxLinePoints);
+            this.groupBoxGraphicsCalc.Controls.Add(this.cbSelectGraphicLine);
             this.groupBoxGraphicsCalc.Controls.Add(this.butBuildGraphic);
             this.groupBoxGraphicsCalc.Controls.Add(this.cbChooseGraphicType);
             this.groupBoxGraphicsCalc.Location = new System.Drawing.Point(10, 320);
             this.groupBoxGraphicsCalc.Name = "groupBoxGraphicsCalc";
-            this.groupBoxGraphicsCalc.Size = new System.Drawing.Size(206, 77);
+            this.groupBoxGraphicsCalc.Size = new System.Drawing.Size(215, 370);
             this.groupBoxGraphicsCalc.TabIndex = 13;
             this.groupBoxGraphicsCalc.TabStop = false;
             this.groupBoxGraphicsCalc.Text = "Графики";
             // 
-            // butCulcNormInduction
+            // groupBoxLinePoints
             // 
-            this.butCulcNormInduction.Location = new System.Drawing.Point(16, 409);
-            this.butCulcNormInduction.Name = "butCulcNormInduction";
-            this.butCulcNormInduction.Size = new System.Drawing.Size(200, 34);
-            this.butCulcNormInduction.TabIndex = 18;
-            this.butCulcNormInduction.Text = "Рассчитать норм.сост. индукции";
-            this.butCulcNormInduction.UseVisualStyleBackColor = true;
-            this.butCulcNormInduction.Click += new System.EventHandler(this.ButCulcNormInduction_Click);
+            this.groupBoxLinePoints.Controls.Add(this.label5);
+            this.groupBoxLinePoints.Controls.Add(this.tbNumOfGraphicPoints);
+            this.groupBoxLinePoints.Controls.Add(this.groupBox2);
+            this.groupBoxLinePoints.Controls.Add(this.groupBox1);
+            this.groupBoxLinePoints.Location = new System.Drawing.Point(6, 73);
+            this.groupBoxLinePoints.Name = "groupBoxLinePoints";
+            this.groupBoxLinePoints.Size = new System.Drawing.Size(200, 252);
+            this.groupBoxLinePoints.TabIndex = 3;
+            this.groupBoxLinePoints.TabStop = false;
+            this.groupBoxLinePoints.Text = "Граничные точки линии";
             // 
-            // butCalcPotencialForGraphic
+            // groupBox2
             // 
-            this.butCalcPotencialForGraphic.Location = new System.Drawing.Point(16, 449);
-            this.butCalcPotencialForGraphic.Name = "butCalcPotencialForGraphic";
-            this.butCalcPotencialForGraphic.Size = new System.Drawing.Size(200, 23);
-            this.butCalcPotencialForGraphic.TabIndex = 12;
-            this.butCalcPotencialForGraphic.Text = "Рассчитать потенциал";
-            this.butCalcPotencialForGraphic.UseVisualStyleBackColor = true;
-            this.butCalcPotencialForGraphic.Click += new System.EventHandler(this.ButCalcPotencialForGraphic_Click);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.tbX2);
+            this.groupBox2.Controls.Add(this.tbY2);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Location = new System.Drawing.Point(3, 119);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(191, 75);
+            this.groupBox2.TabIndex = 0;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Точка 2";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(17, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "X:";
+            // 
+            // tbX2
+            // 
+            this.tbX2.Location = new System.Drawing.Point(29, 18);
+            this.tbX2.Name = "tbX2";
+            this.tbX2.ReadOnly = true;
+            this.tbX2.Size = new System.Drawing.Size(156, 20);
+            this.tbX2.TabIndex = 3;
+            // 
+            // tbY2
+            // 
+            this.tbY2.Location = new System.Drawing.Point(29, 41);
+            this.tbY2.Name = "tbY2";
+            this.tbY2.ReadOnly = true;
+            this.tbY2.Size = new System.Drawing.Size(156, 20);
+            this.tbY2.TabIndex = 4;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 44);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(17, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Y:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.tbX1);
+            this.groupBox1.Controls.Add(this.tbY1);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Location = new System.Drawing.Point(3, 21);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(191, 71);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Точка 1";
+            // 
+            // tbX1
+            // 
+            this.tbX1.Location = new System.Drawing.Point(29, 19);
+            this.tbX1.Name = "tbX1";
+            this.tbX1.ReadOnly = true;
+            this.tbX1.Size = new System.Drawing.Size(156, 20);
+            this.tbX1.TabIndex = 5;
+            // 
+            // tbY1
+            // 
+            this.tbY1.Location = new System.Drawing.Point(29, 45);
+            this.tbY1.Name = "tbY1";
+            this.tbY1.ReadOnly = true;
+            this.tbY1.Size = new System.Drawing.Size(156, 20);
+            this.tbY1.TabIndex = 2;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 48);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "Y:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(3, 22);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(17, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "X:";
+            // 
+            // cbSelectGraphicLine
+            // 
+            this.cbSelectGraphicLine.FormattingEnabled = true;
+            this.cbSelectGraphicLine.Location = new System.Drawing.Point(6, 46);
+            this.cbSelectGraphicLine.Name = "cbSelectGraphicLine";
+            this.cbSelectGraphicLine.Size = new System.Drawing.Size(200, 21);
+            this.cbSelectGraphicLine.TabIndex = 2;
+            this.cbSelectGraphicLine.SelectedIndexChanged += new System.EventHandler(this.cbSelectGraphicLine_SelectedIndexChanged);
+            // 
+            // butBuildGraphic
+            // 
+            this.butBuildGraphic.Location = new System.Drawing.Point(6, 331);
+            this.butBuildGraphic.Name = "butBuildGraphic";
+            this.butBuildGraphic.Size = new System.Drawing.Size(200, 23);
+            this.butBuildGraphic.TabIndex = 1;
+            this.butBuildGraphic.Text = "Построить график";
+            this.butBuildGraphic.UseVisualStyleBackColor = true;
+            this.butBuildGraphic.Click += new System.EventHandler(this.butBuildGraphic_Click);
             // 
             // cbChooseGraphicType
             // 
@@ -386,28 +451,30 @@
             this.cbChooseGraphicType.TabIndex = 0;
             this.cbChooseGraphicType.SelectedIndexChanged += new System.EventHandler(this.cbChooseGraphicType_SelectedIndexChanged);
             // 
-            // butBuildGraphic
+            // label5
             // 
-            this.butBuildGraphic.Location = new System.Drawing.Point(6, 48);
-            this.butBuildGraphic.Name = "butBuildGraphic";
-            this.butBuildGraphic.Size = new System.Drawing.Size(200, 23);
-            this.butBuildGraphic.TabIndex = 1;
-            this.butBuildGraphic.Text = "Построить график";
-            this.butBuildGraphic.UseVisualStyleBackColor = true;
-            this.butBuildGraphic.Click += new System.EventHandler(this.butBuildGraphic_Click);
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 200);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(100, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Количество точек:";
+            // 
+            // tbNumOfGraphicPoints
+            // 
+            this.tbNumOfGraphicPoints.Location = new System.Drawing.Point(6, 221);
+            this.tbNumOfGraphicPoints.Name = "tbNumOfGraphicPoints";
+            this.tbNumOfGraphicPoints.Size = new System.Drawing.Size(182, 20);
+            this.tbNumOfGraphicPoints.TabIndex = 5;
             // 
             // CalculateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(989, 653);
-            this.Controls.Add(this.butCulcNormInduction);
+            this.ClientSize = new System.Drawing.Size(989, 740);
             this.Controls.Add(this.butCalculate);
-            this.Controls.Add(this.butCulcInduction);
-            this.Controls.Add(this.butCalcPotencialForGraphic);
             this.Controls.Add(this.groupBoxGraphicsCalc);
             this.Controls.Add(this.groupBoxPowerLines);
-            this.Controls.Add(this.groupBoxForces);
             this.Controls.Add(this.groupBoxPhysicsElements);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
@@ -419,9 +486,14 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.groupBoxPhysicsElements.ResumeLayout(false);
-            this.groupBoxForces.ResumeLayout(false);
             this.groupBoxPowerLines.ResumeLayout(false);
             this.groupBoxGraphicsCalc.ResumeLayout(false);
+            this.groupBoxLinePoints.ResumeLayout(false);
+            this.groupBoxLinePoints.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -447,24 +519,31 @@
         private System.Windows.Forms.ToolStripMenuItem сантиметрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem миллиметрыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem глубинаToolStripMenuItem;
-        private System.Windows.Forms.Button butCulcInduction;
-        private System.Windows.Forms.Button butCulcForces;
         private System.Windows.Forms.ToolStripMenuItem CreateFileGeoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem CreateMshBasedOnGeoToolStripMenuItem;
-        private System.Windows.Forms.Button butCalculatePower;
         private System.Windows.Forms.GroupBox groupBoxPhysicsElements;
-        private System.Windows.Forms.GroupBox groupBoxForces;
         private System.Windows.Forms.GroupBox groupBoxPowerLines;
         private System.Windows.Forms.ToolStripMenuItem WriteNodesAndElementsToolStripMenuItem;
-        private System.Windows.Forms.Button butBuildPowerLines;
         private System.Windows.Forms.GroupBox groupBoxGraphicsCalc;
-        private System.Windows.Forms.Button butCalcPotencialForGraphic;
         private System.Windows.Forms.ToolStripMenuItem closeProblemToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem changeDirToolStripMenuItem;
         private System.Windows.Forms.Button butAddMagnet;
-        private System.Windows.Forms.Button butCulcNormInduction;
         private System.Windows.Forms.Button butBuildGraphic;
         private System.Windows.Forms.ComboBox cbChooseGraphicType;
+        private System.Windows.Forms.ComboBox cbSelectGraphicLine;
+        private System.Windows.Forms.GroupBox groupBoxLinePoints;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbX2;
+        private System.Windows.Forms.TextBox tbY2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox tbX1;
+        private System.Windows.Forms.TextBox tbY1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tbNumOfGraphicPoints;
     }
 }
 

@@ -25,7 +25,7 @@ namespace Calculating_Magnetic_Field.Figures
         /// </summary>
         public float Width { get; set; }
 
-        private float eps = 5e-9f;
+        private float eps = 1e-9f;
 
         Bound_Rib[] ribs = new Bound_Rib[2];
 

@@ -49,7 +49,7 @@ namespace Calculating_Magnetic_Field
 
         private PointD middleOfRib;
 
-        private double eps = 1e-12;
+        private double eps = 1e-9;
 
 
 
@@ -92,7 +92,7 @@ namespace Calculating_Magnetic_Field
         public bool IsPointOnRib(PointD point)
         {
             double p = (point.X - Point2.X) / (Point1.X - Point2.X);
-            if (Math.Abs(p - (point.Y - Point2.Y) / (Point1.Y - Point2.Y)) / LengthElement < eps && p >= 0 && p <= 1) return true;
+            if (Math.Abs(p - (point.Y - Point2.Y) / (Point1.Y - Point2.Y)) < eps && p >= 0 && p <= 1) return true;
             return false;
         }
 

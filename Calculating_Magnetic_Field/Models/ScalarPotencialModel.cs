@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using Calculating_Magnetic_Field.Sources.PotencialSources;
 using Calculating_Magnetic_Field.Figures;
-/*using MathNet.Numerics.LinearAlgebra;
-using MathNet.Numerics.LinearAlgebra.Double;
-using MathNet.Numerics.LinearAlgebra.Double.Solvers;*/
+
 using Extreme.Mathematics;
 using Extreme.Mathematics.LinearAlgebra;
 using Extreme.Mathematics.LinearAlgebra.IterativeSolvers;
@@ -65,16 +62,6 @@ namespace Calculating_Magnetic_Field.Models
         double[] FreeMemberFunOnBound;
 
         #endregion
-
-
-        #region для Интегральной формулы Грина
-        public List<ElementBasisFunction> boundElements;
-
-        #endregion
-
-
-        //double 
-
         //глубина модели по оси Oz
         private double depth;
 
@@ -85,14 +72,9 @@ namespace Calculating_Magnetic_Field.Models
             set { depth = value; }
         }
 
-        public double[,] PotencialValues { get; private set; }
-
-
         public double midV;
 
         double standart_field_property;
-
-
 
         private PhysicalField physicalField;
         public PhysicalField PhysicalField
@@ -199,42 +181,11 @@ namespace Calculating_Magnetic_Field.Models
             }
 
         }
-
-        public void AddMagnetic(Bound_Rectangle rectangle, int n, double right_mu, double left_mu)
-        {
-            bounds.Add(new Bound(rectangle, n, right_mu, left_mu));
-        }
-
-        public void AddMagnetic(Bound_Rectangle rectangleEx, Bound_Rectangle rectangleIm, int n, double right_mu, double left_mu)
-        {
-            bounds.Add(new Bound(rectangleEx, rectangleIm, n, right_mu, left_mu));
-        }
-
-        public void AddMagnetic(Bound_Circle circle, int n, double right_mu, double left_mu)
-        {
-            bounds.Add(new Bound(circle, n, right_mu, left_mu));
-        }
-
-        public void AddMagnetic(Bound_Frame bound_Frame, int n, double right_mu, double left_mu)
-        {
-            bounds.Add(new Bound(bound_Frame, n, right_mu, left_mu));
-        }
-
-
         public void AddSource(ISource source)
         {
             sources.Add(source);
         }
 
-        public void AddCoil(Bound_Rectangle rectangle, double Current, int n, int m)
-        {
-            sources.Add(new Coil(rectangle, Current, n, m));
-        }
-
-        public void AddMagnet(Bound_Rectangle rectangle, double M, SimpleDirections direction, int N)
-        {
-            //sources.Add(new ConstantMagnetScalarPot(rectangle, direction, M, N));
-        }
 
 
         #region Потенциал простого слоя
@@ -465,7 +416,7 @@ namespace Calculating_Magnetic_Field.Models
         /// <summary>
         /// Расчёт коэффициентов матрицы коэффициентов и столбца свободных членов
         /// </summary>
-        void CalculateCoefficientsForVectorPotencialWithoutRegularization()
+        void CalculateCoefficientsForScalarPotencialWithoutRegularization()
         {
             double lambdaI, lambdaJ;
             int ni = 0;
@@ -602,6 +553,17 @@ namespace Calculating_Magnetic_Field.Models
                                 {
                                     grad = sources[k].GetGradientValue(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
                                     CoilsPotencialGradientOnBound[nj + j] += grad;
+
+                                    if (sources[k] is ChargedThread pointSource)
+                                    {
+                                        Bound_Rib rib = bounds[i].Bound_Ribs[j];
+                                        if (pointSource.Location.X == rib.Point1.X && pointSource.Location.Y == rib.Point1.Y
+                                                ||
+                                            pointSource.Location.X == rib.Point2.X && pointSource.Location.Y == rib.Point2.Y)
+                                        {
+                                            continue;
+                                        }
+                                    }
                                     FreeMemberFunOnBound[nj + j] += bounds[i].Bound_Ribs[j].Normal.CosAlpha * grad.X_component + bounds[i].Bound_Ribs[j].Normal.CosBeta * grad.Y_component;
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
@@ -876,7 +838,7 @@ namespace Calculating_Magnetic_Field.Models
             CalculateSourcesFieldInboundsPoints();
             CalculateMiddleValuesOf_Bn();
 
-            CalculateCoefficientsForVectorPotencialWithoutRegularization();
+            CalculateCoefficientsForScalarPotencialWithoutRegularization();
 
             matrix = Matrix.Create(MatrixA);
             /*for (int i = 0; i < n; i++)

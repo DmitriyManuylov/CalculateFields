@@ -1,7 +1,7 @@
 ﻿
 namespace Calculating_Magnetic_Field.Forms.Graphics
 {
-    partial class ChooseGraphic
+    partial class SelectGraphic
     {
         /// <summary>
         /// Required designer variable.

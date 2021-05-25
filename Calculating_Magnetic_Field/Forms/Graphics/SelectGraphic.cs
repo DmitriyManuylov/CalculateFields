@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace Calculating_Magnetic_Field.Forms.Graphics
 {
-    public partial class ChooseGraphic : Form
+    public partial class SelectGraphic : Form
     {
         public string Label { get; private set; }
-        public ChooseGraphic(List<string> labels)
+        public SelectGraphic(List<string> labels)
         {
             InitializeComponent();
             labelsList.Items.AddRange(labels.ToArray());

@@ -71,8 +71,8 @@ namespace Calculating_Magnetic_Field.Models
             double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
 
             if (ribN == ribM) return 0;
-            PointPosition pointPosition = ribN.Classify(pointM);
-            if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return 0;
+            //PointPosition pointPosition = ribN.Classify(pointM);
+            //if (pointPosition != PointPosition.LEFT && pointPosition != PointPosition.RIGHT) return 0;
 
             return ribN.LengthElement * ((pointM.X - pointN.X) * ribN.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribN.Normal.CosBeta) / r2;
         }

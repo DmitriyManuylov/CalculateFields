@@ -54,37 +54,8 @@ namespace Calculating_Magnetic_Field
                 X_component = (p2.X - p1.X) / rib.LengthElement,
                 Y_component = (p2.Y - p1.Y) / rib.LengthElement
             };
-
-            this.n = n;
-            double dx = (p2.X - p1.X) / (n - 1);
-            double dy = (p2.Y - p1.Y) / (n - 1);
-
-            points = new List<PointD>(n);
-            function = new List<double>(n);
-            L = new List<double>(n);
-            for (int i = 0; i < n; i++)
-            {
-                points.Add(new PointD(p1.X + i * dx, p1.Y + i * dy));
-            }
-            startPoint = points[0];
-            for(int i = n - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < model.Bounds.Count; j++)
-                {
-                    if (model.Bounds[j].IsPointOnBorder(points[i], eps))
-                    {
-                        points.RemoveAt(i);
-                        break;
-                    }
-                }
-            }
-            n = points.Count;
-            this.n = n;
-            for (int i = 0; i < n; i++)
-            {
-                L.Add(points[i].DistanceToOtherPoint(startPoint));
-            }
-            function = new List<double>(n);
+            SplitOnPoints(p1, p2, n);
+            function = new List<double>(this.n);
             switch (graphicTypes)
             {
                 case GraphicTypes.InductionModul:
@@ -159,6 +130,38 @@ namespace Calculating_Magnetic_Field
                     }
             }
             return function;
+        }
+
+        private void SplitOnPoints(PointD p1, PointD p2, int n)
+        {
+            double dx = (p2.X - p1.X) / (n - 1);
+            double dy = (p2.Y - p1.Y) / (n - 1);
+
+            points = new List<PointD>(n);
+            function = new List<double>(n);
+            L = new List<double>(n);
+            for (int i = 0; i < n; i++)
+            {
+                points.Add(new PointD(p1.X + i * dx, p1.Y + i * dy));
+            }
+            startPoint = points[0];
+            for (int i = n - 1; i >= 0; i--)
+            {
+                for (int j = 0; j < model.Bounds.Count; j++)
+                {
+                    if (model.Bounds[j].IsPointOnBorder(points[i], eps))
+                    {
+                        points.RemoveAt(i);
+                        break;
+                    }
+                }
+            }
+            n = points.Count;
+            this.n = n;
+            for (int i = 0; i < n; i++)
+            {
+                L.Add(points[i].DistanceToOtherPoint(startPoint));
+            }
         }
 
         private List<double> CalculateInductionModul()

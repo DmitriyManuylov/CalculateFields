@@ -2,6 +2,7 @@
 using Calculating_Magnetic_Field.Sources;
 using Calculating_Magnetic_Field.Sources.PotencialSources;
 using System;
+using System.IO;
 
 namespace Calculating_Magnetic_Field.ModelFactories
 {
@@ -100,6 +101,47 @@ namespace Calculating_Magnetic_Field.ModelFactories
                 if (bound.IsPointOnBorder(location))
                 {
                     owner_bound = bound;
+                    double r_c;
+                    double r1;
+                    double r2;
+                    int count = bound.Bound_Ribs.Count;
+                    for (int i = 0; i < bound.Bound_Ribs.Count; i++)
+                    {
+                        r_c = bound.Bound_Ribs[i].GetMiddleOfRib().DistanceToOtherPoint(location);
+                        
+                        if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
+                        {
+                            Bound_Rib rib = bound.Bound_Ribs[i];
+                            double length = rib.LengthElement;
+                            r1 = rib.Point1.DistanceToOtherPoint(location);
+                            r2 = rib.Point2.DistanceToOtherPoint(location);
+                            using (StreamWriter writer = new StreamWriter($"C:\\Users\\Димка\\Desktop\\Анализ\\{bound.Bound_Ribs.Count}.{model.Sources.Count}.txt"))
+                            {
+                                writer.WriteLine($"Длина элемента: {length}");
+                                writer.WriteLine($"r_c: {r_c}");
+                                writer.WriteLine($"r1: {r1}");
+                                writer.WriteLine($"r2: {r2}");
+                            }
+
+
+                            if (r1 < length / 4)
+                            {
+                                bound.Bound_Ribs[(i - 1 + count) % count].Point2 = location;
+                                bound.Bound_Ribs[i].Point1 = location;
+                            }
+                            else if (r2 < length / 4)
+                            {
+                                bound.Bound_Ribs[i].Point2 = location;
+                                bound.Bound_Ribs[(i + 1) % count].Point1 = location;
+                            }
+                            else
+                            {
+                                bound.Bound_Ribs.Insert((i + 1) % count, new Bound_Rib(location, rib.Point2));
+                                rib.Point2 = location;
+                            }
+                            return true;
+                        }
+                    }
                     //for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                     //{
                     //    PointPosition pointPosition = bound.Bound_Ribs[i].Classify(location);
@@ -132,6 +174,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
                     //    }
 
                     //}
+                    return true;
                 }
             }
             owner_bound = null;

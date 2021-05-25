@@ -145,11 +145,11 @@
       <DependentUpon>Calculate.cs</DependentUpon>
     </Compile>
     <Compile Include="Figures\Bound_Circle.cs" />
-    <Compile Include="Forms\Graphics\ChooseGraphic.cs">
+    <Compile Include="Forms\Graphics\SelectGraphic.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Graphics\ChooseGraphic.Designer.cs">
-      <DependentUpon>ChooseGraphic.cs</DependentUpon>
+    <Compile Include="Forms\Graphics\SelectGraphic.Designer.cs">
+      <DependentUpon>SelectGraphic.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphicTypes.cs" />
     <Compile Include="Forms\PicBox.cs">
@@ -234,8 +234,8 @@
     <EmbeddedResource Include="Forms\DepthForm.resx">
       <DependentUpon>DepthForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Graphics\ChooseGraphic.resx">
-      <DependentUpon>ChooseGraphic.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Graphics\SelectGraphic.resx">
+      <DependentUpon>SelectGraphic.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Graphics\GraphicsBildingForm.resx">
       <DependentUpon>GraphicsBildingForm.cs</DependentUpon>

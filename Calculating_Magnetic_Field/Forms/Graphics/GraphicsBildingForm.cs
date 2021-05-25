@@ -494,7 +494,8 @@ namespace Calculating_Magnetic_Field
                     pointPairs.Last().Add(points[i], functions.Last()[i]);
                 }
 
-                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, SymbolType.Star));
+                SymbolType symbolType = (SymbolType)functions.Count - 1;
+                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, symbolType));
                 curves.Last().Line.Width = 1.0f; // толщина линии курвы
                 curves.Last().Line.IsSmooth = false; //Сглаживание курвы.
                 curves.Last().Line.IsAntiAlias = true;
@@ -503,23 +504,23 @@ namespace Calculating_Magnetic_Field
                 curves.Last().Symbol.Size = 3f;
 
 
-                var graphics = ZDc.CreateGraphics();
-                var curve = pane.CurveList.Last();
-                var line = curve as LineItem;
+                //var graphics = ZDc.CreateGraphics();
+                //var curve = pane.CurveList.Last();
+                //var line = curve as LineItem;
 
-                string coords;
-                curve.GetCoords(pane, line.Points.Count / 3, out coords);
-                string[] coords_arr = coords.Split(',');
-                float[] arr = new float[4];
-                for (int i = 0; i < 4; i++)
-                {
-                    arr[i] = Single.Parse(coords_arr[i]);
-                }
-                PointF point1 = new PointF(arr[0], arr[1]);
-                float width = arr[2] - arr[0];
-                float height = arr[3] - arr[1];
-                RectangleF rectangleF = new RectangleF(point1, new SizeF(width, height));
-                pane.CurveList.Last().DrawLegendKey(graphics, pane, rectangleF, pane.CalcScaleFactor());
+                //string coords;
+                //curve.GetCoords(pane, line.Points.Count / 3, out coords);
+                //string[] coords_arr = coords.Split(',');
+                //float[] arr = new float[4];
+                //for (int i = 0; i < 4; i++)
+                //{
+                //    arr[i] = Single.Parse(coords_arr[i]);
+                //}
+                //PointF point1 = new PointF(arr[0], arr[1]);
+                //float width = arr[2] - arr[0];
+                //float height = arr[3] - arr[1];
+                //RectangleF rectangleF = new RectangleF(point1, new SizeF(width, height));
+                //pane.CurveList.Last().DrawLegendKey(graphics, pane, rectangleF, pane.CalcScaleFactor());
                 ZDc.Refresh();
             }
         }
@@ -545,7 +546,7 @@ namespace Calculating_Magnetic_Field
                 labels.Add(pane.CurveList[i].Label.Text);
             }
             string label;
-            Forms.Graphics.ChooseGraphic chooseGraphic = new Forms.Graphics.ChooseGraphic(labels);
+            Forms.Graphics.SelectGraphic chooseGraphic = new Forms.Graphics.SelectGraphic(labels);
             switch (chooseGraphic.ShowDialog())
             {
                 case DialogResult.OK:
