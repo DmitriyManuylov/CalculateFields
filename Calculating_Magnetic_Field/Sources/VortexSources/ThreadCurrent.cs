@@ -60,6 +60,8 @@ namespace Calculating_Magnetic_Field
             }
         }
 
+        public double FieldProperty { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
         public ThreadCurrent(PointD location, double current)
         {
             this.location = location;

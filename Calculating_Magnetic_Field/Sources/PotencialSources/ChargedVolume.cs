@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculating_Magnetic_Field.Sources.PotencialSources
 {
-    class ChargedVolume : IVolumeSource, ISource
+    public class ChargedVolume : IVolumeSource, ISource
     {
         double chargeDensity;
 

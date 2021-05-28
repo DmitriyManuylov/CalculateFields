@@ -83,6 +83,18 @@ namespace Calculating_Magnetic_Field
             return false;
         }
 
+        public bool IsVerticalStrictly()
+        {
+            if (Point1.X == Point2.X) return true;
+            return false;
+        }
+
+        public bool IsHorizontalStrictly()
+        {
+            if (Point1.Y == Point2.Y) return true;
+            return false;
+        }
+
         public bool IsPointOnLine(PointD point)
         {
             if (DistanceFromPointToLine(point) < eps) return true;
@@ -117,6 +129,26 @@ namespace Calculating_Magnetic_Field
             if (Math.Abs(Point1.X - point.X) < eps && Math.Abs(Point1.Y - point.Y) < eps)
                 return PointPosition.ORIGIN;
             if (Math.Abs(Point2.X - point.X) < eps && Math.Abs(Point2.Y - point.Y) < eps)
+                return PointPosition.DESTINATION;
+            return PointPosition.BETWEEN;
+        }
+
+        public PointPosition StrictClassify(PointD point)
+        {
+            PointD a = new PointD(Point2.X - Point1.X, Point2.Y - Point1.Y);
+            PointD b = new PointD(point.X - Point1.X, point.Y - Point1.Y);
+            double D = (point.X - Point1.X) * (Point2.Y - Point1.Y) - (point.Y - Point1.Y) * (Point2.X - Point1.X);
+            if (D > 0)
+                return PointPosition.LEFT;
+            if (D < 0)
+                return PointPosition.RIGHT;
+            if ((a.X * b.X < 0.0) || (a.Y * b.Y < 0.0))
+                return PointPosition.BEHIND;
+            if (LengthElement < Point1.DistanceToOtherPoint(point))
+                return PointPosition.BEYOND;
+            if (Point1.X == point.X && Point1.Y == point.Y)
+                return PointPosition.ORIGIN;
+            if (Point2.X == point.X && Point2.Y == point.Y)
                 return PointPosition.DESTINATION;
             return PointPosition.BETWEEN;
         }

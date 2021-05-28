@@ -55,6 +55,8 @@
             this.groupBoxPowerLines = new System.Windows.Forms.GroupBox();
             this.groupBoxGraphicsCalc = new System.Windows.Forms.GroupBox();
             this.groupBoxLinePoints = new System.Windows.Forms.GroupBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tbNumOfGraphicPoints = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             this.tbX2 = new System.Windows.Forms.TextBox();
@@ -68,8 +70,6 @@
             this.cbSelectGraphicLine = new System.Windows.Forms.ComboBox();
             this.butBuildGraphic = new System.Windows.Forms.Button();
             this.cbChooseGraphicType = new System.Windows.Forms.ComboBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.tbNumOfGraphicPoints = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBoxPhysicsElements.SuspendLayout();
@@ -329,6 +329,23 @@
             this.groupBoxLinePoints.TabStop = false;
             this.groupBoxLinePoints.Text = "Граничные точки линии";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 200);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(100, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Количество точек:";
+            // 
+            // tbNumOfGraphicPoints
+            // 
+            this.tbNumOfGraphicPoints.Location = new System.Drawing.Point(6, 221);
+            this.tbNumOfGraphicPoints.Name = "tbNumOfGraphicPoints";
+            this.tbNumOfGraphicPoints.Size = new System.Drawing.Size(182, 20);
+            this.tbNumOfGraphicPoints.TabIndex = 5;
+            this.tbNumOfGraphicPoints.Text = "100";
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.label3);
@@ -450,22 +467,6 @@
             this.cbChooseGraphicType.Size = new System.Drawing.Size(200, 21);
             this.cbChooseGraphicType.TabIndex = 0;
             this.cbChooseGraphicType.SelectedIndexChanged += new System.EventHandler(this.cbChooseGraphicType_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 200);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Количество точек:";
-            // 
-            // tbNumOfGraphicPoints
-            // 
-            this.tbNumOfGraphicPoints.Location = new System.Drawing.Point(6, 221);
-            this.tbNumOfGraphicPoints.Name = "tbNumOfGraphicPoints";
-            this.tbNumOfGraphicPoints.Size = new System.Drawing.Size(182, 20);
-            this.tbNumOfGraphicPoints.TabIndex = 5;
             // 
             // CalculateForm
             // 

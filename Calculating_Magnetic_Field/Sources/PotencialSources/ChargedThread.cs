@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculating_Magnetic_Field.Sources.PotencialSources
 {
-    class ChargedThread : IPointSource, ISource
+    public class ChargedThread : IPointSource, ISource
     {
         private double standart_field_property;
 
@@ -55,6 +55,19 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
                         }
                 }
                 physicalField = value;
+            }
+        }
+
+        private double fieldProperty;
+        public double FieldProperty
+        {
+            get
+            {
+                return fieldProperty;
+            }
+            set
+            {
+                fieldProperty = value;
             }
         }
 

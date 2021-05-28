@@ -75,40 +75,6 @@ namespace Calculating_Magnetic_Field
 
             figuresForDrawing = new List<IDrawable>();
 
-            #region Создание магнитов
-            /* model = new Model(1);
-
-            SizeScale = 0.01f;
-             Depth = 100;
-             model = new Model(Depth * SizeScale);
-
-             Bound_Rectangle coilRect1 = new Bound_Rectangle(new PointF(-3f, 4f), 2f, 8f, SizeScale);
-             Bound_Rectangle coilRect2 = new Bound_Rectangle(new PointF(1f, 4f), 2f, 8f, SizeScale);
-             Bound_Rectangle coilRect3 = new Bound_Rectangle(new PointF(-3, 8), 6f, 2f, SizeScale);
-             Bound_Rectangle magRect1 = new Bound_Rectangle(new PointF(-1f, 4f), 2f, 8f, SizeScale);
-             bound_Rectangles.Add(magRect1);
-             Bound_Rectangle magRect2 = new Bound_Rectangle(new PointF(-2.5f, -4.2f), 5f, 2f, SizeScale);
-             bound_Rectangles.Add(magRect2);
-
-             model.AddCoil(coilRect1, 100, 50, 50);
-             model.AddCoil(coilRect2, -100, 50, 50);
-             //model.AddCoil(coilRect3, 30, 50, 50);
-             //model.AddBorderOfEnvironments(bound_Circle, 300, 1, 17000);
-             model.AddBorderOfEnvironments(magRect1, 100, 1, 700);
-             model.AddBorderOfEnvironments(magRect2, 100, 1, 700);*/
-
-            /*Bound_Rectangle coilRect1 = new Bound_Rectangle(new PointF(-13f, 17f), 26f, 5f, SizeScale);
-            Bound_Rectangle coilRect2 = new Bound_Rectangle(new PointF(-13f, -2f), 26f, 5f, SizeScale);
-            Bound_Rectangle magRect1 = new Bound_Rectangle(new PointF(-25f, 10f), 50f, 50f, SizeScale);
-            Bound_Rectangle magRect2 = new Bound_Rectangle(new PointF(-15f, 0f), 30f, 40f, SizeScale);
-            bound_Rectangles.Add(magRect1);
-            Bound_Rectangle magRect3 = new Bound_Rectangle(new PointF(-25f, -42f), 50f, 20f, SizeScale);
-            bound_Rectangles.Add(magRect3);
-            model.AddCoil(coilRect1, 100, 50, 50);
-            model.AddCoil(coilRect2, -100, 50, 50);
-            model.AddBorderOfEnvironments(magRect1, magRect2, 100, 1, 700);
-            model.AddBorderOfEnvironments(magRect3, 100, 1, 700);*/
-            #endregion
 
             Depth = 1000;
             SizeScale = 0.001f;
@@ -117,35 +83,6 @@ namespace Calculating_Magnetic_Field
             cbChooseGraphicType.DataSource = Enum.GetValues(typeof(GraphicTypes));
             cbChooseGraphicType.SelectedIndex = 0;
 
-            /*modelFactory = new VectorModelFactory();
-            model = modelFactory.CreateModel(Depth * SizeScale);*/
-
-
-            /*Bound_Rectangle rect = new Bound_Rectangle(new PointF(-20f, 20f), 40f, 40f, SizeScale);
-            Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-12f, 12f), 8f, 24f, SizeScale);
-            Bound_Rectangle coil2 = new Bound_Rectangle(new PointF(4f, 12f), 8f, 24f, SizeScale);
-            model.AddBorderOfEnvironments(rect, 100, double.MaxValue, 1);
-            model.AddCoil(coil1, 50, 60, 60);
-            model.AddCoil(coil2, -50, 60, 60);
-
-            figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(rect, DrawingScale)));
-            figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil1, DrawingScale)));
-            figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil2, DrawingScale)));*/
-            
-            //Bound_Rectangle rect = new Bound_Rectangle(new PointF(-20f, 20f), 40f, 40f, SizeScale);
-            //Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-8f, 8f), 16f, 16f, SizeScale);
-
-            //Bound_Rectangle coil1 = new Bound_Rectangle(new PointF(-12f, 12f), 8f, 24f, SizeScale);
-            //Bound_Rectangle coil2 = new Bound_Rectangle(new PointF(4f, 12f), 8f, 24f, SizeScale);
-
-            //model.AddMagnet(coil2, 50000, SimpleDirections.FromTopToBottom);
-
-
-            /**model.AddBorderOfEnvironments(rect, 200, 100000000, 1);
-            model.AddSource(modelFactory.CreateResidualIntensitySource(coil1, SimpleDirections.FromBottomToTop, 979000, 300));
-            figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(rect, DrawingScale)));
-            figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil1, DrawingScale)));*/
-            //figuresForDrawing.Add(new RectangleDrawer(pictureBox1, new Bound_Rectangle(coil2, DrawingScale)));
 
         }
 
@@ -206,6 +143,7 @@ namespace Calculating_Magnetic_Field
             InitPointsForGraphic();
             selectedPair = pointsPairs[10];
             FillComboBoxOfLineSelecting();
+            cbChooseGraphicType.SelectedIndex = 13;
             cbSelectGraphicLine.SelectedIndex = 10;
             pictureBox1.Invalidate();
         }
@@ -525,10 +463,6 @@ namespace Calculating_Magnetic_Field
             }*/
         }
 
-        private void Button6_Click(object sender, EventArgs e)
-        {
-            CalculateModulOfInduction_ForGraphic();
-        }
         
 
         private void ButGetNodes_Click(object sender, EventArgs e)

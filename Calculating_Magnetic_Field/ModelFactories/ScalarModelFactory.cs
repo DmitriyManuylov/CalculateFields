@@ -33,33 +33,37 @@ namespace Calculating_Magnetic_Field.ModelFactories
             result = new ChargedThread(location, SourcePower);
             result.PhysicalField = physicalField;
             Bound bound;
-            if(model.Potencial.TypeOFPotencial == PotencialTypes.PDL)
-            {
-                return result;
-            }    
 
-            if(isPointSourceOnBound(location, model, out bound))
+            if (isPointSourceOnBound(location, model, out bound))
             {
-                result.SourcePower /= (bound.Left_Mu + bound.Right_Mu) / 2;
-                return result;
+                result.FieldProperty = (bound.Left_Mu + bound.Right_Mu) / 2;
             }
-            if (!model.Bounds[0].IsContaisPoint(location))
+            else if (!model.Bounds[0].IsContaisPoint(location))
             {
-                result.SourcePower /= model.Bounds[0].Right_Mu;
-                return result;
+                result.FieldProperty = model.Bounds[0].Right_Mu;
             }
-            for(int i = 1; i < model.Bounds.Count; i++)
+            else if (model.Bounds[0].IsContaisPoint(location))
             {
-                if (model.Bounds[i].IsContaisPoint(location))
+                result.FieldProperty = model.Bounds[0].Left_Mu;
+            }
+            else
+            {
+                for (int i = 1; i < model.Bounds.Count; i++)
                 {
-                    result.SourcePower /= model.Bounds[i].Left_Mu;
-                    return result;
+                    if (model.Bounds[i].IsContaisPoint(location))
+                    {
+                        result.FieldProperty = model.Bounds[i].Left_Mu;
+                        break;
+                    }
                 }
             }
-            if (model.Bounds[0].IsContaisPoint(location))
+
+            if (physicalField == PhysicalField.Current)
             {
-                result.SourcePower /= model.Bounds[0].Left_Mu;
-                return result;
+                if (model.Potencial.TypeOFPotencial == PotencialTypes.PSL)
+                {
+                    result.SourcePower /= result.FieldProperty;
+                }
             }
             return result;
         }
@@ -108,21 +112,13 @@ namespace Calculating_Magnetic_Field.ModelFactories
                     for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                     {
                         r_c = bound.Bound_Ribs[i].GetMiddleOfRib().DistanceToOtherPoint(location);
-                        
+
                         if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
                         {
                             Bound_Rib rib = bound.Bound_Ribs[i];
                             double length = rib.LengthElement;
                             r1 = rib.Point1.DistanceToOtherPoint(location);
                             r2 = rib.Point2.DistanceToOtherPoint(location);
-                            using (StreamWriter writer = new StreamWriter($"C:\\Users\\Димка\\Desktop\\Анализ\\{bound.Bound_Ribs.Count}.{model.Sources.Count}.txt"))
-                            {
-                                writer.WriteLine($"Длина элемента: {length}");
-                                writer.WriteLine($"r_c: {r_c}");
-                                writer.WriteLine($"r1: {r1}");
-                                writer.WriteLine($"r2: {r2}");
-                            }
-
 
                             if (r1 < length / 4)
                             {
@@ -139,41 +135,10 @@ namespace Calculating_Magnetic_Field.ModelFactories
                                 bound.Bound_Ribs.Insert((i + 1) % count, new Bound_Rib(location, rib.Point2));
                                 rib.Point2 = location;
                             }
+
                             return true;
                         }
                     }
-                    //for (int i = 0; i < bound.Bound_Ribs.Count; i++)
-                    //{
-                    //    PointPosition pointPosition = bound.Bound_Ribs[i].Classify(location);
-                    //    switch (pointPosition)
-                    //    {
-                    //        case PointPosition.BETWEEN:
-                    //            {
-                    //                bound.Bound_Ribs.RemoveAt(i);
-                    //                return true;
-                    //            }
-                    //        case PointPosition.ORIGIN:
-                    //            {
-                    //                if (i == 0)
-                    //                {
-                    //                    bound.Bound_Ribs.RemoveAt(i);
-                    //                    bound.Bound_Ribs.RemoveAt(bound.Bound_Ribs.Count - 1);
-                    //                }
-                    //                else
-                    //                {
-                    //                    bound.Bound_Ribs.RemoveAt(i);
-                    //                    bound.Bound_Ribs.RemoveAt(i-1);
-                    //                }
-                    //                return true;
-                    //            }
-                    //        case PointPosition.DESTINATION:
-                    //            {
-                    //                bound.Bound_Ribs.RemoveRange(i, 2);
-                    //                return true;
-                    //            }
-                    //    }
-
-                    //}
                     return true;
                 }
             }

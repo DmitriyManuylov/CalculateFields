@@ -9,7 +9,7 @@ using Extreme.Mathematics.LinearAlgebra;
 using Extreme.Mathematics.LinearAlgebra.IterativeSolvers;
 using Extreme.Mathematics.LinearAlgebra.IterativeSolvers.Preconditioners;
 using Calculating_Magnetic_Field.ModelFactories;
-
+using Calculating_Magnetic_Field.Sources;
 
 namespace Calculating_Magnetic_Field.Models
 {
@@ -551,12 +551,12 @@ namespace Calculating_Magnetic_Field.Models
                             for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                                 for (int k = 0; k < sources.Count; k++)
                                 {
-                                    grad = sources[k].GetGradientValue(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
+                                    Bound_Rib rib = bounds[i].Bound_Ribs[j];
+                                    grad = sources[k].GetGradientValue(rib.GetMiddleOfRib());
                                     CoilsPotencialGradientOnBound[nj + j] += grad;
 
                                     if (sources[k] is ChargedThread pointSource)
                                     {
-                                        Bound_Rib rib = bounds[i].Bound_Ribs[j];
                                         if (pointSource.Location.X == rib.Point1.X && pointSource.Location.Y == rib.Point1.Y
                                                 ||
                                             pointSource.Location.X == rib.Point2.X && pointSource.Location.Y == rib.Point2.Y)
@@ -564,7 +564,7 @@ namespace Calculating_Magnetic_Field.Models
                                             continue;
                                         }
                                     }
-                                    FreeMemberFunOnBound[nj + j] += bounds[i].Bound_Ribs[j].Normal.CosAlpha * grad.X_component + bounds[i].Bound_Ribs[j].Normal.CosBeta * grad.Y_component;
+                                    FreeMemberFunOnBound[nj + j] += rib.Normal.CosAlpha * grad.X_component + rib.Normal.CosBeta * grad.Y_component;
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
                         }
@@ -577,9 +577,11 @@ namespace Calculating_Magnetic_Field.Models
                             for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                                 for (int k = 0; k < sources.Count; k++)
                                 {
-                                    grad = sources[k].GetGradientValue(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
+                                    Bound_Rib rib = bounds[i].Bound_Ribs[j];
+                                    grad = sources[k].GetGradientValue(rib.GetMiddleOfRib());
                                     CoilsPotencialGradientOnBound[nj + j] += grad;
-                                    FreeMemberFunOnBound[nj + j] += sources[k].GetPotencialValue(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
+                                    FreeMemberFunOnBound[nj + j] += sources[k].GetPotencialValue(rib.GetMiddleOfRib());
+
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
                         }
@@ -650,31 +652,56 @@ namespace Calculating_Magnetic_Field.Models
         #region Расчёт величин
         public Vector2D CalculateInduction(PointD pointM)
         {
+            double fieldProperty;
+            Vector2D sources_field;
+            Vector2D reaction_field;
+            Vector2D source_field;
             Vector2D result;
+
+            sources_field.X_component = 0;
+            sources_field.Y_component = 0;
+
+            reaction_field.X_component = 0;
+            reaction_field.Y_component = 0;
+            
+            source_field.X_component = 0;
+            source_field.Y_component = 0;
+
             result.X_component = 0;
             result.Y_component = 0;
+
             Bound bound = GetOwnerField(pointM);
-            double fieldProperty;
+            if (bound == null)
+            {
+                fieldProperty = Bounds[0].Right_Mu;
+            }
+            else fieldProperty = bound.Left_Mu;
 
             for (int i = 0; i < sources.Count; i++)
             {
-                result += sources[i].GetInductionValue(pointM);
-            }
-            result += CalculateReactionInduction(pointM);
+                source_field = sources[i].GetInductionValue(pointM);
+                //if (Potencial.TypeOFPotencial == PotencialTypes.PDL)
+                //{
+                //    if (sources[i] is IPointSource source)
+                //    {
 
-            if (Potencial.TypeOFPotencial == PotencialTypes.PSL)
-            {
-                if (bound == null)
-                {
-                    fieldProperty = Bounds[0].Right_Mu;
-                }
-                else fieldProperty = bound.Left_Mu;
-                result *= fieldProperty;
+                //        source_field /= source.FieldProperty;
+
+                //    }
+                //}
+                sources_field += source_field;
             }
             
+            reaction_field = CalculateReactionInduction(pointM);
+            if (Potencial.TypeOFPotencial == PotencialTypes.PSL)
+            {
+                sources_field *= fieldProperty;
+                reaction_field *= fieldProperty;
+            }
+            
+            result = sources_field + reaction_field;
 
             return depth * result;
-            //return result;
         }
 
         private Vector2D CalculateReactionInduction(PointD pointM)
@@ -841,11 +868,7 @@ namespace Calculating_Magnetic_Field.Models
             CalculateCoefficientsForScalarPotencialWithoutRegularization();
 
             matrix = Matrix.Create(MatrixA);
-            /*for (int i = 0; i < n; i++)
-                for (int j = 0; j < n; j++)
-                    matrix[i, j] = MatrixA[i, j];
-            for (int i = 0; i < n; i++)
-                vectorB[i] = VectorB[i];*/
+
             vectorB = Vector.Create(VectorB);
 
             BiCgStabSolve = new BiConjugateGradientSolver<double>(matrix);

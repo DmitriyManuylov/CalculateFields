@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Calculating_Magnetic_Field.Sources.PotencialSources
 {
-    class ChargedLine : ILinearSource, ISource
+    public class ChargedLine : ILinearSource, ISource
     {
         private double standart_field_property;
 

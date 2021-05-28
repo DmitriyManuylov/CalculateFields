@@ -11,6 +11,7 @@ namespace Calculating_Magnetic_Field
     {
 
         PhysicalField PhysicalField { get; set; }
+
         Vector2D GetInductionValue(PointD PointM);
 
         Vector2D GetIntensityValue(PointD PointM);

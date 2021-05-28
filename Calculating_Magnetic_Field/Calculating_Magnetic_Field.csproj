@@ -213,6 +213,7 @@
     <Compile Include="Reports.cs" />
     <Compile Include="Sources\PotencialSources\ChargedLine.cs" />
     <Compile Include="Sources\PotencialSources\ChargedVolume.cs" />
+    <Compile Include="Trigonometry.cs" />
     <Compile Include="Vector2D.cs" />
     <Compile Include="Work_With_Files.cs" />
     <Compile Include="WriteData.cs" />

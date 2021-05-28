@@ -11,5 +11,7 @@ namespace Calculating_Magnetic_Field.Sources
         PointD Location { get; set; }
 
         double SourcePower { get; set; }
+
+        double FieldProperty { get; set; }
     }
 }

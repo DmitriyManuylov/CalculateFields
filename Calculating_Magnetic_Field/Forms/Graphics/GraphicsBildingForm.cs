@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ZedGraph;
+using System.Drawing.Drawing2D;
 
 namespace Calculating_Magnetic_Field
 {
@@ -45,13 +46,20 @@ namespace Calculating_Magnetic_Field
             this.points1D = points;
             this.function = function;
             this.graphicType = graphicType;
+            this.physicalField = physicalField;        
+            Init(graphicType, physicalField);
+        }
+        public GraphicsBildingForm(GraphicTypes graphicType, PhysicalField physicalField)
+        {
+            InitializeComponent();
+            this.graphicType = graphicType;
             this.physicalField = physicalField;
-            pane = ZDc.GraphPane;
             Init(graphicType, physicalField);
         }
 
         private void Init(GraphicTypes graphicType, PhysicalField physicalField)
         {
+            pane = ZDc.GraphPane;
             switch (graphicType)
             {
                 case GraphicTypes.Potencial:
@@ -390,11 +398,11 @@ namespace Calculating_Magnetic_Field
                     f1_list.Add(points[i], femm_elcut_functions_list[current_femm_elcut_function][i]);
                 }
 
-                myCurve1 = pane.AddCurve(comment, f1_list, Color.Green, SymbolType.None);
-                myCurve1.Line.Width = 4.0f; // толщина линии курвы
+                myCurve1 = pane.AddCurve(comment, f1_list, Color.Black, SymbolType.None);
+                myCurve1.Line.Width = 3.0f; // толщина линии курвы
                 myCurve1.Line.IsSmooth = false; //Сглаживание курвы.
                 myCurve1.Line.IsAntiAlias = true;
-                myCurve1.Line.Style = System.Drawing.Drawing2D.DashStyle.Dash; // Тип линии курвы
+                myCurve1.Line.Style = DashStyle.Solid; // Тип линии курвы
                 myCurve1.Label.IsVisible = true;
                 ZDc.Refresh();
             }
@@ -494,14 +502,32 @@ namespace Calculating_Magnetic_Field
                     pointPairs.Last().Add(points[i], functions.Last()[i]);
                 }
 
-                SymbolType symbolType = (SymbolType)functions.Count - 1;
-                curves.Add(pane.AddCurve(comment, pointPairs.Last(), Color.DarkGray, symbolType));
-                curves.Last().Line.Width = 1.0f; // толщина линии курвы
+                DashStyle dashStyle;
+                SymbolType symbolType;
+                Color color = Color.Black;
+                if (pane.CurveList.Count <= 5)
+                {
+                    symbolType = SymbolType.None;
+                    color = Color.Black;
+                }
+                else if (pane.CurveList.Count <= 10)
+                {
+                    symbolType = SymbolType.None;
+                    color = Color.DarkGray;
+                }
+                else
+                {
+                    symbolType = (SymbolType)((pane.CurveList.Count + 1) % 11);
+                    color = Color.Black;
+                }
+                dashStyle = (DashStyle)(pane.CurveList.Count % 5);
+                curves.Add(pane.AddCurve(comment, pointPairs.Last(), color, symbolType));
+                curves.Last().Line.Width = 2f; // толщина линии курвы
                 curves.Last().Line.IsSmooth = false; //Сглаживание курвы.
                 curves.Last().Line.IsAntiAlias = true;
-                curves.Last().Line.Style = System.Drawing.Drawing2D.DashStyle.DashDotDot; // Тип линии курвы
+                curves.Last().Line.Style = dashStyle; // Тип линии курвы
                 curves.Last().Label.IsVisible = true;
-                curves.Last().Symbol.Size = 3f;
+                curves.Last().Symbol.Size = 5f;
 
 
                 //var graphics = ZDc.CreateGraphics();

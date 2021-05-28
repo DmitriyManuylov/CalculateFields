@@ -14,7 +14,7 @@ using Calculating_Magnetic_Field.Sources;
 
 namespace Calculating_Magnetic_Field
 {
-    static class Work_With_Files
+    public static class Work_With_Files
     {
 
         public static float SizeScale;
