@@ -120,20 +120,25 @@ namespace Calculating_Magnetic_Field.ModelFactories
                             r1 = rib.Point1.DistanceToOtherPoint(location);
                             r2 = rib.Point2.DistanceToOtherPoint(location);
 
-                            if (r1 < length / 4)
+                            if (r1 < length / 10)
                             {
                                 bound.Bound_Ribs[(i - 1 + count) % count].Point2 = location;
                                 bound.Bound_Ribs[i].Point1 = location;
                             }
-                            else if (r2 < length / 4)
+                            else if (r2 < length / 10)
                             {
                                 bound.Bound_Ribs[i].Point2 = location;
                                 bound.Bound_Ribs[(i + 1) % count].Point1 = location;
                             }
-                            else
+                            else if (r2 < r1)
                             {
                                 bound.Bound_Ribs.Insert((i + 1) % count, new Bound_Rib(location, rib.Point2));
                                 rib.Point2 = location;
+                            }
+                            else
+                            {
+                                bound.Bound_Ribs.Insert(i, new Bound_Rib(rib.Point1, location));
+                                rib.Point1 = location;
                             }
 
                             return true;

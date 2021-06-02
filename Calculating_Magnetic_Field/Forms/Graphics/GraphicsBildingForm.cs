@@ -505,12 +505,12 @@ namespace Calculating_Magnetic_Field
                 DashStyle dashStyle;
                 SymbolType symbolType;
                 Color color = Color.Black;
-                if (pane.CurveList.Count <= 5)
+                if (pane.CurveList.Count < 5)
                 {
                     symbolType = SymbolType.None;
                     color = Color.Black;
                 }
-                else if (pane.CurveList.Count <= 10)
+                else if (pane.CurveList.Count < 10)
                 {
                     symbolType = SymbolType.None;
                     color = Color.DarkGray;

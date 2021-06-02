@@ -19,7 +19,7 @@ namespace AnalysisOfDependencyFromLocOfSource
         static PointD Point1 = new PointD(0.0016, -0.02);
         static PointD Point2 = new PointD(0.0016, 0.02);
         static GraphicsCalculating graphicsCalculating;
-        static int countOfVariants = 10;
+        static int countOfVariants = 6;
         static ModelFactory modelFactory;
         static IModel model;
         static string path = "F:\\Programming\\Диссертация\\Calculating_Magnetic_Field\\Calculating_Magnetic_Field\\bin\\Debug\\Problem_files\\Поле тока\\" +
@@ -47,8 +47,8 @@ namespace AnalysisOfDependencyFromLocOfSource
 
         static void Main(string[] args)
         {
-            //Calculate_Variants();
-            Solve_With_PlittingChords();
+            Calculate_Variants();
+            //Solve_With_PlittingChords();
 
             Console.WriteLine("Расчет окончен");
             Console.ReadKey();
@@ -102,7 +102,7 @@ namespace AnalysisOfDependencyFromLocOfSource
                 function = graphicsCalculating.Calculate(Point1, Point2, 101, GraphicTypes.Current_Y_component);
                 X = graphicsCalculating.GetLenth();
 
-                SaveGraphicData(k.ToString(), $"{model.Bounds[1].Bound_Ribs.Count}\\Variate Elements ППС");
+                SaveGraphicData(k.ToString(), $"Variation of elements\\ППС\\{model.Bounds[1].Bound_Ribs.Count} elements\\{countOfVariants} variants");
             }
         }
 
@@ -118,7 +118,7 @@ namespace AnalysisOfDependencyFromLocOfSource
             function = graphicsCalculating.Calculate(Point1, Point2, 101, GraphicTypes.Current_Y_component);
             X = graphicsCalculating.GetLenth();
 
-            SaveGraphicData("Измельченная у источников сетка(D.y)");
+            SaveGraphicData("Измельченная у источников сетка(D.y)", countOfVariants.ToString());
         }
         static void SplitChords()
         {

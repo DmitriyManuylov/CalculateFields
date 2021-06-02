@@ -580,7 +580,7 @@ namespace Calculating_Magnetic_Field.Models
                                     Bound_Rib rib = bounds[i].Bound_Ribs[j];
                                     grad = sources[k].GetGradientValue(rib.GetMiddleOfRib());
                                     CoilsPotencialGradientOnBound[nj + j] += grad;
-                                    FreeMemberFunOnBound[nj + j] += sources[k].GetPotencialValue(rib.GetMiddleOfRib());
+                                    FreeMemberFunOnBound[nj + j] += sources[k].GetPotencialValue(rib.GetMiddleOfRib())*(bounds[i].Left_Mu + bounds[i].Right_Mu)/2;
 
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
@@ -693,7 +693,7 @@ namespace Calculating_Magnetic_Field.Models
             }
             
             reaction_field = CalculateReactionInduction(pointM);
-            if (Potencial.TypeOFPotencial == PotencialTypes.PSL)
+           // if (Potencial.TypeOFPotencial == PotencialTypes.PSL)
             {
                 sources_field *= fieldProperty;
                 reaction_field *= fieldProperty;

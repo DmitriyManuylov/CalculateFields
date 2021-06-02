@@ -838,7 +838,7 @@ namespace Calculating_Magnetic_Field
             //вертикальная линия 5
             PointD Point21 = new PointD(0.0016, -0.02);
             PointD Point22 = new PointD(0.0016, 0.02);
-            pointsPairs.Add(new PointsPair { Point1 = Point21, Point2 = Point22 });
+            pointsPairs.Add(new PointsPair { Point1 = Point22, Point2 = Point21 });
 
             //вертикальная линия 6
             PointD Point23 = new PointD(0.0016, -0.02993);

@@ -30,7 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.ZDc = new ZedGraph.ZedGraphControl();
-            this.butRedraw = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.добавитьГрафикToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьРисунокToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,7 +41,8 @@
             // 
             // ZDc
             // 
-            this.ZDc.Location = new System.Drawing.Point(12, 35);
+            this.ZDc.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ZDc.Location = new System.Drawing.Point(0, 24);
             this.ZDc.Name = "ZDc";
             this.ZDc.ScrollGrace = 0D;
             this.ZDc.ScrollMaxX = 0D;
@@ -51,19 +51,9 @@
             this.ZDc.ScrollMinX = 0D;
             this.ZDc.ScrollMinY = 0D;
             this.ZDc.ScrollMinY2 = 0D;
-            this.ZDc.Size = new System.Drawing.Size(1190, 716);
+            this.ZDc.Size = new System.Drawing.Size(800, 805);
             this.ZDc.TabIndex = 0;
             this.ZDc.UseExtendedPrintDialog = true;
-            // 
-            // butRedraw
-            // 
-            this.butRedraw.Location = new System.Drawing.Point(12, 791);
-            this.butRedraw.Name = "butRedraw";
-            this.butRedraw.Size = new System.Drawing.Size(903, 10);
-            this.butRedraw.TabIndex = 2;
-            this.butRedraw.Text = "Перерисовать";
-            this.butRedraw.UseVisualStyleBackColor = true;
-            this.butRedraw.Click += new System.EventHandler(this.ButRedraw_Click);
             // 
             // menuStrip1
             // 
@@ -75,7 +65,7 @@
             this.DeleteGraphic});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1214, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(800, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -118,10 +108,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1214, 763);
-            this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.butRedraw);
+            this.ClientSize = new System.Drawing.Size(800, 829);
             this.Controls.Add(this.ZDc);
+            this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "GraphicsBildingForm";
             this.Text = "Построитель графика";
@@ -136,7 +125,6 @@
         #endregion
 
         private ZedGraph.ZedGraphControl ZDc;
-        private System.Windows.Forms.Button butRedraw;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem добавитьГрафикToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem сохранитьРисунокToolStripMenuItem;
