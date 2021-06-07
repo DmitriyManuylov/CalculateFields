@@ -18,7 +18,7 @@ namespace Calculating_Magnetic_Field.Models
         void AddSource(ISource source);
         void AddBorderOfEnvironments(IFigure figure, int n, double right_invironment_property, double left_invironment_property);
 
-        DimensionsOfPotencial GetPotencialDimensionType();
+        TypeOfPotencial GetPotencialType();
 
         Vector2D CalculateInduction(PointD pointM);
 

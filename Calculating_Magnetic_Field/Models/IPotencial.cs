@@ -5,14 +5,14 @@ namespace Calculating_Magnetic_Field.Models
     {
         int Sign { get; }
 
-        PotencialTypes TypeOFPotencial { get; }
-        double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN);
+        PotencialTypes TypeOFPotencialsLayer { get; }
+        double Calculate_Potencial_from_Element(PointD pointM, Rib ribN);
 
-        Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN);
+        Vector2D Calculate_Gradient_from_Element(PointD pointM, Rib ribN);
 
-        Vector2D Calculate_Induction_from_Element(PointD pointM, Bound_Rib ribN);
+        Vector2D Calculate_Induction_from_Element(PointD pointM, Rib ribN);
 
-        double Integral_dAdn(Bound_Rib ribN, Bound_Rib ribM);
+        double Integral_dAdn(Rib ribN, Rib ribM);
 
     }
 }

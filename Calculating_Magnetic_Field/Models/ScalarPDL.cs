@@ -17,7 +17,7 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
-        public PotencialTypes TypeOFPotencial
+        public PotencialTypes TypeOFPotencialsLayer
         {
             get
             {
@@ -27,7 +27,7 @@ namespace Calculating_Magnetic_Field.Models
 
         private const float eps = 2e-8f;
 
-        public double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN)
+        public double Calculate_Potencial_from_Element(PointD pointM, Rib ribN)
         {
             PointD pointN = ribN.GetMiddleOfRib();
             double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
@@ -40,13 +40,13 @@ namespace Calculating_Magnetic_Field.Models
             return ribN.LengthElement * result;
         }
 
-        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN)
+        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Rib ribN)
         {
             PointD MiddleOFRib = ribN.GetMiddleOfRib();
             throw new NotImplementedException();
         }
 
-        public Vector2D Calculate_Induction_from_Element(PointD pointM, Bound_Rib ribN)
+        public Vector2D Calculate_Induction_from_Element(PointD pointM, Rib ribN)
         {
             Vector2D result;
             PointD pointN = ribN.GetMiddleOfRib();
@@ -64,7 +64,7 @@ namespace Calculating_Magnetic_Field.Models
             return  ribN.LengthElement * result;
         }
 
-        public double Integral_dAdn(Bound_Rib ribN, Bound_Rib ribM)
+        public double Integral_dAdn(Rib ribN, Rib ribM)
         {
             PointD pointM = ribM.GetMiddleOfRib();
             PointD pointN = ribN.GetMiddleOfRib();

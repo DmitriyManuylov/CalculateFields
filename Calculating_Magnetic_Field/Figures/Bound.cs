@@ -7,7 +7,7 @@ using Calculating_Magnetic_Field.Figures;
 
 namespace Calculating_Magnetic_Field
 {
-    public class Bound: IFigure
+    public class Bound : IFigure
     {
         public event EventHandler FindedInternalField;
 
@@ -47,28 +47,28 @@ namespace Calculating_Magnetic_Field
             }
         }
 
-        public List<Bound_Rib> Bound_Ribs{ get; set; }
+        public List<Rib> Bound_Ribs { get; set; }
 
-        public double Right_Mu { get; set; }
+        public double Right_Property { get; set; }
 
-        public double Left_Mu { get; set; }
+        public double Left_Property { get; set; }
 
         public Bound(Bound_Rectangle rectangle, int n, double right_mu, double left_mu)
         {
             BoundLenth = rectangle.GetPerimeter();
-            Right_Mu = right_mu;
-            Left_Mu = left_mu;
+            Right_Property = right_mu;
+            Left_Property = left_mu;
 
             ThisFigure = rectangle;
             FigureType = FigureType.Rectangle;
 
             SplitOnPoints(rectangle, n, out points);
-            Bound_Ribs = new List<Bound_Rib>(n);
-            for (int i = 0; i < n - 1 ; i++)
+            Bound_Ribs = new List<Rib>(n);
+            for (int i = 0; i < n - 1; i++)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i + 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[n - 1], points[0]));
+            Bound_Ribs.Add(new Rib(points[n - 1], points[0]));
             MiddlePoints = new PointD[n];
             for (int i = 0; i < n; i++)
                 MiddlePoints[i] = Bound_Ribs[i].GetMiddleOfRib();
@@ -77,20 +77,20 @@ namespace Calculating_Magnetic_Field
 
         public Bound(Bound_Rectangle rectangleEx, Bound_Rectangle rectangleIm, int n, double right_mu, double left_mu)
         {
-            BoundLenth = 2 * (rectangleEx.Lenth + rectangleEx.Width + rectangleIm.Width);
-            Right_Mu = right_mu;
-            Left_Mu = left_mu;
+            BoundLenth = 2 * (rectangleEx.Width + rectangleEx.Height + rectangleIm.Height);
+            Right_Property = right_mu;
+            Left_Property = left_mu;
             this.rectangleEx = rectangleEx;
             this.rectangleIm = rectangleIm;
             circle = null;
             rectangle = null;
             SplitOnPoints(rectangleEx, rectangleIm, n, out points);
-            Bound_Ribs = new List<Bound_Rib>(n);
+            Bound_Ribs = new List<Rib>(n);
             for (int i = 0; i < n - 1; i++)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i + 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[n - 1], points[0]));
+            Bound_Ribs.Add(new Rib(points[n - 1], points[0]));
             MiddlePoints = new PointD[n];
             for (int i = 0; i < n; i++)
                 MiddlePoints[i] = Bound_Ribs[i].GetMiddleOfRib();
@@ -100,8 +100,8 @@ namespace Calculating_Magnetic_Field
         public Bound(Bound_Circle circle, int n, double right_mu, double left_mu)
         {
             BoundLenth = circle.GetPerimeter();
-            Right_Mu = right_mu;
-            Left_Mu = left_mu;
+            Right_Property = right_mu;
+            Left_Property = left_mu;
 
             ThisFigure = circle;
             FigureType = FigureType.Circle;
@@ -109,19 +109,19 @@ namespace Calculating_Magnetic_Field
             rectangleEx = null;
             rectangleIm = null;
             SplitOnPoints(circle, n, out points);
-            Bound_Ribs = new List<Bound_Rib>(points.Count);
+            Bound_Ribs = new List<Rib>(points.Count);
             for (int i = 0; i < n - 1; i++)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i + 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[n - 1], points[0]));
+            Bound_Ribs.Add(new Rib(points[n - 1], points[0]));
         }
 
-        public Bound(Bound_Stadium bound_Stadium,  int n, double right_mu, double left_mu)
+        public Bound(Bound_Stadium bound_Stadium, int n, double right_mu, double left_mu)
         {
             BoundLenth = bound_Stadium.GetPerimeter();
-            Right_Mu = right_mu;
-            Left_Mu = left_mu;
+            Right_Property = right_mu;
+            Left_Property = left_mu;
 
             ThisFigure = bound_Stadium;
             FigureType = FigureType.Stadium;
@@ -129,12 +129,12 @@ namespace Calculating_Magnetic_Field
             rectangleEx = null;
             rectangleIm = null;
             SplitOnPoints(bound_Stadium, n, out points);
-            Bound_Ribs = new List<Bound_Rib>(points.Count);
+            Bound_Ribs = new List<Rib>(points.Count);
             for (int i = 0; i < n - 1; i++)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i + 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[n - 1], points[0]));
+            Bound_Ribs.Add(new Rib(points[n - 1], points[0]));
         }
 
 
@@ -144,25 +144,25 @@ namespace Calculating_Magnetic_Field
             num_of_in_points = n / 2;
             num_of_out_points = n - num_of_in_points;
             BoundLenth = circle.GetPerimeter();
-            Right_Mu = right_mu;
-            Left_Mu = left_mu;
+            Right_Property = right_mu;
+            Left_Property = left_mu;
             this.circle = null;
             rectangle = null;
             rectangleEx = null;
             rectangleIm = null;
 
             SplitOnPoints(bound_Frame, n, out points);
-            Bound_Ribs = new List<Bound_Rib>(points.Count);
+            Bound_Ribs = new List<Rib>(points.Count);
             for (int i = 0; i < num_of_out_points - 1; i++)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i + 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[num_of_out_points - 1], points[0]));
+            Bound_Ribs.Add(new Rib(points[num_of_out_points - 1], points[0]));
             for (int i = n - 1; i > num_of_out_points; i--)
             {
-                Bound_Ribs.Add(new Bound_Rib(points[i], points[i - 1]));
+                Bound_Ribs.Add(new Rib(points[i], points[i - 1]));
             }
-            Bound_Ribs.Add(new Bound_Rib(points[num_of_out_points], points[n-1]));
+            Bound_Ribs.Add(new Rib(points[num_of_out_points], points[n - 1]));
         }
 
         public void RaiseEvent()
@@ -196,17 +196,17 @@ namespace Calculating_Magnetic_Field
             points = new List<PointD>(n);
             int n1, n2, n3, n4;
 
-            double perimeter = 2 * (rectangle.Lenth + rectangle.Width);
-            n1 = Convert.ToInt32(n * rectangle.Width / perimeter);
-            n2 = Convert.ToInt32(n * rectangle.Lenth / perimeter);
+            double perimeter = 2 * (rectangle.Width + rectangle.Height);
+            n1 = Convert.ToInt32(n * rectangle.Height / perimeter);
+            n2 = Convert.ToInt32(n * rectangle.Width / perimeter);
             n3 = n1;
             n4 = n - n1 - n2 - n3;
 
             double dl1, dl2, dl3, dl4;
-            dl1 = rectangle.Width / n1;
-            dl2 = rectangle.Lenth / n2;
-            dl3 = rectangle.Width / n3;
-            dl4 = rectangle.Lenth / n4;
+            dl1 = rectangle.Height / n1;
+            dl2 = rectangle.Width / n2;
+            dl3 = rectangle.Height / n3;
+            dl4 = rectangle.Width / n4;
             double x, y;
             x = rectangle.Location.X;
             y = rectangle.Location.Y;
@@ -248,16 +248,16 @@ namespace Calculating_Magnetic_Field
             double x, y;
             double perimeter = bound_stadium.GetPerimeter();
             double r = bound_stadium.Radius;
-            if(bound_stadium.Orientation == StadiumOrientation.HorizontalHalfRings)
+            if (bound_stadium.Orientation == StadiumOrientation.HorizontalHalfRings)
             {
                 n1 = Convert.ToInt32(n * Math.PI * bound_stadium.Radius / perimeter);
                 dAlpha = Math.PI / n1;
-                n2 = Convert.ToInt32(n * bound_stadium.Length / perimeter);
-                dl = bound_stadium.Length / n2;
+                n2 = Convert.ToInt32(n * bound_stadium.Width / perimeter);
+                dl = bound_stadium.Width / n2;
                 n3 = n1;
                 n4 = n - n1 - n2 - n3;
                 center_x = bound_stadium.Location.X;
-                center_y = bound_stadium.Location.Y - bound_stadium.Width / 2;
+                center_y = bound_stadium.Location.Y - bound_stadium.Height / 2;
                 Alpha = Math.PI / 2;
 
 
@@ -270,7 +270,7 @@ namespace Calculating_Magnetic_Field
                 }
 
                 x = bound_stadium.Location.X + dl;
-                y = bound_stadium.Location.Y - bound_stadium.Width;
+                y = bound_stadium.Location.Y - bound_stadium.Height;
                 points.Add(new PointD(x, y));
 
                 for (int i = 0; i < n2 - 1; i++)
@@ -279,8 +279,8 @@ namespace Calculating_Magnetic_Field
                     points.Add(new PointD(x, y));
                 }
 
-                center_x = bound_stadium.Location.X + bound_stadium.Length;
-                center_y = bound_stadium.Location.Y - bound_stadium.Width / 2;
+                center_x = bound_stadium.Location.X + bound_stadium.Width;
+                center_y = bound_stadium.Location.Y - bound_stadium.Height / 2;
                 Alpha = Math.PI * 3d / 2;
 
                 for (int i = 0; i < n3; i++)
@@ -289,7 +289,7 @@ namespace Calculating_Magnetic_Field
                     points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
                 }
 
-                x = bound_stadium.Location.X + bound_stadium.Length - dl;
+                x = bound_stadium.Location.X + bound_stadium.Width - dl;
                 y = bound_stadium.Location.Y;
                 points.Add(new PointD(x, y));
                 for (int i = 0; i < n4 - 2; i++)
@@ -301,14 +301,14 @@ namespace Calculating_Magnetic_Field
 
             if (bound_stadium.Orientation == StadiumOrientation.VerticalHalfRings)
             {
-                n1 = Convert.ToInt32(n * bound_stadium.Width / perimeter);
-                dl = bound_stadium.Width / n1;
+                n1 = Convert.ToInt32(n * bound_stadium.Height / perimeter);
+                dl = bound_stadium.Height / n1;
                 n2 = Convert.ToInt32(n * Math.PI * bound_stadium.Radius / perimeter);
                 dAlpha = Math.PI / n2;
                 n3 = n1;
                 n4 = n - n1 - n2 - n3;
-                center_x = bound_stadium.Location.X + bound_stadium.Length / 2;
-                center_y = bound_stadium.Location.Y - bound_stadium.Width;
+                center_x = bound_stadium.Location.X + bound_stadium.Width / 2;
+                center_y = bound_stadium.Location.Y - bound_stadium.Height;
                 Alpha = Math.PI;
 
                 x = bound_stadium.Location.X;
@@ -327,14 +327,14 @@ namespace Calculating_Magnetic_Field
                     points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
                 }
 
-                x = bound_stadium.Location.X + bound_stadium.Length;
-                y = bound_stadium.Location.Y - bound_stadium.Width;
+                x = bound_stadium.Location.X + bound_stadium.Width;
+                y = bound_stadium.Location.Y - bound_stadium.Height;
                 for (int i = 0; i < n3; i++)
                 {
                     y += dl;
                     points.Add(new PointD(x, y));
                 }
-                center_x = bound_stadium.Location.X + bound_stadium.Length / 2;
+                center_x = bound_stadium.Location.X + bound_stadium.Width / 2;
                 center_y = bound_stadium.Location.Y;
                 Alpha = 0;
 
@@ -342,7 +342,7 @@ namespace Calculating_Magnetic_Field
                 {
                     Alpha += dAlpha;
                     points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
-                }             
+                }
             }
         }
 
@@ -358,26 +358,26 @@ namespace Calculating_Magnetic_Field
             points = new List<PointD>(n);
             int n1, n2, n3, n4, n5, n6, n7, n8;
 
-            double perimeter = 2 * (rectangleEx.Lenth + rectangleEx.Width+rectangleIm.Width);
-            n1 = Convert.ToInt32(n * rectangleEx.Width / perimeter);
-            n2 = Convert.ToInt32(n * (rectangleEx.Lenth - rectangleIm.Lenth) / 2);
-            n3 = Convert.ToInt32(n * rectangleIm.Width / perimeter);
+            double perimeter = 2 * (rectangleEx.Width + rectangleEx.Height + rectangleIm.Height);
+            n1 = Convert.ToInt32(n * rectangleEx.Height / perimeter);
+            n2 = Convert.ToInt32(n * (rectangleEx.Width - rectangleIm.Width) / 2);
+            n3 = Convert.ToInt32(n * rectangleIm.Height / perimeter);
 
-            n4 = Convert.ToInt32(n * rectangleIm.Lenth / perimeter);
+            n4 = Convert.ToInt32(n * rectangleIm.Width / perimeter);
             n5 = n3;
             n6 = n2;
             n7 = n1;
             n8 = n - n1 - n2 - n3 - n4 - n5 - n6 - n7;
 
             double dl1, dl2, dl3, dl4, dl5, dl6, dl7, dl8;
-            dl1 = rectangleEx.Width / n1;
-            dl2 = (rectangleEx.Lenth - rectangleIm.Lenth) / (2 *n2);
-            dl3 = rectangleIm.Width / n3;
-            dl4 = rectangleIm.Lenth / n4;
+            dl1 = rectangleEx.Height / n1;
+            dl2 = (rectangleEx.Width - rectangleIm.Width) / (2 * n2);
+            dl3 = rectangleIm.Height / n3;
+            dl4 = rectangleIm.Width / n4;
             dl5 = dl3;
             dl6 = dl2;
             dl7 = dl1;
-            dl8 = rectangleEx.Lenth / n8;
+            dl8 = rectangleEx.Width / n8;
             double x, y;
             x = rectangleEx.Location.X;
             y = rectangleEx.Location.Y;
@@ -461,7 +461,7 @@ namespace Calculating_Magnetic_Field
                 case FigureType.Rectangle:
                     {
                         rectangle = (Bound_Rectangle)ThisFigure;
-                        if (point.X > rectangle.Location.X && point.X < (rectangle.Location.X + rectangle.Lenth) && point.Y < rectangle.Location.Y && (point.Y > rectangle.Location.Y - rectangle.Width))
+                        if (point.X > rectangle.Location.X && point.X < (rectangle.Location.X + rectangle.Width) && point.Y < rectangle.Location.Y && (point.Y > rectangle.Location.Y - rectangle.Height))
                             return true;
                         break;
                     }
@@ -473,8 +473,8 @@ namespace Calculating_Magnetic_Field
                     }
                 case FigureType.C_image:
                     {
-                        if ((point.X > rectangleEx.Location.X && point.X < (rectangleEx.Location.X + rectangleEx.Lenth) && point.Y < rectangleEx.Location.Y && (point.Y > rectangleEx.Location.Y - rectangleEx.Width))
-                            && (point.X < rectangleIm.Location.X && point.X > (rectangleIm.Location.X + rectangleIm.Lenth) && point.Y > rectangleIm.Location.Y && (point.Y < rectangleIm.Location.Y - rectangleEx.Width)))
+                        if ((point.X > rectangleEx.Location.X && point.X < (rectangleEx.Location.X + rectangleEx.Width) && point.Y < rectangleEx.Location.Y && (point.Y > rectangleEx.Location.Y - rectangleEx.Height))
+                            && (point.X < rectangleIm.Location.X && point.X > (rectangleIm.Location.X + rectangleIm.Width) && point.Y > rectangleIm.Location.Y && (point.Y < rectangleIm.Location.Y - rectangleEx.Height)))
                             return true;
                         break;
                     }
@@ -516,6 +516,15 @@ namespace Calculating_Magnetic_Field
         public bool IsPointOnBorder(PointD point, float epsilon)
         {
             return ThisFigure.IsPointOnBorder(point, epsilon);
+        }
+
+        public override string ToString()
+        {
+            string result = ThisFigure.ToString();
+            result += $"Свойства среды:" + "\n";
+            result += $"Слева — {Left_Property}" + "\n";
+            result += $"Справа — {Right_Property}" + "\n";
+            return result;
         }
     }
 }

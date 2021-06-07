@@ -8,7 +8,7 @@ namespace Calculating_Magnetic_Field.Sources
 {
     public interface ILinearSource: ISource
     {
-        Bound_Rib Rib { get; set; }
+        Rib Rib { get; set; }
 
         double Density { get; set; }
 

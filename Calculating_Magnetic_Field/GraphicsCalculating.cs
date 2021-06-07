@@ -9,7 +9,7 @@ namespace Calculating_Magnetic_Field
 {
     public class GraphicsCalculating
     {
-        private Bound_Rib rib;
+        private Rib rib;
 
         private Vector2D normal;
 
@@ -42,7 +42,7 @@ namespace Calculating_Magnetic_Field
         
         public List<double> Calculate(PointD p1, PointD p2, int n, GraphicTypes graphicTypes)
         {
-            rib = new Bound_Rib(p1, p2);
+            rib = new Rib(p1, p2);
             normal = new Vector2D
             {
                 X_component = -rib.Normal.CosAlpha,

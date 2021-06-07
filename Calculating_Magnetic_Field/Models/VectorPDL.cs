@@ -6,7 +6,7 @@ namespace Calculating_Magnetic_Field.Models
     {
         public int Sign => throw new System.NotImplementedException();
 
-        public PotencialTypes TypeOFPotencial
+        public PotencialTypes TypeOFPotencialsLayer
         {
             get
             {
@@ -14,22 +14,22 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
-        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Bound_Rib ribN)
+        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Rib ribN)
         {
             throw new System.NotImplementedException();
         }
 
-        public Vector2D Calculate_Induction_from_Element(PointD pointM, Bound_Rib ribN)
+        public Vector2D Calculate_Induction_from_Element(PointD pointM, Rib ribN)
         {
             throw new System.NotImplementedException();
         }
 
-        public double Calculate_Potencial_from_Element(PointD pointM, Bound_Rib ribN)
+        public double Calculate_Potencial_from_Element(PointD pointM, Rib ribN)
         {
             throw new System.NotImplementedException();
         }
 
-        public double Integral_dAdn(Bound_Rib ribN, Bound_Rib ribM)
+        public double Integral_dAdn(Rib ribN, Rib ribM)
         {
             throw new System.NotImplementedException();
         }

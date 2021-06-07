@@ -221,8 +221,8 @@ namespace Calculating_Magnetic_Field
             using (StreamWriter writer = new StreamWriter(file))
             {
                 writer.WriteLine("$Model");
-                writer.WriteLine($"{model.GetPotencialDimensionType()}");
-                writer.WriteLine($"{model.Potencial.TypeOFPotencial}");
+                writer.WriteLine($"{model.GetPotencialType()}");
+                writer.WriteLine($"{model.Potencial.TypeOFPotencialsLayer}");
                 writer.WriteLine($"{model.Potencial}");
                 writer.WriteLine($"{model.Depth}");
                 writer.WriteLine($"{model.PhysicalField}");
@@ -239,11 +239,11 @@ namespace Calculating_Magnetic_Field
                                 writer.WriteLine("Rectangle");
                                 writer.WriteLine($"{rectangle.Location.X} " +
                                                  $"{rectangle.Location.Y} " +
-                                                 $"{rectangle.Lenth} " +
                                                  $"{rectangle.Width} " +
+                                                 $"{rectangle.Height} " +
                                                  $"{model.Bounds[i].Bound_Ribs.Count} " +
-                                                 $"{model.Bounds[i].Right_Mu} " +
-                                                 $"{model.Bounds[i].Left_Mu}");
+                                                 $"{model.Bounds[i].Right_Property} " +
+                                                 $"{model.Bounds[i].Left_Property}");
                                 break;
                             }
                         case FigureType.Circle:
@@ -254,8 +254,8 @@ namespace Calculating_Magnetic_Field
                                                  $"{circle.Location.Y} " +
                                                  $"{circle.Radius} " +
                                                  $"{model.Bounds[i].Bound_Ribs.Count} " +
-                                                 $"{model.Bounds[i].Right_Mu} " +
-                                                 $"{model.Bounds[i].Left_Mu}");
+                                                 $"{model.Bounds[i].Right_Property} " +
+                                                 $"{model.Bounds[i].Left_Property}");
                                 break;
                             }
                         case FigureType.Stadium:
@@ -264,12 +264,12 @@ namespace Calculating_Magnetic_Field
                                 writer.WriteLine("Stadium");
                                 writer.WriteLine($"{bound_Stadium.Location.X} " +
                                                  $"{bound_Stadium.Location.Y} " +
-                                                 $"{bound_Stadium.Length} " +
                                                  $"{bound_Stadium.Width} " +
+                                                 $"{bound_Stadium.Height} " +
                                                  $"{bound_Stadium.Orientation} " +
                                                  $"{model.Bounds[i].Bound_Ribs.Count} " +
-                                                 $"{model.Bounds[i].Right_Mu} " +
-                                                 $"{model.Bounds[i].Left_Mu}");
+                                                 $"{model.Bounds[i].Right_Property} " +
+                                                 $"{model.Bounds[i].Left_Property}");
                                 break;
                             }
                     }
@@ -291,8 +291,8 @@ namespace Calculating_Magnetic_Field
                                             writer.WriteLine("Rectangle VolumeSource");
                                             writer.WriteLine($"{rectangle.Location.X} " +
                                                              $"{rectangle.Location.Y} " +
-                                                             $"{rectangle.Lenth} " +
                                                              $"{rectangle.Width} " +
+                                                             $"{rectangle.Height} " +
                                                              $"{((IVolumeSource)model.Sources[i]).SourcePower} " +
                                                              $"{((IVolumeSource)model.Sources[i]).N} " +
                                                              $"{((IVolumeSource)model.Sources[i]).M}");
@@ -313,7 +313,7 @@ namespace Calculating_Magnetic_Field
                                             writer.WriteLine("Rectangle ResidualIntensitySource");
                                             writer.WriteLine($"{rectangle.Location.X} " +
                                                              $"{rectangle.Location.Y} " +
-                                                             $"{rectangle.Lenth} {rectangle.Width} " +
+                                                             $"{rectangle.Width} {rectangle.Height} " +
                                                              $"{((IResidualIntensitySource)model.Sources[i]).Direction} " +
                                                              $"{((IResidualIntensitySource)model.Sources[i]).ResidualIntensity} " +
                                                              $"{((IResidualIntensitySource)model.Sources[i]).N}");
@@ -415,7 +415,7 @@ namespace Calculating_Magnetic_Field
                             break;
                         }
                 }
-                model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialDimensionType());
+                model.Potencial = model.PotencialFactoryMethod.CreatePotencial(model.GetPotencialType());
 
                 while ((str = reader.ReadLine()) != "$Fields") { }
                 FerrCount = Convert.ToInt32(reader.ReadLine());

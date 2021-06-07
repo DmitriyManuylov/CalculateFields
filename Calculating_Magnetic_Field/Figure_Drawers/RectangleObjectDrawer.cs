@@ -19,7 +19,7 @@ namespace Calculating_Magnetic_Field.Figure_Drawers
         public RectangleObjectDrawer(PictureBox box, Bound_Rectangle rectangle)
         {
             PBox = box;
-            rect = new RectangleF(rectangle.Location, new SizeF(rectangle.Lenth, rectangle.Width));
+            rect = new RectangleF(rectangle.Location, new SizeF(rectangle.Width, rectangle.Height));
         }
         public PictureBox PBox { get; set; }
 

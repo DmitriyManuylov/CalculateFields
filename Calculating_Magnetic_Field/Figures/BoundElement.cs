@@ -9,7 +9,7 @@ namespace Calculating_Magnetic_Field
     public class ElementBasisFunction
     {
 
-        Bound_Rib Rib { get; set; }
+        Rib Rib { get; set; }
 
         PointD Point1 { get; set; }
         PointD Point2 { get; set; }
@@ -21,7 +21,7 @@ namespace Calculating_Magnetic_Field
         //Коэффициенты (i+1)-й базисной функции
         double a2, b2;
         double determinant;
-        public ElementBasisFunction(Bound_Rib rib)
+        public ElementBasisFunction(Rib rib)
         {
             determinant = rib.Point1.X * rib.Point2.Y - rib.Point2.X * rib.Point1.Y;
             a1 = rib.Point2.Y / determinant;

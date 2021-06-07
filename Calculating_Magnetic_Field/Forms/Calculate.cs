@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
-using Microsoft.Office.Interop.Excel;
 using Calculating_Magnetic_Field.Figures;
 using Calculating_Magnetic_Field.Figure_Drawers;
 using System.Diagnostics;
@@ -63,7 +62,6 @@ namespace Calculating_Magnetic_Field
         public CalculateForm()
         {
             InitializeComponent();
-            groupBoxPhysicsElements.Enabled = false;
             changeDirToolStripMenuItem.Enabled = false;
             //butBuildPowerLines.Enabled = false;
             groupBoxGraphicsCalc.Enabled = false;
@@ -78,7 +76,7 @@ namespace Calculating_Magnetic_Field
 
             Depth = 1000;
             SizeScale = 0.001f;
-            DrawingScale = 10 * 1f / SizeScale;
+            DrawingScale = 10f / SizeScale;
             Work_With_Files.SizeScale = this.SizeScale;
             cbChooseGraphicType.DataSource = Enum.GetValues(typeof(GraphicTypes));
             cbChooseGraphicType.SelectedIndex = 0;
@@ -115,6 +113,8 @@ namespace Calculating_Magnetic_Field
             
         }
 
+
+        
         private void AddCoilButton_Click(object sender, EventArgs e)
         {         
             AddCoilForm form = new AddCoilForm();
@@ -200,17 +200,27 @@ namespace Calculating_Magnetic_Field
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             PointD p1 = selectedPair.Value.Point1;
             PointD p2 = selectedPair.Value.Point2;
-            graphics.DrawLine(pen, ModifyPoint(new PointF((float)p1.X, (float)p1.Y)), ModifyPoint(new PointF((float)p2.X, (float)p2.Y)));
+            graphics.DrawLine(pen, ModifyModelPointToPicBoxPoint(new PointF((float)p1.X, (float)p1.Y)), ModifyModelPointToPicBoxPoint(new PointF((float)p2.X, (float)p2.Y)));
 
             brush.Dispose();
             pen.Dispose();
         }
 
-        private PointF ModifyPoint(PointF point)
+        private PointF ModifyModelPointToPicBoxPoint(PointF point)
         {
             PointF result = new PointF(point.X * DrawingScale, -point.Y * DrawingScale);
             result.X += pictureBox1.Width / 2;
             result.Y += pictureBox1.Height / 2;
+            return result;
+        }
+        private PointF ModifyPicBoxPointToModelPoint(Point point)
+        {
+            PointF result = new PointF(point.X, -point.Y);
+            result.X -= pictureBox1.Width / 2;
+            result.Y += pictureBox1.Height / 2;
+            result.X /= DrawingScale;
+            result.Y /= DrawingScale;
+
             return result;
         }
 
@@ -616,11 +626,85 @@ namespace Calculating_Magnetic_Field
                     figuresForDrawing.Add(DrawerBuilder.BuildDrawer(pictureBox1, figure, DrawingScale));
 
                 }
+                FillModelData();
                 pictureBox1.Invalidate();
                 groupBoxPowerLines.Enabled = false;
                 groupBoxGraphicsCalc.Enabled = false;
             }
             
+        }
+
+        private void FillModelData()
+        {
+            rtbFields.Clear();
+            rtbSources.Clear();
+            string fieldType = "";
+            string potencialType = "";
+            string layerType = "";
+            switch (model.PhysicalField)
+            {
+                case PhysicalField.Electric:
+                    {
+                        fieldType = "электрическое";
+                        break;
+                    }
+                case PhysicalField.Magnetic:
+                    {
+                        fieldType = "магнитное";
+                        break;
+                    }
+                case PhysicalField.Current:
+                    {
+                        fieldType = "поле постоянного тока";
+                        break;
+                    }
+            }
+
+            switch (model.GetPotencialType())
+            {
+                case TypeOfPotencial.Scalar:
+                    {
+                        potencialType = "скалярный";
+                        break;
+                    }
+                case TypeOfPotencial.Vector:
+                    {
+                        potencialType = "векторный";
+                        break;
+                    }
+            }
+
+            switch (model.Potencial.TypeOFPotencialsLayer)
+            {
+                case PotencialTypes.PSL:
+                    {
+                        layerType = "простой слой";
+                        break;
+                    }
+                case PotencialTypes.PDL:
+                    {
+                        layerType = "двойной слой";
+                        break;
+                    }
+            }
+
+            tbFieldType.Text = fieldType;
+            tbPotencialType.Text = potencialType;
+            tbLayerType.Text = layerType;
+            tbDepth.Text = model.Depth.ToString();
+            int i = 1;
+            foreach(Bound bound in model.Bounds)
+            {
+                rtbFields.AppendText($"№ {i++}. ");
+                rtbFields.AppendText(bound.ToString() + "\n");
+            }
+
+            i = 1;
+            foreach(ISource source in model.Sources)
+            {
+                rtbSources.AppendText($"№ {i++}. ");
+                rtbSources.AppendText(source.ToString() + "\n" );
+            }
         }
 
         private void SaveToolStripMenuItem_Click(object sender, EventArgs e)
@@ -667,14 +751,7 @@ namespace Calculating_Magnetic_Field
             {
                 file_geo = openFileDialog.FileName;
             }
-            /*openFileDialog.DefaultExt = ".msh";
-            openFileDialog.Filter = "Msh files (*.msh)|*msh";
-            openFileDialog.Title = "Выбрать файл msh";
 
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                file_msh = openFileDialog.FileName;
-            }*/
 
             Work_With_Files.CreateMshFile(file_geo, file_msh, format);
 
@@ -880,6 +957,31 @@ namespace Calculating_Magnetic_Field
             PointD Point38 = new PointD(0.02, 0.003);
             pointsPairs.Add(new PointsPair { Point1 = Point37, Point2 = Point38 });
 
+            //вертикальная линия 9
+            PointD Point39 = new PointD(0.002, -0.02);
+            PointD Point40 = new PointD(0.002, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point39, Point2 = Point40 });
+
+            //вертикальная линия 10
+            PointD Point41 = new PointD(0.004, -0.02);
+            PointD Point42 = new PointD(0.004, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point41, Point2 = Point42 });
+            pointsPairs.Add(new PointsPair { Point1 = Point42, Point2 = Point41 });
+
+            //вертикальная линия 11
+            PointD Point43 = new PointD(0.00151, -0.02);
+            PointD Point44 = new PointD(0.00151, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point43, Point2 = Point44 });
+            
+
+        }
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point point = pictureBox1.PointToClient(Cursor.Position);
+            PointF modifiedPointF = ModifyPicBoxPointToModelPoint(point);
+            tbCursorX.Text = modifiedPointF.X.ToString();
+            tbCursorY.Text = modifiedPointF.Y.ToString();
         }
 
         private void cbSelectGraphicLine_SelectedIndexChanged(object sender, EventArgs e)

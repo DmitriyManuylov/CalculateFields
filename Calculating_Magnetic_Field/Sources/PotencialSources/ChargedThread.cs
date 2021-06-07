@@ -132,5 +132,13 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
         {
             return SourceTypes.PointSource;
         }
+
+        public override string ToString()
+        {
+            string result = "";
+            result += $"Тип источника: точечный" + "\n";
+            result += $"Позиция: X = {location.X}, Y = {location.Y}" + "\n";
+            return result;
+        }
     }
 }

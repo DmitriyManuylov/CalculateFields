@@ -30,22 +30,22 @@ namespace Calculating_Magnetic_Field
         /// <summary>
         /// Размер по оси Ox
         /// </summary>
-        public float Lenth { get; set; }
+        public float Width { get; set; }
 
         /// <summary>
         /// Размер по оси Oy
         /// </summary>
-        public float Width { get; set; }
+        public float Height { get; set; }
 
         private float eps = 1e-9f;
 
-        private Bound_Rib[] ribs = new Bound_Rib[4];
+        private Rib[] ribs = new Rib[4];
 
         public Bound_Rectangle(PointF location, float lenth, float width, float Scale)
         {
             Location = new PointF(location.X * Scale, location.Y * Scale);
-            Lenth = lenth * Scale;
-            Width = width * Scale;
+            Width = lenth * Scale;
+            Height = width * Scale;
             BuildRibs();
         }
 
@@ -53,43 +53,43 @@ namespace Calculating_Magnetic_Field
         {
             PointD p1, p2;
             p1 = new PointD(Location.X, Location.Y);
-            p2 = new PointD(Location.X, Location.Y - Width);
-            ribs[0] = new Bound_Rib(p1, p2);
+            p2 = new PointD(Location.X, Location.Y - Height);
+            ribs[0] = new Rib(p1, p2);
             p1 = p2;
-            p2.X = Location.X + Lenth;
-            ribs[1] = new Bound_Rib(p1, p2);
+            p2.X = Location.X + Width;
+            ribs[1] = new Rib(p1, p2);
             p1 = p2;
             p2.Y = Location.Y;
-            ribs[2] = new Bound_Rib(p1, p2);
+            ribs[2] = new Rib(p1, p2);
             p1 = p2;
             p2.X = Location.X;
-            ribs[3] = new Bound_Rib(p1, p2);
+            ribs[3] = new Rib(p1, p2);
         }
 
         public Bound_Rectangle(Bound_Rectangle bound_Rectangle, float Scale)
         {
             Location = new PointF(bound_Rectangle.Location.X * Scale, bound_Rectangle.Location.Y * Scale);
-            Lenth = bound_Rectangle.Lenth * Scale;
             Width = bound_Rectangle.Width * Scale;
+            Height = bound_Rectangle.Height * Scale;
             BuildRibs();
         }
 
         public Bound_Rectangle(PointF location, float lenth, float width)
         {
             Location = location;
-            Lenth = lenth;
-            Width = width;
+            Width = lenth;
+            Height = width;
             BuildRibs();
         }
 
         public double GetPerimeter()
         {
-            return 2 * (Lenth + Width);
+            return 2 * (Width + Height);
         }
 
         public double GetSquare()
         {
-            return Lenth * Width;
+            return Width * Height;
         }
 
         public FigureType GetFigureType()
@@ -99,7 +99,7 @@ namespace Calculating_Magnetic_Field
 
         public bool IsContaisPoint(PointD point)
         {
-            return (point.X >= Location.X + eps) && (point.Y <= Location.Y - eps) && (point.X <= (Location.X + Lenth - eps)) && (point.Y >= (Location.Y - Width + eps));
+            return (point.X >= Location.X + eps) && (point.Y <= Location.Y - eps) && (point.X <= (Location.X + Width - eps)) && (point.Y >= (Location.Y - Height + eps));
         }
 
         public bool IsPointOnBorder(PointD point)
@@ -123,6 +123,16 @@ namespace Calculating_Magnetic_Field
             bool result = IsPointOnBorder(point);
             eps = old_eps;
             return result;
+        }
+
+        public override string ToString()
+        {
+            string res = "";
+            res += "Тип фигуры: прямоугольник" + "\n";
+            res += $"ЛВУ: X = {Location.X}, Y = {Location.Y}" + "\n";
+            res += $"Ширина: {Width}" + "\n";
+            res += $"Высота: {Height}" + "\n";
+            return res;
         }
     }
 }

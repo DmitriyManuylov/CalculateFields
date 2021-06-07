@@ -72,5 +72,14 @@ namespace Calculating_Magnetic_Field
             eps = old_eps;
             return result;
         }
+
+        public override string ToString()
+        {
+            string res = "";
+            res += "Тип фигуры: окружность" + "\n";
+            res += $"Центр окружности: X = {Location.X}, Y = {Location.Y}" + "\n";
+            res += $"Радиус: {Radius}" + "\n";
+            return res;
+        }
     }
 }

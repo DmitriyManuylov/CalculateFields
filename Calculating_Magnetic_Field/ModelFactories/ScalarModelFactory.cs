@@ -36,15 +36,15 @@ namespace Calculating_Magnetic_Field.ModelFactories
 
             if (isPointSourceOnBound(location, model, out bound))
             {
-                result.FieldProperty = (bound.Left_Mu + bound.Right_Mu) / 2;
+                result.FieldProperty = (bound.Left_Property + bound.Right_Property) / 2;
             }
             else if (!model.Bounds[0].IsContaisPoint(location))
             {
-                result.FieldProperty = model.Bounds[0].Right_Mu;
+                result.FieldProperty = model.Bounds[0].Right_Property;
             }
             else if (model.Bounds[0].IsContaisPoint(location))
             {
-                result.FieldProperty = model.Bounds[0].Left_Mu;
+                result.FieldProperty = model.Bounds[0].Left_Property;
             }
             else
             {
@@ -52,7 +52,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
                 {
                     if (model.Bounds[i].IsContaisPoint(location))
                     {
-                        result.FieldProperty = model.Bounds[i].Left_Mu;
+                        result.FieldProperty = model.Bounds[i].Left_Property;
                         break;
                     }
                 }
@@ -60,7 +60,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
 
             if (physicalField == PhysicalField.Current)
             {
-                if (model.Potencial.TypeOFPotencial == PotencialTypes.PSL)
+                if (model.Potencial.TypeOFPotencialsLayer == PotencialTypes.PSL)
                 {
                     result.SourcePower /= result.FieldProperty;
                 }
@@ -115,7 +115,7 @@ namespace Calculating_Magnetic_Field.ModelFactories
 
                         if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
                         {
-                            Bound_Rib rib = bound.Bound_Ribs[i];
+                            Rib rib = bound.Bound_Ribs[i];
                             double length = rib.LengthElement;
                             r1 = rib.Point1.DistanceToOtherPoint(location);
                             r2 = rib.Point2.DistanceToOtherPoint(location);
@@ -132,12 +132,12 @@ namespace Calculating_Magnetic_Field.ModelFactories
                             }
                             else if (r2 < r1)
                             {
-                                bound.Bound_Ribs.Insert((i + 1) % count, new Bound_Rib(location, rib.Point2));
+                                bound.Bound_Ribs.Insert((i + 1) % count, new Rib(location, rib.Point2));
                                 rib.Point2 = location;
                             }
                             else
                             {
-                                bound.Bound_Ribs.Insert(i, new Bound_Rib(rib.Point1, location));
+                                bound.Bound_Ribs.Insert(i, new Rib(rib.Point1, location));
                                 rib.Point1 = location;
                             }
 

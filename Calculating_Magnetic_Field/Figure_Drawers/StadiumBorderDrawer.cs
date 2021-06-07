@@ -30,23 +30,23 @@ namespace Calculating_Magnetic_Field.Figure_Drawers
             {
                 graphics.DrawLine(pen,
                                   new PointF(bound_Stadium.Location.X + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2),
-                                  new PointF(bound_Stadium.Location.X + PBox.Width / 2, -(bound_Stadium.Location.Y - bound_Stadium.Width) + PBox.Height / 2));
+                                  new PointF(bound_Stadium.Location.X + PBox.Width / 2, -(bound_Stadium.Location.Y - bound_Stadium.Height) + PBox.Height / 2));
                 graphics.DrawLine(pen,
-                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Length + PBox.Width / 2, -(bound_Stadium.Location.Y - bound_Stadium.Width) + PBox.Height / 2),
-                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Length + PBox.Width / 2, - bound_Stadium.Location.Y + PBox.Height / 2));
-                graphics.DrawArc(pen, bound_Stadium.Location.X + PBox.Width / 2, -bound_Stadium.Location.Y + bound_Stadium.Width - bound_Stadium.Radius + PBox.Height / 2, bound_Stadium.Length, bound_Stadium.Length, 0, 180);
-                graphics.DrawArc(pen, bound_Stadium.Location.X + PBox.Width / 2, -bound_Stadium.Location.Y - bound_Stadium.Radius + PBox.Height / 2, bound_Stadium.Length, bound_Stadium.Length, 180, 180);
+                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Width + PBox.Width / 2, -(bound_Stadium.Location.Y - bound_Stadium.Height) + PBox.Height / 2),
+                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Width + PBox.Width / 2, - bound_Stadium.Location.Y + PBox.Height / 2));
+                graphics.DrawArc(pen, bound_Stadium.Location.X + PBox.Width / 2, -bound_Stadium.Location.Y + bound_Stadium.Height - bound_Stadium.Radius + PBox.Height / 2, bound_Stadium.Width, bound_Stadium.Width, 0, 180);
+                graphics.DrawArc(pen, bound_Stadium.Location.X + PBox.Width / 2, -bound_Stadium.Location.Y - bound_Stadium.Radius + PBox.Height / 2, bound_Stadium.Width, bound_Stadium.Width, 180, 180);
             }
             if (bound_Stadium.Orientation == StadiumOrientation.HorizontalHalfRings)
             {
                 graphics.DrawLine(pen,
                                   new PointF(bound_Stadium.Location.X + PBox.Width / 2,                        -bound_Stadium.Location.Y + PBox.Height / 2),
-                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Length + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2));
+                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Width + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2));
                 graphics.DrawLine(pen,
-                                  new PointF(bound_Stadium.Location.X + PBox.Width / 2,                        -bound_Stadium.Location.Y + bound_Stadium.Width + PBox.Height / 2),
-                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Length + PBox.Width / 2, -bound_Stadium.Location.Y + bound_Stadium.Width + PBox.Height / 2));
-                graphics.DrawArc(pen, bound_Stadium.Location.X - bound_Stadium.Radius + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2, bound_Stadium.Width, bound_Stadium.Width, 90, 180);
-                graphics.DrawArc(pen, bound_Stadium.Location.X + bound_Stadium.Length - bound_Stadium.Radius + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2, bound_Stadium.Width, bound_Stadium.Width, 270, 180);
+                                  new PointF(bound_Stadium.Location.X + PBox.Width / 2,                        -bound_Stadium.Location.Y + bound_Stadium.Height + PBox.Height / 2),
+                                  new PointF(bound_Stadium.Location.X + bound_Stadium.Width + PBox.Width / 2, -bound_Stadium.Location.Y + bound_Stadium.Height + PBox.Height / 2));
+                graphics.DrawArc(pen, bound_Stadium.Location.X - bound_Stadium.Radius + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2, bound_Stadium.Height, bound_Stadium.Height, 90, 180);
+                graphics.DrawArc(pen, bound_Stadium.Location.X + bound_Stadium.Width - bound_Stadium.Radius + PBox.Width / 2, -bound_Stadium.Location.Y + PBox.Height / 2, bound_Stadium.Height, bound_Stadium.Height, 270, 180);
             }
 
             brush.Dispose();

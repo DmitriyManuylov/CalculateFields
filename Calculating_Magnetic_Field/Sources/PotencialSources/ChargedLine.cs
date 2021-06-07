@@ -18,10 +18,10 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             set { n = value; }
         }
         
-        private List<Bound_Rib> ribs;
+        private List<Rib> ribs;
 
-        private Bound_Rib rib;
-        public Bound_Rib Rib
+        private Rib rib;
+        public Rib Rib
         {
             get { return rib; }
             set { rib = value; }
@@ -69,7 +69,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
         public ChargedLine(PointD point1, PointD point2, double density, int n)
         {
             this.n = n;
-            rib = new Bound_Rib(point1, point2);
+            rib = new Rib(point1, point2);
             ribs = rib.GetSubRibs(n);
             this.density = density;
         }
@@ -97,7 +97,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;
@@ -160,7 +160,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;
@@ -216,7 +216,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
         }
 
 
-        double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
+        double Integral_Potencial(Rib rib, PointD pointM, double Density)
         {
             PointD p1, p2;
             PointD MiddleOFRib = rib.GetMiddleOfRib();
@@ -260,7 +260,7 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;

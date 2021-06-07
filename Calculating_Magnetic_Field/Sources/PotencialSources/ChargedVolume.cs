@@ -89,10 +89,10 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
             SourcePower = charge;
             chargeDensity = SourcePower / rectangle.GetSquare();
             double startX = rectangle.Location.X;
-            double startY = rectangle.Location.Y - rectangle.Width;
+            double startY = rectangle.Location.Y - rectangle.Height;
 
-            dx = rectangle.Lenth / n;
-            dy = rectangle.Width / m;
+            dx = rectangle.Width / n;
+            dy = rectangle.Height / m;
 
             for (int i = 0; i < n; i++)
                 for (int j = 0; j < m; j++)

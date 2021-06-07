@@ -18,22 +18,22 @@ namespace Calculating_Magnetic_Field.Figures
         /// <summary>
         /// Размер по оси Ox
         /// </summary>
-        public float Length { get; set; }
+        public float Width { get; set; }
 
         /// <summary>
         /// Размер по оси Oy
         /// </summary>
-        public float Width { get; set; }
+        public float Height { get; set; }
 
         private float eps = 1e-9f;
 
-        Bound_Rib[] ribs = new Bound_Rib[2];
+        Rib[] ribs = new Rib[2];
 
         public Bound_Stadium(PointF location, float length, float width, StadiumOrientation orientation, float Scale)
         {
             Location = new PointF(location.X * Scale, location.Y * Scale);
-            Length = length * Scale;
-            Width = width * Scale;
+            Width = length * Scale;
+            Height = width * Scale;
             Orientation = orientation;
             SetRadius();
             BuildRibs();
@@ -42,8 +42,8 @@ namespace Calculating_Magnetic_Field.Figures
         public Bound_Stadium(Bound_Stadium bound_Stadium, float Scale)
         {
             Location = new PointF(bound_Stadium.Location.X * Scale, bound_Stadium.Location.Y * Scale);
-            Length = bound_Stadium.Length * Scale;
             Width = bound_Stadium.Width * Scale;
+            Height = bound_Stadium.Height * Scale;
             Radius = bound_Stadium.Radius * Scale;
             Orientation = bound_Stadium.Orientation;
             BuildRibs();
@@ -52,8 +52,8 @@ namespace Calculating_Magnetic_Field.Figures
         public Bound_Stadium(PointF location, float lenth, float width, StadiumOrientation orientation)
         {
             Location = location;
-            Length = lenth;
-            Width = width;
+            Width = lenth;
+            Height = width;
             Orientation = orientation;
             SetRadius();
             BuildRibs();
@@ -66,26 +66,26 @@ namespace Calculating_Magnetic_Field.Figures
             {
                 case StadiumOrientation.HorizontalHalfRings:
                     {
-                        p1 = new PointD(Location.X, Location.Y - Width);
-                        p2 = new PointD(Location.X + Length, Location.Y - Width);
-                        ribs[0] = new Bound_Rib(p1, p2);
-                        p1.X = Location.X + Length;
+                        p1 = new PointD(Location.X, Location.Y - Height);
+                        p2 = new PointD(Location.X + Width, Location.Y - Height);
+                        ribs[0] = new Rib(p1, p2);
+                        p1.X = Location.X + Width;
                         p1.Y = Location.Y;
                         p2.X = Location.X;
                         p2.Y = Location.Y;
-                        ribs[1] = new Bound_Rib(p1, p2);
+                        ribs[1] = new Rib(p1, p2);
                         break;
                     }
                 case StadiumOrientation.VerticalHalfRings:
                     {
                         p1 = new PointD(Location.X, Location.Y);
-                        p2 = new PointD(Location.X, Location.Y - Width);
-                        ribs[0] = new Bound_Rib(p1, p2);
-                        p1.X = Location.X + Length;
-                        p1.Y = Location.Y - Width;
-                        p2.X = Location.X + Length;
+                        p2 = new PointD(Location.X, Location.Y - Height);
+                        ribs[0] = new Rib(p1, p2);
+                        p1.X = Location.X + Width;
+                        p1.Y = Location.Y - Height;
+                        p2.X = Location.X + Width;
                         p2.Y = Location.Y;
-                        ribs[1] = new Bound_Rib(p1, p2);
+                        ribs[1] = new Rib(p1, p2);
                         break;
                     }
             }
@@ -97,10 +97,10 @@ namespace Calculating_Magnetic_Field.Figures
             switch (Orientation)
             {
                 case StadiumOrientation.HorizontalHalfRings:
-                    perimeter = 2 * Length + Math.PI * Width;
+                    perimeter = 2 * Width + Math.PI * Height;
                     break;
                 case StadiumOrientation.VerticalHalfRings:
-                    perimeter = 2 * Width + Math.PI * Length;
+                    perimeter = 2 * Height + Math.PI * Width;
                     break;
             }
             return perimeter;
@@ -108,7 +108,7 @@ namespace Calculating_Magnetic_Field.Figures
 
         public double GetSquare()
         {
-            return Length * Width + Math.PI * Radius * Radius;
+            return Width * Height + Math.PI * Radius * Radius;
         }
 
         public FigureType GetFigureType()
@@ -128,9 +128,9 @@ namespace Calculating_Magnetic_Field.Figures
                 case StadiumOrientation.HorizontalHalfRings:
                     {
                         res = res || ((p.X >= Location.X) && (p.Y <= Location.Y - eps) &&
-                               (p.X <= (Location.X + Length)) && (p.Y >= (Location.Y - Width + eps)));
+                               (p.X <= (Location.X + Width)) && (p.Y >= (Location.Y - Height + eps)));
                         c.X = Location.X;
-                        c.Y = Location.Y - Width / 2;
+                        c.Y = Location.Y - Height / 2;
                         res = res ||
                         // ***********************************************************************************
                         // левый полукруг 
@@ -140,11 +140,11 @@ namespace Calculating_Magnetic_Field.Figures
 
                         // ***********************************************************************************
                         // правый полукруг 
-                        c.X = Location.X + Length;
-                        c.Y = Location.Y - Width / 2;
+                        c.X = Location.X + Width;
+                        c.Y = Location.Y - Height / 2;
                         res = res ||
                         (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
-                        && p.X >= Location.X + Length);
+                        && p.X >= Location.X + Width);
                             //***********************************************************************************
                         break;
                     }
@@ -153,8 +153,8 @@ namespace Calculating_Magnetic_Field.Figures
                 case StadiumOrientation.VerticalHalfRings:
                     {
                         res = res || ((p.X >= Location.X + eps) && (p.Y <= Location.Y) &&
-                               (p.X <= (Location.X + Length - eps)) && (p.Y >= (Location.Y - Width)));
-                        c.X = Location.X + Length / 2;
+                               (p.X <= (Location.X + Width - eps)) && (p.Y >= (Location.Y - Height)));
+                        c.X = Location.X + Width / 2;
                         c.Y = Location.Y;
                         res = res ||
                         // ***********************************************************************************
@@ -165,11 +165,11 @@ namespace Calculating_Magnetic_Field.Figures
 
                         // ***********************************************************************************
                         // нижний полукруг 
-                        c.X = Location.X + Length / 2;
-                        c.Y = Location.Y - Width;
+                        c.X = Location.X + Width / 2;
+                        c.Y = Location.Y - Height;
                         res = res ||
                         (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
-                        && p.Y <= Location.Y - Width);
+                        && p.Y <= Location.Y - Height);
                         //***********************************************************************************
                         break;
                     }
@@ -182,10 +182,10 @@ namespace Calculating_Magnetic_Field.Figures
             switch (Orientation)
             {
                 case StadiumOrientation.HorizontalHalfRings:
-                    Radius = Width / 2;
+                    Radius = Height / 2;
                     break;
                 case StadiumOrientation.VerticalHalfRings:
-                    Radius = Length / 2;
+                    Radius = Width / 2;
                     break;
             }
         }
@@ -209,7 +209,7 @@ namespace Calculating_Magnetic_Field.Figures
                 case StadiumOrientation.HorizontalHalfRings:
                     {
                         c.X = Location.X;
-                        c.Y = Location.Y - Width / 2;
+                        c.Y = Location.Y - Height / 2;
                         // ***********************************************************************************
                         // левая полуокружность 
                         if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
@@ -220,12 +220,12 @@ namespace Calculating_Magnetic_Field.Figures
 
                         // ***********************************************************************************
                         // правая полуокружность
-                        c.X = Location.X + Length;
-                        c.Y = Location.Y - Width / 2;
+                        c.X = Location.X + Width;
+                        c.Y = Location.Y - Height / 2;
 
                         if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
                             && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
-                        && p.X >= Location.X + Length)
+                        && p.X >= Location.X + Width)
                             return true;
                         //************************************************************************************
                         break;
@@ -234,7 +234,7 @@ namespace Calculating_Magnetic_Field.Figures
 
                 case StadiumOrientation.VerticalHalfRings:
                     {
-                        c.X = Location.X + Length / 2;
+                        c.X = Location.X + Width / 2;
                         c.Y = Location.Y;
                         // ***********************************************************************************
                         // верхняя полуокружность
@@ -246,11 +246,11 @@ namespace Calculating_Magnetic_Field.Figures
 
                         // ***********************************************************************************
                         // нижняя полуокружность
-                        c.X = Location.X + Length / 2;
-                        c.Y = Location.Y - Width;
+                        c.X = Location.X + Width / 2;
+                        c.Y = Location.Y - Height;
                         if ((((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius + eps)
                             && ((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) >= Radius * Radius - eps))
-                        && (p.Y <= Location.Y - Width))
+                        && (p.Y <= Location.Y - Height))
                             return true;
                         //************************************************************************************
                         break;
@@ -266,6 +266,33 @@ namespace Calculating_Magnetic_Field.Figures
             bool result = IsPointOnBorder(point);
             eps = old_eps;
             return result;
+        }
+
+
+        public override string ToString()
+        {
+            string res = "";
+            string orientation = "";
+            switch (Orientation)
+            {
+                case StadiumOrientation.HorizontalHalfRings:
+                    {
+                        orientation = "горизонтальная";
+                        break;
+                    }
+                case StadiumOrientation.VerticalHalfRings:
+                    {
+                        orientation = "вертикальная";
+                        break;
+                    }
+            }
+
+            res += "Тип фигуры: стадион" + "\n";
+            res += $"ЛВУ: X = {Location.X}, Y = {Location.Y}" + "\n";
+            res += $"Ширина: {Height}" + "\n";
+            res += $"Высота: {Height}" + "\n";
+            res +=  $"Ориентация: {orientation}" + "\n";
+            return res;
         }
     }
 }

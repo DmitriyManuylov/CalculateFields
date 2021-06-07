@@ -13,12 +13,12 @@ namespace Calculating_Magnetic_Field.Figure_Drawers
     {
         Brush brush;
         Pen pen;
-        Bound_Rib rib;
+        Rib rib;
         PictureBox pBox;
-        public LineDrawer(PictureBox pictureBox, Bound_Rib rib, float DrawingScale)
+        public LineDrawer(PictureBox pictureBox, Rib rib, float DrawingScale)
         {
             pBox = pictureBox;
-            this.rib = new Bound_Rib(new PointD(rib.Point1.X * DrawingScale,
+            this.rib = new Rib(new PointD(rib.Point1.X * DrawingScale,
                                                 rib.Point1.Y * DrawingScale),
                                      new PointD(rib.Point2.X * DrawingScale,
                                                 rib.Point2.Y * DrawingScale));

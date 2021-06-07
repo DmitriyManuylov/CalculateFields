@@ -350,7 +350,7 @@ namespace Calculating_Magnetic_Field
         /// <param name="pointM">Точка наблюдения</param>
         /// <param name="Density">Плотность тока на носителе</param>
         /// <returns></returns>
-        public double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
+        public double Integral_Potencial(Rib rib, PointD pointM, double Density)
         {
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
@@ -378,7 +378,7 @@ namespace Calculating_Magnetic_Field
             int m, nk = 0;
             PointD pointM;
             PointD pointN;
-            Bound_Rib ribM;
+            Rib ribM;
             for (int i = 0; i < bounds.Count; i++)
             {
                 n = bounds[i].Bound_Ribs.Count;
@@ -410,7 +410,7 @@ namespace Calculating_Magnetic_Field
         {
             int n, ni = 0;
             int m, nk = 0;
-            Bound_Rib ribN;
+            Rib ribN;
             for (int i = 0; i < bounds.Count; i++)
             {
                 n = bounds[i].Bound_Ribs.Count;
@@ -434,7 +434,7 @@ namespace Calculating_Magnetic_Field
             }
         }
 
-        private double Integral_dAdn(Bound_Rib ribN, Bound_Rib ribM)
+        private double Integral_dAdn(Rib ribN, Rib ribM)
         {
             PointD pointM = ribM.GetMiddleOfRib();
             PointD MiddleOFRib = ribN.GetMiddleOfRib();
@@ -465,7 +465,7 @@ namespace Calculating_Magnetic_Field
                 {
                     for (int k = 0; k < bounds.Count; k++)
                     {
-                        lambdaJ = (bounds[k].Right_Mu - bounds[k].Left_Mu) / (bounds[k].Left_Mu + bounds[k].Right_Mu);
+                        lambdaJ = (bounds[k].Right_Property - bounds[k].Left_Property) / (bounds[k].Left_Property + bounds[k].Right_Property);
                         for (int p = 0; p < bounds[k].Bound_Ribs.Count; p++)
                             {
                             if (i == k && j == p)
@@ -484,7 +484,7 @@ namespace Calculating_Magnetic_Field
             //Вычисление столбца свободных членов
             for (int i = 0; i < bounds.Count; i++)
             {
-                lambdaI = (bounds[i].Right_Mu - bounds[i].Left_Mu) / (bounds[i].Right_Mu + bounds[i].Left_Mu);
+                lambdaI = (bounds[i].Right_Property - bounds[i].Left_Property) / (bounds[i].Right_Property + bounds[i].Left_Property);
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                 {
                     VectorB[ni + j] = 2 * lambdaI * BnOnBound[ni + j];
@@ -509,7 +509,7 @@ namespace Calculating_Magnetic_Field
                 {
                     for (int k = 0; k < bounds.Count; k++)
                     {
-                        lambdaJ = (bounds[k].Right_Mu - bounds[k].Left_Mu) / (bounds[k].Left_Mu + bounds[k].Right_Mu);
+                        lambdaJ = (bounds[k].Right_Property - bounds[k].Left_Property) / (bounds[k].Left_Property + bounds[k].Right_Property);
                         for (int p = 0; p < bounds[k].Bound_Ribs.Count; p++)
                         {
                             if (i == k && j == p)
@@ -528,7 +528,7 @@ namespace Calculating_Magnetic_Field
             //Вычисление столбца свободных членов
             for (int i = 0; i < bounds.Count; i++)
             {
-                lambdaI = (bounds[i].Right_Mu - bounds[i].Left_Mu) / (bounds[i].Right_Mu + bounds[i].Left_Mu);
+                lambdaI = (bounds[i].Right_Property - bounds[i].Left_Property) / (bounds[i].Right_Property + bounds[i].Left_Property);
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
                 {
                     VectorB[ni + j] = 2 * lambdaI * (BnOnBound[ni + j] - MidValuesBn[i]);
@@ -607,7 +607,7 @@ namespace Calculating_Magnetic_Field
         /// <param name="pointM"></param>
         /// <param name="func"></param>
         /// <returns></returns>
-        public double GaussIntegral(Bound_Rib rib, PointD pointM, Func<PointD, PointD, double> func)
+        public double GaussIntegral(Rib rib, PointD pointM, Func<PointD, PointD, double> func)
         {
             double result = 0;
             PointD PointN;
@@ -622,7 +622,7 @@ namespace Calculating_Magnetic_Field
             result *= rib.LengthElement / 2;
             return result;
         }
-        public double GaussIntegralDn(Bound_Rib ribN,Bound_Rib ribM, Func<PointD, Bound_Rib, double> func)
+        public double GaussIntegralDn(Rib ribN,Rib ribM, Func<PointD, Rib, double> func)
         {
             double result = 0;
             PointD PointN;
@@ -656,7 +656,7 @@ namespace Calculating_Magnetic_Field
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
             double lenth;
             Vector2D result;
             double coef = 0.05;
@@ -722,7 +722,7 @@ namespace Calculating_Magnetic_Field
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
             double lenth;
             Vector2D result;
             double coef = 0.05;
@@ -943,9 +943,9 @@ namespace Calculating_Magnetic_Field
             result = freeF;
         }
 
-        public DimensionsOfPotencial GetPotencialDimensionType()
+        public TypeOfPotencial GetPotencialType()
         {
-            return DimensionsOfPotencial.Vector;
+            return TypeOfPotencial.Vector;
         }
 
         public Vector2D CalculateIntensity(PointD pointM)

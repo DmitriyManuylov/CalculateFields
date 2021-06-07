@@ -32,9 +32,9 @@ namespace Calculating_Magnetic_Field
 
         List<double> densities = new List<double>(2);
 
-        List<Bound_Rib> bigRibsForVect = new List<Bound_Rib>(2);
+        List<Rib> bigRibsForVect = new List<Rib>(2);
 
-        List<Bound_Rib> ribsForVect;
+        List<Rib> ribsForVect;
 
         IFigure thisFigure;
 
@@ -122,7 +122,7 @@ namespace Calculating_Magnetic_Field
             this.direction = direction;
             thisFigure = rectangle;
             coerciveForce = M;
-            ribsForVect = new List<Bound_Rib>(2 * n);
+            ribsForVect = new List<Rib>(2 * n);
             densities = new List<double>(2 * n);
             this.PhysicalField = physicalField;
             
@@ -131,9 +131,9 @@ namespace Calculating_Magnetic_Field
                 case SimpleDirections.FromBottomToTop:
                     {
                         
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y - rectangle.Width), new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y - rectangle.Height), new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y)));
                         ribsForVect.AddRange(bigRibsForVect[0].GetSubRibs(n));
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Width)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Height)));
                         ribsForVect.AddRange(bigRibsForVect[1].GetSubRibs(n));
                         for (int i = 0; i < n; i++)
                             densities.Add(-standart_field_property * coerciveForce);
@@ -146,9 +146,9 @@ namespace Calculating_Magnetic_Field
                     }
                 case SimpleDirections.FromTopToBottom:
                     {
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y)));
                         ribsForVect.AddRange(bigRibsForVect[0].GetSubRibs(n));
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Width), new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y - rectangle.Width)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Height), new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y - rectangle.Height)));
                         ribsForVect.AddRange(bigRibsForVect[1].GetSubRibs(n));
                         /*for (int i = 0; i < n; i++)
                             densities.Add(-standart_field_property * coerciveForce);
@@ -162,9 +162,9 @@ namespace Calculating_Magnetic_Field
                     }
                 case SimpleDirections.FromLeftToRight:
                     {
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Width)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Height)));
                         ribsForVect.AddRange(bigRibsForVect[0].GetSubRibs(n));
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y - rectangle.Width), new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y - rectangle.Height), new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y)));
                         ribsForVect.AddRange(bigRibsForVect[1].GetSubRibs(n));
                         /*for (int i = 0; i < n; i++)
                             densities.Add(-standart_field_property * coerciveForce);
@@ -178,9 +178,9 @@ namespace Calculating_Magnetic_Field
                     }
                 case SimpleDirections.FromRightToLeft:
                     {
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y - rectangle.Width), new PointD(rectangle.Location.X + rectangle.Lenth, rectangle.Location.Y)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y - rectangle.Height), new PointD(rectangle.Location.X + rectangle.Width, rectangle.Location.Y)));
                         ribsForVect.AddRange(bigRibsForVect[0].GetSubRibs(n));
-                        bigRibsForVect.Add(new Bound_Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Width)));
+                        bigRibsForVect.Add(new Rib(new PointD(rectangle.Location.X, rectangle.Location.Y), new PointD(rectangle.Location.X, rectangle.Location.Y - rectangle.Height)));
                         ribsForVect.AddRange(bigRibsForVect[1].GetSubRibs(n));
                         /*for(int i = 0; i < n; i++)
                             densities.Add(standart_field_property * coerciveForce);
@@ -220,7 +220,7 @@ namespace Calculating_Magnetic_Field
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;
@@ -283,7 +283,7 @@ namespace Calculating_Magnetic_Field
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;
@@ -339,7 +339,7 @@ namespace Calculating_Magnetic_Field
         }
 
 
-        double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
+        double Integral_Potencial(Rib rib, PointD pointM, double Density)
         {
             PointD p1, p2;
             PointD MiddleOFRib = rib.GetMiddleOfRib();
@@ -416,7 +416,7 @@ namespace Calculating_Magnetic_Field
             f1.Y_component = 0;
             f2.X_component = 0;
             f2.Y_component = 0;
-            Bound_Rib rib;
+            Rib rib;
 
             double lenth;
             Vector2D result;

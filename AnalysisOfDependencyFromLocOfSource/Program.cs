@@ -25,7 +25,7 @@ namespace AnalysisOfDependencyFromLocOfSource
         static string path = "F:\\Programming\\Диссертация\\Calculating_Magnetic_Field\\Calculating_Magnetic_Field\\bin\\Debug\\Problem_files\\Поле тока\\" +
                               "Поле тока. условие Неймана 2 источника вкл средн стадион зар на границе внутр на полукольцах.dat";
 
-        static Bound_Rib[] ribs = new Bound_Rib[4];
+        static Rib[] ribs = new Rib[4];
         static PointD[] points = new PointD[4];
         static List<ChargedThread> sources = new List<ChargedThread>(4);
 
@@ -36,7 +36,7 @@ namespace AnalysisOfDependencyFromLocOfSource
         static List<double> anglesOfCentresOfArcs = new List<double>(4);
         static List<double> anglesOfSecondPoints = new List<double>(4);
 
-        static List<List<Bound_Rib>> new_ribs_Owning_Sources = new List<List<Bound_Rib>>(4);
+        static List<List<Rib>> new_ribs_Owning_Sources = new List<List<Rib>>(4);
         static List<int> indexesOfRibsWithSources = new List<int>(4);
 
         static List<List<double>> anglesArrays = new List<List<double>>(4);
@@ -61,7 +61,7 @@ namespace AnalysisOfDependencyFromLocOfSource
             for (int i = 0; i < 4; i++)
                 pointsOnArcs.Add(new List<PointD>(countOfVariants));
             for (int i = 0; i < 4; i++)
-                new_ribs_Owning_Sources.Add(new List<Bound_Rib>(countOfVariants));
+                new_ribs_Owning_Sources.Add(new List<Rib>(countOfVariants));
 
 
             //Work_With_Files.ReadPhisicalObjectsInformationFromFile(out model, out modelFactory, path);
@@ -87,12 +87,12 @@ namespace AnalysisOfDependencyFromLocOfSource
                 {
                     sources.Add((ChargedThread)model.Sources[i]);
                 }
-                List<Bound_Rib> ribs = model.Bounds[1].Bound_Ribs;
+                List<Rib> ribs = model.Bounds[1].Bound_Ribs;
                 SetLocationsOfSourcesOnBound();
                 for (int i = 0; i < 4; i++)
                 {
                     int index = indexesOfRibsWithSources[i];
-                    Bound_Rib rib = new_ribs_Owning_Sources[i][k];
+                    Rib rib = new_ribs_Owning_Sources[i][k];
                     ribs[index] = rib;
                     ribs[index + 1].Point1 = rib.Point2;
                     ribs[index - 1].Point2 = rib.Point1;
@@ -129,14 +129,14 @@ namespace AnalysisOfDependencyFromLocOfSource
             }
             
             Bound bound = model.Bounds[1];
-            List<Bound_Rib> ribs = bound.Bound_Ribs;
+            List<Rib> ribs = bound.Bound_Ribs;
             Bound_Stadium bound_Stadium = (Bound_Stadium)bound.ThisFigure;
 
-            PointD centre1 = new PointD(bound_Stadium.Location.X + bound_Stadium.Length / 2, bound_Stadium.Location.Y);
-            PointD centre2 = new PointD(bound_Stadium.Location.X + bound_Stadium.Length / 2, bound_Stadium.Location.Y - bound_Stadium.Width);
+            PointD centre1 = new PointD(bound_Stadium.Location.X + bound_Stadium.Width / 2, bound_Stadium.Location.Y);
+            PointD centre2 = new PointD(bound_Stadium.Location.X + bound_Stadium.Width / 2, bound_Stadium.Location.Y - bound_Stadium.Height);
             PointD centre;
-            Bound_Rib rib;
-            Bound_Rib splitting_Rib;
+            Rib rib;
+            Rib splitting_Rib;
             double length;
             double r_c;
             for (int i = 0; i < 4; i++)
@@ -176,22 +176,22 @@ namespace AnalysisOfDependencyFromLocOfSource
             }
         }
 
-        static List<Bound_Rib> SplitChord(Bound_Rib rib, PointD centre, double radius, int n)
+        static List<Rib> SplitChord(Rib rib, PointD centre, double radius, int n)
         {
             double angle_1 = Trigonometry.Angle(centre, rib.Point1);
             double angle_2 = Trigonometry.Angle(centre, rib.Point2);
             double d_a = angle_2 - angle_1;
             double d_a_n = d_a / n;
-            List<Bound_Rib> inserting_Ribs = new List<Bound_Rib>(90);
-            inserting_Ribs.Add(new Bound_Rib(rib.Point1, new PointD(centre.X + radius * Math.Cos(angle_1 + d_a_n), centre.Y + radius * Math.Sin(angle_1 + d_a_n))));
+            List<Rib> inserting_Ribs = new List<Rib>(90);
+            inserting_Ribs.Add(new Rib(rib.Point1, new PointD(centre.X + radius * Math.Cos(angle_1 + d_a_n), centre.Y + radius * Math.Sin(angle_1 + d_a_n))));
             PointD p1, p2;
             for (int i = 1; i < n - 1; i++)
             {
                 p1 = new PointD(centre.X + radius * Math.Cos(angle_1 + i * d_a_n), centre.Y + radius * Math.Sin(angle_1 + i * d_a_n));
                 p2 = new PointD(centre.X + radius * Math.Cos(angle_1 + (i + 1) * d_a_n), centre.Y + radius * Math.Sin(angle_1 + (i + 1) * d_a_n));
-                inserting_Ribs.Add(new Bound_Rib(p1, p2));
+                inserting_Ribs.Add(new Rib(p1, p2));
             }
-            inserting_Ribs.Add(new Bound_Rib(new PointD(centre.X + radius * Math.Cos(angle_1 + (n - 1) * d_a_n), centre.Y + radius * Math.Sin(angle_1 + (n - 1) * d_a_n)), rib.Point2));
+            inserting_Ribs.Add(new Rib(new PointD(centre.X + radius * Math.Cos(angle_1 + (n - 1) * d_a_n), centre.Y + radius * Math.Sin(angle_1 + (n - 1) * d_a_n)), rib.Point2));
             return inserting_Ribs;
         }
 
@@ -209,15 +209,15 @@ namespace AnalysisOfDependencyFromLocOfSource
             PointD p11;
             PointD p22;
 
-            PointF centre1 = new PointF(bound_Stadium.Location.X + bound_Stadium.Length / 2, bound_Stadium.Location.Y);
-            PointF centre2 = new PointF(bound_Stadium.Location.X + bound_Stadium.Length / 2, bound_Stadium.Location.Y - bound_Stadium.Width);
+            PointF centre1 = new PointF(bound_Stadium.Location.X + bound_Stadium.Width / 2, bound_Stadium.Location.Y);
+            PointF centre2 = new PointF(bound_Stadium.Location.X + bound_Stadium.Width / 2, bound_Stadium.Location.Y - bound_Stadium.Height);
 
             int count = bound.Bound_Ribs.Count;
             for (int k = 0; k < sources.Count / 2; k++)
             {
                 for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                 {
-                    Bound_Rib rib = bound.Bound_Ribs[i];
+                    Rib rib = bound.Bound_Ribs[i];
                     double length = rib.LengthElement;
                     r_c = rib.GetMiddleOfRib().DistanceToOtherPoint(sources[k].Location);
                     double a_source = Trigonometry.Angle(centre1.X, centre1.Y, sources[k].Location.X, sources[k].Location.Y);
@@ -258,7 +258,7 @@ namespace AnalysisOfDependencyFromLocOfSource
                         {
                             p11 = new PointD(centre1.X + bound_Stadium.Radius * Math.Cos(a_p1 - d_alpha * j), centre1.Y + bound_Stadium.Radius * Math.Sin(a_p1 - d_alpha * j));
                             p22 = new PointD(centre1.X + bound_Stadium.Radius * Math.Cos(a_p2 - d_alpha * j), centre1.Y + bound_Stadium.Radius * Math.Sin(a_p2 - d_alpha * j));
-                            new_ribs_Owning_Sources[k].Add(new Bound_Rib(p11, p22));
+                            new_ribs_Owning_Sources[k].Add(new Rib(p11, p22));
                         }
                         break;
                     }
@@ -268,7 +268,7 @@ namespace AnalysisOfDependencyFromLocOfSource
             {
                 for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                 {
-                    Bound_Rib rib = bound.Bound_Ribs[i];
+                    Rib rib = bound.Bound_Ribs[i];
                     double length = rib.LengthElement;
                     r_c = rib.GetMiddleOfRib().DistanceToOtherPoint(sources[k].Location);
 
@@ -306,7 +306,7 @@ namespace AnalysisOfDependencyFromLocOfSource
                         {
                             p11 = new PointD(centre2.X + bound_Stadium.Radius * Math.Cos(a_p1 - d_alpha * j), centre2.Y + bound_Stadium.Radius * Math.Sin(a_p1 - d_alpha * j));
                             p22 = new PointD(centre2.X + bound_Stadium.Radius * Math.Cos(a_p2 - d_alpha * j), centre2.Y + bound_Stadium.Radius * Math.Sin(a_p2 - d_alpha * j));
-                            new_ribs_Owning_Sources[k].Add(new Bound_Rib(p11, p22));
+                            new_ribs_Owning_Sources[k].Add(new Rib(p11, p22));
                         }
                         break;
                     }
@@ -324,7 +324,7 @@ namespace AnalysisOfDependencyFromLocOfSource
 
             double perimeter = bound_stadium.GetPerimeter();
             double r = bound_stadium.Radius;
-            n1 = Convert.ToInt32(n * bound_stadium.Width / perimeter);
+            n1 = Convert.ToInt32(n * bound_stadium.Height / perimeter);
 
             n2 = Convert.ToInt32(n * Math.PI * bound_stadium.Radius / perimeter);
             dAlpha = Math.PI / n2;

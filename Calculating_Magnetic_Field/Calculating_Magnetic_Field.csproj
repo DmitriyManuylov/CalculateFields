@@ -136,7 +136,7 @@
     <Compile Include="Figures\BoundElement.cs" />
     <Compile Include="Figures\Bound_Frame.cs" />
     <Compile Include="Figures\Bound_Rectangle.cs" />
-    <Compile Include="Figures\Bound_Rib.cs" />
+    <Compile Include="Figures\Rib.cs" />
     <Compile Include="Figures\PointD.cs" />
     <Compile Include="Forms\Calculate.cs">
       <SubType>Form</SubType>
@@ -165,7 +165,8 @@
     <Compile Include="ModelFactories\ModelFactory.cs" />
     <Compile Include="ModelFactories\ScalarModelFactory.cs" />
     <Compile Include="ModelFactories\VectorModelFactory.cs" />
-    <Compile Include="Models\DimensionsOfPotencial.cs" />
+    <Compile Include="Models\IIntegral.cs" />
+    <Compile Include="Models\TypeOfPotencial.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\IPotencial.cs" />
     <Compile Include="Models\PotencialTypes.cs" />
