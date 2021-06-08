@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Calculating_Magnetic_Field
 {
-    public class GraphicsCalculating
+    public class GraphicsCalculation
     {
         private Rib rib;
 
@@ -23,7 +23,7 @@ namespace Calculating_Magnetic_Field
         private List<double> function;
 
         List<double> L;
-        public GraphicsCalculating(IModel model)
+        public GraphicsCalculation(IModel model)
         {
             this.model = model;
         }
@@ -145,7 +145,7 @@ namespace Calculating_Magnetic_Field
                 points.Add(new PointD(p1.X + i * dx, p1.Y + i * dy));
             }
             startPoint = points[0];
-            for (int i = n - 1; i >= 0; i--)
+            /*for (int i = n - 1; i >= 0; i--)
             {
                 for (int j = 0; j < model.Bounds.Count; j++)
                 {
@@ -155,7 +155,7 @@ namespace Calculating_Magnetic_Field
                         break;
                     }
                 }
-            }
+            }*/
             n = points.Count;
             this.n = n;
             for (int i = 0; i < n; i++)

@@ -46,7 +46,7 @@ namespace Calculating_Magnetic_Field
 
         public ModelFactory modelFactory;
         public Models.IModel model;
-        public GraphicsCalculating graphicsCalculating;
+        public GraphicsCalculation graphicsCalculating;
 
         public List<PointsPair> pointsPairs = new List<PointsPair>();
         PointsPair? selectedPair = null;
@@ -615,7 +615,7 @@ namespace Calculating_Magnetic_Field
             {
                 file = openFileDialog.FileName;
                 Work_With_Files.ReadPhisicalObjectsInformationFromFile(out model, out modelFactory, file);
-                graphicsCalculating = new GraphicsCalculating(model);
+                graphicsCalculating = new GraphicsCalculation(model);
                 foreach(var figure in model.Bounds)
                 {
                     figuresForDrawing.Add(DrawerBuilder.BuildDrawer(pictureBox1, figure, DrawingScale));
@@ -972,7 +972,12 @@ namespace Calculating_Magnetic_Field
             PointD Point43 = new PointD(0.00151, -0.02);
             PointD Point44 = new PointD(0.00151, 0.02);
             pointsPairs.Add(new PointsPair { Point1 = Point43, Point2 = Point44 });
-            
+
+            //вертикальная линия 12
+            PointD Point45 = new PointD(0.02, -0.0195);
+            PointD Point46 = new PointD(0.02, 0.0195);
+            pointsPairs.Add(new PointsPair { Point1 = Point45, Point2 = Point46 });
+
 
         }
 

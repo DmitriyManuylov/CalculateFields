@@ -158,7 +158,7 @@
     <Compile Include="Forms\PicBox.Designer.cs">
       <DependentUpon>PicBox.cs</DependentUpon>
     </Compile>
-    <Compile Include="GraphicsCalculating.cs" />
+    <Compile Include="GraphicsCalculation.cs" />
     <Compile Include="ModelFactories\PDL_Factory_Method.cs" />
     <Compile Include="ModelFactories\PSL_Factory_Method.cs" />
     <Compile Include="ModelFactories\IPotencialFactoryMethod.cs" />

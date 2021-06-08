@@ -325,15 +325,6 @@ namespace Calculating_Magnetic_Field.Models
             return rib.LengthElement * Math.Log(1.0 / r);
         }
 
-        /*public double Integral_Potencial(Bound_Rib rib, PointD pointM, double Density)
-        {
-            PointD MiddleOFRib = rib.GetMiddleOfRib();
-            double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
-                                 (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
-            if (r < rib.LenthElement)
-                return Density * (-2*Math.PI/ rib.LenthElement + rib.LenthElement*(1-Math.Log(rib.LenthElement/2)));
-            return rib.LenthElement * Density * Math.Log(1.0 / r);
-        }*/
         #region Методы
 
 
@@ -399,18 +390,6 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
-        public double Integral_dAdn(Rib ribN, Rib ribM)
-        {
-            PointD pointM = ribM.GetMiddleOfRib();
-            PointD MiddleOFRib = ribN.GetMiddleOfRib();
-            //if (ribN.Rib_Position == Rib_Position.Vertical && pointM.X == ribN.Point1.X) return 0;
-            //if (ribN.Rib_Position == Rib_Position.Horizontal && pointM.Y == ribN.Point1.Y) return 0;
-
-            //if (ribN.Rib_Position == Rib_Position.Horizontal && pointM.DistanceToOtherPoint(MiddleOFRib) < ribN.LenthElement)
-            return ribN.LengthElement * ((((pointM.X - MiddleOFRib.X) * ribM.Normal.CosAlpha + (pointM.Y - MiddleOFRib.Y) * ribM.Normal.CosBeta) /
-               ((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) + (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y))));
-            //return GaussIntegralDn(ribN, ribM, dAdn_pps);
-        }
 
         #region Расчет коэффициентов
         /// <summary>
@@ -570,7 +549,7 @@ namespace Calculating_Magnetic_Field.Models
                                             continue;
                                         }
                                     }
-                                    FreeMemberFunOnBound[nj + j] += rib.Normal.CosAlpha * grad.X_component + rib.Normal.CosBeta * grad.Y_component;
+                                    FreeMemberFunOnBound[nj + j] -= (rib.Normal.CosAlpha * grad.X_component + rib.Normal.CosBeta * grad.Y_component);
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
                         }
@@ -714,12 +693,17 @@ namespace Calculating_Magnetic_Field.Models
         private double GetFieldProperty(PointD pointM)
         {
             double fieldProperty;
-            Bound bound = GetOwnerField(pointM);
-            if (bound == null)
+            Bound indicatorOfBorder = GetOwnerBorder(pointM);
+            if(indicatorOfBorder != null)
+            {
+                return (indicatorOfBorder.Left_Property + indicatorOfBorder.Right_Property) / 2;
+            }
+            Bound indicatorOfField = GetOwnerField(pointM);
+            if (indicatorOfField == null)
             {
                 fieldProperty = Bounds[0].Right_Property;
             }
-            else fieldProperty = bound.Left_Property;
+            else fieldProperty = indicatorOfField.Left_Property;
             return fieldProperty;
         }
 
@@ -821,7 +805,7 @@ namespace Calculating_Magnetic_Field.Models
             for (int i = 0; i < bounds.Count; i++)
             {
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
-                    result += Integral_Potencial(pointM, bounds[i].Bound_Ribs[j]) * ArrDencities[ni + j];
+                    result += Potencial.Calculate_Potencial_from_Element(pointM, bounds[i].Bound_Ribs[j]) * ArrDencities[ni + j];
                 ni += bounds[i].Bound_Ribs.Count;
             }
             return depth / (2.0 * Math.PI * standart_field_property) * result;
@@ -855,7 +839,11 @@ namespace Calculating_Magnetic_Field.Models
 
         public double CalculatePotencial(PointD pointM)
         {
-            return Calculate_ReactionPotencial(pointM) + Calculate_Sources_Potencial(pointM);
+            double fieldProperty = GetFieldProperty(pointM);
+            double reactionPot = Calculate_ReactionPotencial(pointM);
+            double sourcesPot = Calculate_Sources_Potencial(pointM);
+            double potencial = reactionPot*fieldProperty + sourcesPot;
+            return potencial;
         }
 
         #endregion
@@ -989,6 +977,18 @@ namespace Calculating_Magnetic_Field.Models
             if (Bounds[0].IsContaisPoint(point))
             {
                 return Bounds[0];
+            }
+            return null;
+        }
+
+        public Bound GetOwnerBorder(PointD point)
+        {
+            for (int i = 0; i < Bounds.Count; i++)
+            {
+                if (Bounds[i].IsPointOnBorder(point))
+                {
+                    return Bounds[i];
+                }
             }
             return null;
         }

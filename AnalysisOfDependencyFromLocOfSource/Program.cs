@@ -18,7 +18,7 @@ namespace AnalysisOfDependencyFromLocOfSource
         static string path_to_dir = "C:\\Users\\Димка\\Desktop\\Анализ\\Данные графиков";
         static PointD Point1 = new PointD(0.0016, -0.02);
         static PointD Point2 = new PointD(0.0016, 0.02);
-        static GraphicsCalculating graphicsCalculating;
+        static GraphicsCalculation graphicsCalculating;
         static int countOfVariants = 6;
         static ModelFactory modelFactory;
         static IModel model;
@@ -80,7 +80,7 @@ namespace AnalysisOfDependencyFromLocOfSource
             {
                 Work_With_Files.ReadPhisicalObjectsInformationFromFile(out model, out modelFactory, path);
 
-                graphicsCalculating = new GraphicsCalculating(model);
+                graphicsCalculating = new GraphicsCalculation(model);
 
                 sources = new List<ChargedThread>();
                 for (int i = 0; i < 4; i++)
@@ -111,7 +111,7 @@ namespace AnalysisOfDependencyFromLocOfSource
         {
             Work_With_Files.ReadPhisicalObjectsInformationFromFile(out model, out modelFactory, path);
 
-            graphicsCalculating = new GraphicsCalculating(model);
+            graphicsCalculating = new GraphicsCalculation(model);
 
             SplitChords();
             model.SolveProblem();
