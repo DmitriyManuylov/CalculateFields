@@ -38,7 +38,7 @@ namespace Calculating_Magnetic_Field
             return L;
         }
 
-        float eps = 1e-9f;
+        float eps = 1e-6f;
         
         public List<double> Calculate(PointD p1, PointD p2, int n, GraphicTypes graphicTypes)
         {
@@ -51,8 +51,8 @@ namespace Calculating_Magnetic_Field
 
             tangent = new Vector2D
             {
-                X_component = (p2.X - p1.X) / rib.LengthElement,
-                Y_component = (p2.Y - p1.Y) / rib.LengthElement
+                X_component = (p2.X - p1.X) / rib.LengthOfElement,
+                Y_component = (p2.Y - p1.Y) / rib.LengthOfElement
             };
             SplitOnPoints(p1, p2, n);
             function = new List<double>(this.n);
@@ -128,6 +128,11 @@ namespace Calculating_Magnetic_Field
                         CalculateInduction_Y_component();
                         break;
                     }
+                case GraphicTypes.FieldProperty:
+                    {
+                        CalculateFieldProperty();
+                        break;
+                    }
             }
             return function;
         }
@@ -145,17 +150,17 @@ namespace Calculating_Magnetic_Field
                 points.Add(new PointD(p1.X + i * dx, p1.Y + i * dy));
             }
             startPoint = points[0];
-            /*for (int i = n - 1; i >= 0; i--)
-            {
-                for (int j = 0; j < model.Bounds.Count; j++)
-                {
-                    if (model.Bounds[j].IsPointOnBorder(points[i], eps))
-                    {
-                        points.RemoveAt(i);
-                        break;
-                    }
-                }
-            }*/
+            //for (int i = n - 1; i >= 0; i--)
+            //{
+            //    for (int j = 0; j < model.Bounds.Count; j++)
+            //    {
+            //        if (model.Bounds[j].IsPointOnBorder(points[i], eps))
+            //        {
+            //            points.RemoveAt(i);
+            //            break;
+            //        }
+            //    }
+            //}
             n = points.Count;
             this.n = n;
             for (int i = 0; i < n; i++)
@@ -279,6 +284,15 @@ namespace Calculating_Magnetic_Field
             for (int i = 0; i < n; i++)
             {
                 function.Add(model.CalculatePotencial(points[i]));
+            }
+            return function;
+        }
+
+        private List<double> CalculateFieldProperty()
+        {
+            for (int i = 0; i < n; i++)
+            {
+                function.Add(model.GetFieldPropertyInPoint(points[i]));
             }
             return function;
         }

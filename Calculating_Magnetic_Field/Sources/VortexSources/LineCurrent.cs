@@ -110,37 +110,8 @@ namespace Calculating_Magnetic_Field.Sources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LengthElement;
-                if (r < lenth)
-                {
-
-                    if (rib.Classify(pointM) == PointPosition.LEFT)
-                    {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component -= lenth * density * ((p1.X - pointM.X) / (r * r));
-                        f1.Y_component -= lenth * density * ((p1.Y - pointM.Y) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component -= lenth * density * ((p2.X - pointM.X) / (r * r));
-                        f2.Y_component -= lenth * density * ((p2.Y - pointM.Y) / (r * r));
-                    }
-                    if (rib.Classify(pointM) == PointPosition.RIGHT)
-                    {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component -= lenth * density * ((p1.X - pointM.X) / (r * r));
-                        f1.Y_component -= lenth * density * ((p1.Y - pointM.Y) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component -= lenth * density * ((p2.X - pointM.X) / (r * r));
-                        f2.Y_component -= lenth * density * ((p2.Y - pointM.Y) / (r * r));
-                    }
-                    d_fun = f1 - f2;
-
-                    result += f1 + 2 * d_fun;
-                    continue;
-                }
+                lenth = ribs[j].LengthOfElement;
+                
 
                 result.X_component -= (midP.X - pointM.X) / (r * r) * density * lenth;
                 result.Y_component -= (midP.Y - pointM.Y) / (r * r) * density * lenth;
@@ -173,37 +144,8 @@ namespace Calculating_Magnetic_Field.Sources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LengthElement;
-                if (r < lenth)
-                {
-
-                    if (rib.Classify(pointM) == PointPosition.LEFT)
-                    {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
-                        f1.Y_component -= lenth * density * ((pointM.X - p1.X) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component += lenth * density * ((pointM.Y - p2.Y) / (r * r));
-                        f2.Y_component -= lenth * density * ((pointM.X - p2.X) / (r * r));
-                    }
-                    if (rib.Classify(pointM) == PointPosition.RIGHT)
-                    {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
-                        f1.Y_component -= lenth * density * ((pointM.X - p1.X) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component += lenth * density * ((pointM.Y - p2.Y) / (r * r));
-                        f2.Y_component -= lenth * density * ((pointM.X - p2.X) / (r * r));
-                    }
-                    d_fun = f1 - f2;
-
-                    result += f1 + 2 * d_fun;
-                    continue;
-                }
+                lenth = ribs[j].LengthOfElement;
+                
 
                 result.X_component += (pointM.Y - midP.Y) / (r * r) * density * lenth;
                 result.Y_component -= (pointM.X - midP.X) / (r * r) * density * lenth;
@@ -217,33 +159,10 @@ namespace Calculating_Magnetic_Field.Sources
             PointD p1, p2;
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double f1 = 0, f2 = 0, d_fun;
-            double lenth = rib.LengthElement;
+            double lenth = rib.LengthOfElement;
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
-            if (r < lenth * 0.5)
-            {
-                if (rib.Classify(pointM) == PointPosition.LEFT)
-                {
-                    p1 = new PointD(pointM.X - rib.Normal.CosAlpha * lenth, pointM.Y - rib.Normal.CosBeta * lenth);
-                    p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * lenth, pointM.Y - 2 * rib.Normal.CosBeta * lenth);
-                    r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                    f1 = Math.Log(1.0 / r);
-                    r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                    f2 = Math.Log(1.0 / r);
-                }
-                if (rib.Classify(pointM) == PointPosition.RIGHT)
-                {
-                    p1 = new PointD(pointM.X + rib.Normal.CosAlpha * lenth, pointM.Y + rib.Normal.CosBeta * lenth);
-                    p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * lenth, pointM.Y + 2 * rib.Normal.CosBeta * lenth);
-                    r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                    f1 = Math.Log(1.0 / r);
-                    r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                    f2 = Math.Log(1.0 / r);
-                }
-                d_fun = f1 - f2;
-
-                return lenth * Density * (f1 + 2 * d_fun);
-            }
+           
             return lenth * Density * (Math.Log(1.0 / r));
         }
         public double GetPotencialValue(PointD pointM)
@@ -263,11 +182,8 @@ namespace Calculating_Magnetic_Field.Sources
         public Vector2D GetIntensityValue(PointD pointM)
         {
             PointD p1, p2;
-            Vector2D f1, f2, d_fun;
-            f1.X_component = 0;
-            f1.Y_component = 0;
-            f2.X_component = 0;
-            f2.Y_component = 0;
+            Vector2D f1, f2;
+
             Rib rib;
 
             double lenth;
@@ -284,37 +200,8 @@ namespace Calculating_Magnetic_Field.Sources
                 rib = ribs[j];
                 midP = new PointD(rib.GetMiddleOfRib());
                 r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                lenth = ribs[j].LengthElement;
-                if (r < lenth)
-                {
-
-                    if (rib.Classify(pointM) == PointPosition.LEFT)
-                    {
-                        p1 = new PointD(pointM.X - rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X - 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y - 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
-                        f1.Y_component -= lenth * density * ((pointM.X - p1.X) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component += lenth * density * ((pointM.Y - p2.Y) / (r * r));
-                        f2.Y_component -= lenth * density * ((pointM.X - p2.X) / (r * r));
-                    }
-                    if (rib.Classify(pointM) == PointPosition.RIGHT)
-                    {
-                        p1 = new PointD(pointM.X + rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + rib.Normal.CosBeta * rib.LengthElement * coef);
-                        p2 = new PointD(pointM.X + 2 * rib.Normal.CosAlpha * rib.LengthElement * coef, pointM.Y + 2 * rib.Normal.CosBeta * rib.LengthElement * coef);
-                        r = Math.Sqrt((p1.X - pointM.X) * (p1.X - pointM.X) + (p1.Y - pointM.Y) * (p1.Y - pointM.Y));
-                        f1.X_component += lenth * density * ((pointM.Y - p1.Y) / (r * r));
-                        f1.Y_component -= lenth * density * ((pointM.X - p1.X) / (r * r));
-                        r = Math.Sqrt((p2.X - pointM.X) * (p2.X - pointM.X) + (p2.Y - pointM.Y) * (p2.Y - pointM.Y));
-                        f2.X_component += lenth * density * ((pointM.Y - p2.Y) / (r * r));
-                        f2.Y_component -= lenth * density * ((pointM.X - p2.X) / (r * r));
-                    }
-                    d_fun = f1 - f2;
-
-                    result += f1 + 2 * d_fun;
-                    continue;
-                }
+                lenth = ribs[j].LengthOfElement;
+                
 
                 result.X_component += (pointM.Y - midP.Y) / (r * r) * density * lenth;
                 result.Y_component -= (pointM.X - midP.X) / (r * r) * density * lenth;

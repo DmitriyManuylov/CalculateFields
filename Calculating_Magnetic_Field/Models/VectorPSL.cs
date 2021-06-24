@@ -14,7 +14,7 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
-        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Rib ribN)
+        public Vector2D Calculate_Intensity_from_Element(PointD pointM, Rib ribN)
         {
             throw new System.NotImplementedException();
         }
@@ -30,6 +30,11 @@ namespace Calculating_Magnetic_Field.Models
         }
 
         public double Integral_dAdn(Rib ribN, Rib ribM)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public double KernelOfIntegral(Rib ribN, Rib ribM)
         {
             throw new System.NotImplementedException();
         }

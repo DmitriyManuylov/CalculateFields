@@ -67,24 +67,28 @@
             this.butBuildGraphic = new System.Windows.Forms.Button();
             this.cbChooseGraphicType = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.gbGeneralModelData = new System.Windows.Forms.GroupBox();
             this.gbFields = new System.Windows.Forms.GroupBox();
+            this.rtbFields = new System.Windows.Forms.RichTextBox();
             this.gbSources = new System.Windows.Forms.GroupBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tbFieldType = new System.Windows.Forms.TextBox();
-            this.tbPotencialType = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.tbLayerType = new System.Windows.Forms.TextBox();
+            this.rtbSources = new System.Windows.Forms.RichTextBox();
+            this.gbGeneralModelData = new System.Windows.Forms.GroupBox();
             this.tbDepth = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.rtbFields = new System.Windows.Forms.RichTextBox();
-            this.rtbSources = new System.Windows.Forms.RichTextBox();
+            this.tbLayerType = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.tbPotencialType = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.tbFieldType = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.tbCursorX = new System.Windows.Forms.TextBox();
             this.tbCursorY = new System.Windows.Forms.TextBox();
+            this.tbCursorX = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.checkBoxUseRegularization = new System.Windows.Forms.CheckBox();
+            this.tbRegularizationParameter = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.откалиброватьПотенциалToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBoxPowerLines.SuspendLayout();
@@ -93,9 +97,9 @@
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.gbGeneralModelData.SuspendLayout();
             this.gbFields.SuspendLayout();
             this.gbSources.SuspendLayout();
+            this.gbGeneralModelData.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -112,7 +116,7 @@
             // 
             // butCalculate
             // 
-            this.butCalculate.Location = new System.Drawing.Point(7, 63);
+            this.butCalculate.Location = new System.Drawing.Point(7, 100);
             this.butCalculate.Name = "butCalculate";
             this.butCalculate.Size = new System.Drawing.Size(204, 23);
             this.butCalculate.TabIndex = 1;
@@ -124,7 +128,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.файлToolStripMenuItem,
-            this.ProblemDataToolStripMenuItem});
+            this.ProblemDataToolStripMenuItem,
+            this.откалиброватьПотенциалToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1222, 24);
@@ -144,21 +149,21 @@
             // OpenToolStripMenuItem
             // 
             this.OpenToolStripMenuItem.Name = "OpenToolStripMenuItem";
-            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.OpenToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.OpenToolStripMenuItem.Text = "Открыть";
             this.OpenToolStripMenuItem.Click += new System.EventHandler(this.OpenToolStripMenuItem_Click);
             // 
             // SaveToolStripMenuItem
             // 
             this.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem";
-            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.SaveToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.SaveToolStripMenuItem.Text = "Сохранить";
             this.SaveToolStripMenuItem.Click += new System.EventHandler(this.SaveToolStripMenuItem_Click);
             // 
             // closeProblemToolStripMenuItem
             // 
             this.closeProblemToolStripMenuItem.Name = "closeProblemToolStripMenuItem";
-            this.closeProblemToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.closeProblemToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.closeProblemToolStripMenuItem.Text = "Закрыть задачу";
             this.closeProblemToolStripMenuItem.Click += new System.EventHandler(this.CloseProblemToolStripMenuItem_Click);
             // 
@@ -273,7 +278,7 @@
             // 
             this.groupBoxPowerLines.Controls.Add(this.butGetNodes);
             this.groupBoxPowerLines.Controls.Add(this.butCalcPotencial);
-            this.groupBoxPowerLines.Location = new System.Drawing.Point(4, 92);
+            this.groupBoxPowerLines.Location = new System.Drawing.Point(4, 129);
             this.groupBoxPowerLines.Name = "groupBoxPowerLines";
             this.groupBoxPowerLines.Size = new System.Drawing.Size(217, 98);
             this.groupBoxPowerLines.TabIndex = 16;
@@ -286,7 +291,7 @@
             this.groupBoxGraphicsCalc.Controls.Add(this.cbSelectGraphicLine);
             this.groupBoxGraphicsCalc.Controls.Add(this.butBuildGraphic);
             this.groupBoxGraphicsCalc.Controls.Add(this.cbChooseGraphicType);
-            this.groupBoxGraphicsCalc.Location = new System.Drawing.Point(6, 196);
+            this.groupBoxGraphicsCalc.Location = new System.Drawing.Point(6, 233);
             this.groupBoxGraphicsCalc.Name = "groupBoxGraphicsCalc";
             this.groupBoxGraphicsCalc.Size = new System.Drawing.Size(215, 370);
             this.groupBoxGraphicsCalc.TabIndex = 13;
@@ -457,6 +462,44 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Данные модели";
             // 
+            // gbFields
+            // 
+            this.gbFields.Controls.Add(this.rtbFields);
+            this.gbFields.Location = new System.Drawing.Point(6, 136);
+            this.gbFields.Name = "gbFields";
+            this.gbFields.Size = new System.Drawing.Size(366, 350);
+            this.gbFields.TabIndex = 0;
+            this.gbFields.TabStop = false;
+            this.gbFields.Text = "Области";
+            // 
+            // rtbFields
+            // 
+            this.rtbFields.Location = new System.Drawing.Point(3, 16);
+            this.rtbFields.Name = "rtbFields";
+            this.rtbFields.ReadOnly = true;
+            this.rtbFields.Size = new System.Drawing.Size(357, 328);
+            this.rtbFields.TabIndex = 0;
+            this.rtbFields.Text = "";
+            // 
+            // gbSources
+            // 
+            this.gbSources.Controls.Add(this.rtbSources);
+            this.gbSources.Location = new System.Drawing.Point(6, 495);
+            this.gbSources.Name = "gbSources";
+            this.gbSources.Size = new System.Drawing.Size(366, 215);
+            this.gbSources.TabIndex = 0;
+            this.gbSources.TabStop = false;
+            this.gbSources.Text = "Источники";
+            // 
+            // rtbSources
+            // 
+            this.rtbSources.Location = new System.Drawing.Point(5, 21);
+            this.rtbSources.Name = "rtbSources";
+            this.rtbSources.ReadOnly = true;
+            this.rtbSources.Size = new System.Drawing.Size(355, 188);
+            this.rtbSources.TabIndex = 1;
+            this.rtbSources.Text = "";
+            // 
             // gbGeneralModelData
             // 
             this.gbGeneralModelData.Controls.Add(this.tbDepth);
@@ -473,80 +516,6 @@
             this.gbGeneralModelData.TabIndex = 0;
             this.gbGeneralModelData.TabStop = false;
             this.gbGeneralModelData.Text = "Общие данные";
-            // 
-            // gbFields
-            // 
-            this.gbFields.Controls.Add(this.rtbFields);
-            this.gbFields.Location = new System.Drawing.Point(6, 136);
-            this.gbFields.Name = "gbFields";
-            this.gbFields.Size = new System.Drawing.Size(366, 350);
-            this.gbFields.TabIndex = 0;
-            this.gbFields.TabStop = false;
-            this.gbFields.Text = "Области";
-            // 
-            // gbSources
-            // 
-            this.gbSources.Controls.Add(this.rtbSources);
-            this.gbSources.Location = new System.Drawing.Point(6, 495);
-            this.gbSources.Name = "gbSources";
-            this.gbSources.Size = new System.Drawing.Size(366, 215);
-            this.gbSources.TabIndex = 0;
-            this.gbSources.TabStop = false;
-            this.gbSources.Text = "Источники";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 16);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "Тип поля:";
-            // 
-            // tbFieldType
-            // 
-            this.tbFieldType.Location = new System.Drawing.Point(65, 13);
-            this.tbFieldType.Name = "tbFieldType";
-            this.tbFieldType.ReadOnly = true;
-            this.tbFieldType.ShortcutsEnabled = false;
-            this.tbFieldType.Size = new System.Drawing.Size(298, 20);
-            this.tbFieldType.TabIndex = 2;
-            // 
-            // tbPotencialType
-            // 
-            this.tbPotencialType.Location = new System.Drawing.Point(103, 37);
-            this.tbPotencialType.Name = "tbPotencialType";
-            this.tbPotencialType.ReadOnly = true;
-            this.tbPotencialType.ShortcutsEnabled = false;
-            this.tbPotencialType.Size = new System.Drawing.Size(260, 20);
-            this.tbPotencialType.TabIndex = 4;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 40);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(91, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Тип потенциала:";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 64);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(173, 13);
-            this.label8.TabIndex = 5;
-            this.label8.Text = "Тип слоя вторичных источников:";
-            // 
-            // tbLayerType
-            // 
-            this.tbLayerType.Location = new System.Drawing.Point(185, 61);
-            this.tbLayerType.Name = "tbLayerType";
-            this.tbLayerType.ReadOnly = true;
-            this.tbLayerType.ShortcutsEnabled = false;
-            this.tbLayerType.Size = new System.Drawing.Size(178, 20);
-            this.tbLayerType.TabIndex = 6;
             // 
             // tbDepth
             // 
@@ -566,23 +535,59 @@
             this.label9.TabIndex = 7;
             this.label9.Text = "Глубина модели:";
             // 
-            // rtbFields
+            // tbLayerType
             // 
-            this.rtbFields.Location = new System.Drawing.Point(3, 16);
-            this.rtbFields.Name = "rtbFields";
-            this.rtbFields.ReadOnly = true;
-            this.rtbFields.Size = new System.Drawing.Size(357, 328);
-            this.rtbFields.TabIndex = 0;
-            this.rtbFields.Text = "";
+            this.tbLayerType.Location = new System.Drawing.Point(185, 61);
+            this.tbLayerType.Name = "tbLayerType";
+            this.tbLayerType.ReadOnly = true;
+            this.tbLayerType.ShortcutsEnabled = false;
+            this.tbLayerType.Size = new System.Drawing.Size(178, 20);
+            this.tbLayerType.TabIndex = 6;
             // 
-            // rtbSources
+            // label8
             // 
-            this.rtbSources.Location = new System.Drawing.Point(5, 21);
-            this.rtbSources.Name = "rtbSources";
-            this.rtbSources.ReadOnly = true;
-            this.rtbSources.Size = new System.Drawing.Size(355, 188);
-            this.rtbSources.TabIndex = 1;
-            this.rtbSources.Text = "";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 64);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(173, 13);
+            this.label8.TabIndex = 5;
+            this.label8.Text = "Тип слоя вторичных источников:";
+            // 
+            // tbPotencialType
+            // 
+            this.tbPotencialType.Location = new System.Drawing.Point(103, 37);
+            this.tbPotencialType.Name = "tbPotencialType";
+            this.tbPotencialType.ReadOnly = true;
+            this.tbPotencialType.ShortcutsEnabled = false;
+            this.tbPotencialType.Size = new System.Drawing.Size(260, 20);
+            this.tbPotencialType.TabIndex = 4;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 40);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(91, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Тип потенциала:";
+            // 
+            // tbFieldType
+            // 
+            this.tbFieldType.Location = new System.Drawing.Point(65, 13);
+            this.tbFieldType.Name = "tbFieldType";
+            this.tbFieldType.ReadOnly = true;
+            this.tbFieldType.ShortcutsEnabled = false;
+            this.tbFieldType.Size = new System.Drawing.Size(298, 20);
+            this.tbFieldType.TabIndex = 2;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 16);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "Тип поля:";
             // 
             // groupBox4
             // 
@@ -597,14 +602,19 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Курсор";
             // 
-            // label10
+            // tbCursorY
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(3, 34);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(20, 13);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "X: ";
+            this.tbCursorY.Location = new System.Drawing.Point(29, 62);
+            this.tbCursorY.Name = "tbCursorY";
+            this.tbCursorY.Size = new System.Drawing.Size(165, 20);
+            this.tbCursorY.TabIndex = 3;
+            // 
+            // tbCursorX
+            // 
+            this.tbCursorX.Location = new System.Drawing.Point(29, 31);
+            this.tbCursorX.Name = "tbCursorX";
+            this.tbCursorX.Size = new System.Drawing.Size(165, 20);
+            this.tbCursorX.TabIndex = 2;
             // 
             // label11
             // 
@@ -615,25 +625,56 @@
             this.label11.TabIndex = 1;
             this.label11.Text = "Y: ";
             // 
-            // tbCursorX
+            // label10
             // 
-            this.tbCursorX.Location = new System.Drawing.Point(29, 31);
-            this.tbCursorX.Name = "tbCursorX";
-            this.tbCursorX.Size = new System.Drawing.Size(165, 20);
-            this.tbCursorX.TabIndex = 2;
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(3, 34);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(20, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "X: ";
             // 
-            // tbCursorY
+            // checkBoxUseRegularization
             // 
-            this.tbCursorY.Location = new System.Drawing.Point(29, 62);
-            this.tbCursorY.Name = "tbCursorY";
-            this.tbCursorY.Size = new System.Drawing.Size(165, 20);
-            this.tbCursorY.TabIndex = 3;
+            this.checkBoxUseRegularization.AutoSize = true;
+            this.checkBoxUseRegularization.Location = new System.Drawing.Point(12, 37);
+            this.checkBoxUseRegularization.Name = "checkBoxUseRegularization";
+            this.checkBoxUseRegularization.Size = new System.Drawing.Size(180, 17);
+            this.checkBoxUseRegularization.TabIndex = 19;
+            this.checkBoxUseRegularization.Text = "Использовать регуляризацию";
+            this.checkBoxUseRegularization.UseVisualStyleBackColor = true;
+            // 
+            // tbRegularizationParameter
+            // 
+            this.tbRegularizationParameter.Location = new System.Drawing.Point(76, 74);
+            this.tbRegularizationParameter.Name = "tbRegularizationParameter";
+            this.tbRegularizationParameter.Size = new System.Drawing.Size(134, 20);
+            this.tbRegularizationParameter.TabIndex = 20;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(9, 77);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(61, 13);
+            this.label12.TabIndex = 21;
+            this.label12.Text = "Параметр:";
+            // 
+            // откалиброватьПотенциалToolStripMenuItem
+            // 
+            this.откалиброватьПотенциалToolStripMenuItem.Name = "откалиброватьПотенциалToolStripMenuItem";
+            this.откалиброватьПотенциалToolStripMenuItem.Size = new System.Drawing.Size(165, 20);
+            this.откалиброватьПотенциалToolStripMenuItem.Text = "Откалибровать потенциал";
+            this.откалиброватьПотенциалToolStripMenuItem.Click += new System.EventHandler(this.откалиброватьПотенциалToolStripMenuItem_Click);
             // 
             // CalculateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1222, 761);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.tbRegularizationParameter);
+            this.Controls.Add(this.checkBoxUseRegularization);
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.butCalculate);
@@ -657,10 +698,10 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
-            this.gbGeneralModelData.ResumeLayout(false);
-            this.gbGeneralModelData.PerformLayout();
             this.gbFields.ResumeLayout(false);
             this.gbSources.ResumeLayout(false);
+            this.gbGeneralModelData.ResumeLayout(false);
+            this.gbGeneralModelData.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
@@ -728,6 +769,10 @@
         private System.Windows.Forms.TextBox tbCursorX;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox checkBoxUseRegularization;
+        private System.Windows.Forms.TextBox tbRegularizationParameter;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.ToolStripMenuItem откалиброватьПотенциалToolStripMenuItem;
     }
 }
 

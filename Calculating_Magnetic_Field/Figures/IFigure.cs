@@ -1,4 +1,6 @@
-﻿namespace Calculating_Magnetic_Field
+﻿using System.Collections.Generic;
+
+namespace Calculating_Magnetic_Field
 {
     public interface IFigure
     {
@@ -14,5 +16,7 @@
 
 
         FigureType GetFigureType();
+
+        List<Rib> SplitBorder(int n);
     }
 }

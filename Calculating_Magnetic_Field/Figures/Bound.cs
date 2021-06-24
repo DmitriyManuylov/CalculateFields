@@ -128,13 +128,7 @@ namespace Calculating_Magnetic_Field
 
             rectangleEx = null;
             rectangleIm = null;
-            SplitOnPoints(bound_Stadium, n, out points);
-            Bound_Ribs = new List<Rib>(points.Count);
-            for (int i = 0; i < n - 1; i++)
-            {
-                Bound_Ribs.Add(new Rib(points[i], points[i + 1]));
-            }
-            Bound_Ribs.Add(new Rib(points[n - 1], points[0]));
+            Bound_Ribs = bound_Stadium.SplitBorder(n);
         }
 
 
@@ -239,112 +233,6 @@ namespace Calculating_Magnetic_Field
             }
         }
 
-        public void SplitOnPoints(Bound_Stadium bound_stadium, int n, out List<PointD> points)
-        {
-            points = new List<PointD>(n);
-            int n1, n2, n3, n4;
-            double dl, dAlpha, Alpha = 0;
-            double center_x, center_y;
-            double x, y;
-            double perimeter = bound_stadium.GetPerimeter();
-            double r = bound_stadium.Radius;
-            if (bound_stadium.Orientation == StadiumOrientation.HorizontalHalfRings)
-            {
-                n1 = Convert.ToInt32(n * Math.PI * bound_stadium.Radius / perimeter);
-                dAlpha = Math.PI / n1;
-                n2 = Convert.ToInt32(n * bound_stadium.Width / perimeter);
-                dl = bound_stadium.Width / n2;
-                n3 = n1;
-                n4 = n - n1 - n2 - n3;
-                center_x = bound_stadium.Location.X;
-                center_y = bound_stadium.Location.Y - bound_stadium.Height / 2;
-                Alpha = Math.PI / 2;
-
-
-                points.Add(new PointD(bound_stadium.Location.X, bound_stadium.Location.Y));
-
-                for (int i = 0; i < n1; i++)
-                {
-                    Alpha += dAlpha;
-                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
-                }
-
-                x = bound_stadium.Location.X + dl;
-                y = bound_stadium.Location.Y - bound_stadium.Height;
-                points.Add(new PointD(x, y));
-
-                for (int i = 0; i < n2 - 1; i++)
-                {
-                    x += dl;
-                    points.Add(new PointD(x, y));
-                }
-
-                center_x = bound_stadium.Location.X + bound_stadium.Width;
-                center_y = bound_stadium.Location.Y - bound_stadium.Height / 2;
-                Alpha = Math.PI * 3d / 2;
-
-                for (int i = 0; i < n3; i++)
-                {
-                    Alpha += dAlpha;
-                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
-                }
-
-                x = bound_stadium.Location.X + bound_stadium.Width - dl;
-                y = bound_stadium.Location.Y;
-                points.Add(new PointD(x, y));
-                for (int i = 0; i < n4 - 2; i++)
-                {
-                    x -= dl;
-                    points.Add(new PointD(x, y));
-                }
-            }
-
-            if (bound_stadium.Orientation == StadiumOrientation.VerticalHalfRings)
-            {
-                n1 = Convert.ToInt32(n * bound_stadium.Height / perimeter);
-                dl = bound_stadium.Height / n1;
-                n2 = Convert.ToInt32(n * Math.PI * bound_stadium.Radius / perimeter);
-                dAlpha = Math.PI / n2;
-                n3 = n1;
-                n4 = n - n1 - n2 - n3;
-                center_x = bound_stadium.Location.X + bound_stadium.Width / 2;
-                center_y = bound_stadium.Location.Y - bound_stadium.Height;
-                Alpha = Math.PI;
-
-                x = bound_stadium.Location.X;
-                y = bound_stadium.Location.Y;
-                points.Add(new PointD(x, y));
-
-                for (int i = 0; i < n1; i++)
-                {
-                    y -= dl;
-                    points.Add(new PointD(x, y));
-                }
-
-                for (int i = 0; i < n2; i++)
-                {
-                    Alpha += dAlpha;
-                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
-                }
-
-                x = bound_stadium.Location.X + bound_stadium.Width;
-                y = bound_stadium.Location.Y - bound_stadium.Height;
-                for (int i = 0; i < n3; i++)
-                {
-                    y += dl;
-                    points.Add(new PointD(x, y));
-                }
-                center_x = bound_stadium.Location.X + bound_stadium.Width / 2;
-                center_y = bound_stadium.Location.Y;
-                Alpha = 0;
-
-                for (int i = 0; i < n4 - 1; i++)
-                {
-                    Alpha += dAlpha;
-                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
-                }
-            }
-        }
 
         /// <summary>
         /// П-образная форма
@@ -524,7 +412,13 @@ namespace Calculating_Magnetic_Field
             result += $"Свойства среды:" + "\n";
             result += $"Слева — {Left_Property}" + "\n";
             result += $"Справа — {Right_Property}" + "\n";
+            result += $"Количество элементов: {Bound_Ribs.Count}" + "\n";
             return result;
+        }
+
+        public List<Rib> SplitBorder(int n)
+        {
+            throw new NotImplementedException();
         }
     }
 }

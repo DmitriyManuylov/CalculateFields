@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace Calculating_Magnetic_Field
@@ -55,13 +56,13 @@ namespace Calculating_Magnetic_Field
 
         public bool IsPointOnBorder(PointD point)
         {
-            return ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) + (Location.Y - point.Y)) <= ((Radius * Radius) + eps)
+            return ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) * (Location.Y - point.Y)) <= ((Radius * Radius) + eps)
                     &&
-                   ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) + (Location.Y - point.Y)) >= ((Radius * Radius) - eps);
+                   ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) * (Location.Y - point.Y)) >= ((Radius * Radius) - eps);
         }
         public bool IsContaisPoint(PointD point)
         {
-            return ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) + (Location.Y - point.Y)) < (Radius * Radius) - eps;
+            return ((Location.X - point.X) * (Location.X - point.X) + (Location.Y - point.Y) * (Location.Y - point.Y)) < (Radius * Radius) - eps;
         }
 
         public bool IsPointOnBorder(PointD point, float epsilon)
@@ -80,6 +81,11 @@ namespace Calculating_Magnetic_Field
             res += $"Центр окружности: X = {Location.X}, Y = {Location.Y}" + "\n";
             res += $"Радиус: {Radius}" + "\n";
             return res;
+        }
+
+        public List<Rib> SplitBorder(int n)
+        {
+            throw new NotImplementedException();
         }
     }
 }

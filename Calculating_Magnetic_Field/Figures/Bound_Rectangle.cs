@@ -134,5 +134,10 @@ namespace Calculating_Magnetic_Field
             res += $"Высота: {Height}" + "\n";
             return res;
         }
+
+        public List<Rib> SplitBorder(int n)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -218,11 +218,11 @@ namespace AnalysisOfDependencyFromLocOfSource
                 for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                 {
                     Rib rib = bound.Bound_Ribs[i];
-                    double length = rib.LengthElement;
+                    double length = rib.LengthOfElement;
                     r_c = rib.GetMiddleOfRib().DistanceToOtherPoint(sources[k].Location);
                     double a_source = Trigonometry.Angle(centre1.X, centre1.Y, sources[k].Location.X, sources[k].Location.Y);
                     sources[k].Location = new PointD(centre1.X + bound_Stadium.Radius * Math.Cos(a_source), centre1.Y + bound_Stadium.Radius * Math.Sin(a_source));
-                    if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
+                    if (r_c < bound.Bound_Ribs[i].LengthOfElement / 2)
                     {
                         ribs[k] = rib;
 
@@ -269,12 +269,12 @@ namespace AnalysisOfDependencyFromLocOfSource
                 for (int i = 0; i < bound.Bound_Ribs.Count; i++)
                 {
                     Rib rib = bound.Bound_Ribs[i];
-                    double length = rib.LengthElement;
+                    double length = rib.LengthOfElement;
                     r_c = rib.GetMiddleOfRib().DistanceToOtherPoint(sources[k].Location);
 
                     double a_source = Trigonometry.Angle(centre2.X, centre2.Y, sources[k].Location.X, sources[k].Location.Y);
                     sources[k].Location = new PointD(centre2.X + bound_Stadium.Radius * Math.Cos(a_source), centre2.Y + bound_Stadium.Radius * Math.Sin(a_source));
-                    if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
+                    if (r_c < bound.Bound_Ribs[i].LengthOfElement / 2)
                     {
                         ribs[k] = rib;
 
@@ -362,6 +362,8 @@ namespace AnalysisOfDependencyFromLocOfSource
                 }
             }
         }
+
+        
 
 
     }

@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Calculating_Magnetic_Field.Figures
 {
-    public class Bound_Stadium: IFigure
+    public class Bound_Stadium : IFigure
     {
         public float Radius { get; set; }
 
@@ -145,7 +145,7 @@ namespace Calculating_Magnetic_Field.Figures
                         res = res ||
                         (((p.X - c.X) * (p.X - c.X) + (p.Y - c.Y) * (p.Y - c.Y) <= Radius * Radius - eps)
                         && p.X >= Location.X + Width);
-                            //***********************************************************************************
+                        //***********************************************************************************
                         break;
                     }
 
@@ -291,8 +291,123 @@ namespace Calculating_Magnetic_Field.Figures
             res += $"ЛВУ: X = {Location.X}, Y = {Location.Y}" + "\n";
             res += $"Ширина: {Height}" + "\n";
             res += $"Высота: {Height}" + "\n";
-            res +=  $"Ориентация: {orientation}" + "\n";
+            res += $"Ориентация: {orientation}" + "\n";
             return res;
+        }
+
+        public List<Rib> SplitBorder(int n)
+        {
+
+            List<PointD> points = new List<PointD>(n);
+            int n1, n2, n3, n4;
+            double dl, dAlpha, Alpha = 0;
+            double center_x, center_y;
+            double x, y;
+            double perimeter = GetPerimeter();
+            double r = Radius;
+            if (Orientation == StadiumOrientation.HorizontalHalfRings)
+            {
+                n1 = Convert.ToInt32(n * Math.PI * Radius / perimeter);
+                dAlpha = Math.PI / n1;
+                n2 = Convert.ToInt32(n * Width / perimeter);
+                dl = Width / n2;
+                n3 = n1;
+                n4 = n - n1 - n2 - n3;
+                center_x = Location.X;
+                center_y = Location.Y - Height / 2;
+                Alpha = Math.PI / 2;
+
+
+                points.Add(new PointD(Location.X, Location.Y));
+
+                for (int i = 0; i < n1; i++)
+                {
+                    Alpha += dAlpha;
+                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
+                }
+
+                x = Location.X + dl;
+                y = Location.Y - Height;
+                points.Add(new PointD(x, y));
+
+                for (int i = 0; i < n2 - 1; i++)
+                {
+                    x += dl;
+                    points.Add(new PointD(x, y));
+                }
+
+                center_x = Location.X + Width;
+                center_y = Location.Y - Height / 2;
+                Alpha = Math.PI * 3d / 2;
+
+                for (int i = 0; i < n3; i++)
+                {
+                    Alpha += dAlpha;
+                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
+                }
+
+                x = Location.X + Width - dl;
+                y = Location.Y;
+                points.Add(new PointD(x, y));
+                for (int i = 0; i < n4 - 2; i++)
+                {
+                    x -= dl;
+                    points.Add(new PointD(x, y));
+                }
+            }
+
+            if (Orientation == StadiumOrientation.VerticalHalfRings)
+            {
+                n1 = Convert.ToInt32(n * Height / perimeter);
+                dl = Height / n1;
+                n2 = Convert.ToInt32(n * Math.PI * Radius / perimeter);
+                dAlpha = Math.PI / n2;
+                n3 = n1;
+                n4 = n - n1 - n2 - n3;
+                center_x = Location.X + Width / 2;
+                center_y = Location.Y - Height;
+                Alpha = Math.PI;
+
+                x = Location.X;
+                y = Location.Y;
+                points.Add(new PointD(x, y));
+
+                for (int i = 0; i < n1; i++)
+                {
+                    y -= dl;
+                    points.Add(new PointD(x, y));
+                }
+
+                for (int i = 0; i < n2; i++)
+                {
+                    Alpha += dAlpha;
+                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
+                }
+
+                x = Location.X + Width;
+                y = Location.Y - Height;
+                for (int i = 0; i < n3; i++)
+                {
+                    y += dl;
+                    points.Add(new PointD(x, y));
+                }
+                center_x = Location.X + Width / 2;
+                center_y = Location.Y;
+                Alpha = 0;
+
+                for (int i = 0; i < n4 - 1; i++)
+                {
+                    Alpha += dAlpha;
+                    points.Add(new PointD(center_x + r * Math.Cos(Alpha), center_y + r * Math.Sin(Alpha)));
+                }
+            }
+            List<Rib> ribs = new List<Rib>(points.Count);
+            for (int i = 0; i < n - 1; i++)
+            {
+                ribs.Add(new Rib(points[i], points[i + 1]));
+            }
+            ribs.Add(new Rib(points[n - 1], points[0]));
+            return ribs;
         }
     }
 }

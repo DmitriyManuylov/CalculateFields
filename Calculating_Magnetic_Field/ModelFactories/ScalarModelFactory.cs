@@ -113,10 +113,10 @@ namespace Calculating_Magnetic_Field.ModelFactories
                     {
                         r_c = bound.Bound_Ribs[i].GetMiddleOfRib().DistanceToOtherPoint(location);
 
-                        if (r_c < bound.Bound_Ribs[i].LengthElement / 2)
+                        if (r_c < bound.Bound_Ribs[i].LengthOfElement / 2)
                         {
                             Rib rib = bound.Bound_Ribs[i];
-                            double length = rib.LengthElement;
+                            double length = rib.LengthOfElement;
                             r1 = rib.Point1.DistanceToOtherPoint(location);
                             r2 = rib.Point2.DistanceToOtherPoint(location);
 

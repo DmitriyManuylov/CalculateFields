@@ -135,9 +135,19 @@ namespace Calculating_Magnetic_Field.Sources.PotencialSources
 
         public override string ToString()
         {
+            string power = "";
+            switch (physicalField)
+            {
+                case PhysicalField.Current:
+                    {
+                        power = "A/m";
+                        break;
+                    }
+            }
             string result = "";
             result += $"Тип источника: точечный" + "\n";
             result += $"Позиция: X = {location.X}, Y = {location.Y}" + "\n";
+            result += $"Мощность: {SourcePower} " + power + "\n";
             return result;
         }
     }

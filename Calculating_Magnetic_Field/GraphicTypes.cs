@@ -16,6 +16,7 @@
         CurrentModul,
         Current_X_component,
         Current_Y_component,
+        FieldProperty
     }
 }
 

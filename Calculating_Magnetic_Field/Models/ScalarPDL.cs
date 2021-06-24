@@ -37,10 +37,10 @@ namespace Calculating_Magnetic_Field.Models
             if (pointM.X == pointN.X && pointM.Y == pointN.Y)
                 return 0;
             double result = ((pointN.X - pointM.X) * ribN.Normal.CosAlpha + (pointN.Y - pointM.Y) * ribN.Normal.CosAlpha) / r2;
-            return ribN.LengthElement * result;
+            return ribN.LengthOfElement * result;
         }
 
-        public Vector2D Calculate_Gradient_from_Element(PointD pointM, Rib ribN)
+        public Vector2D Calculate_Intensity_from_Element(PointD pointM, Rib ribN)
         {
             PointD MiddleOFRib = ribN.GetMiddleOfRib();
             throw new NotImplementedException();
@@ -61,7 +61,21 @@ namespace Calculating_Magnetic_Field.Models
 
             result.X_component = (2 * (pointN.X - pointM.X) * ((pointN.X - pointM.X) * cosA + (pointN.Y - pointM.Y) * cosB) - r2 * cosA) / (r2 * r2);
             result.Y_component = (2 * (pointN.Y - pointM.Y) * ((pointN.X - pointM.X) * cosA + (pointN.Y - pointM.Y) * cosB) - r2 * cosB) / (r2 * r2);
-            return  ribN.LengthElement * result;
+            return  ribN.LengthOfElement * result;
+        }
+
+        
+        public double KernelOfIntegral(Rib ribN, Rib ribM)
+        {
+            PointD pointM = ribM.GetMiddleOfRib();
+            PointD pointN = ribN.GetMiddleOfRib();
+            double r2 = pointM.SquareOfDistanceToOtherPoint(pointN);
+
+            if (ribN == ribM) return 0;
+            if (ribM.IsHorizontalStrictly() && ribN.IsHorizontalStrictly() && ribM.Point1.Y == ribN.Point1.Y) return 0;
+            if (ribM.IsVerticalStrictly() && ribN.IsVerticalStrictly() && ribM.Point1.X == ribN.Point1.X) return 0;
+
+            return ((pointM.X - pointN.X) * ribN.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribN.Normal.CosBeta) / r2;
         }
 
         public double Integral_dAdn(Rib ribN, Rib ribM)
@@ -74,7 +88,7 @@ namespace Calculating_Magnetic_Field.Models
             if (ribM.IsHorizontalStrictly() && ribN.IsHorizontalStrictly() && ribM.Point1.Y == ribN.Point1.Y) return 0;
             if (ribM.IsVerticalStrictly() && ribN.IsVerticalStrictly() && ribM.Point1.X == ribN.Point1.X) return 0;
 
-            return ribN.LengthElement * ((pointM.X - pointN.X) * ribN.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribN.Normal.CosBeta) / r2;
+            return ribN.LengthOfElement * ((pointM.X - pointN.X) * ribN.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribN.Normal.CosBeta) / r2;
         }
     }
 }

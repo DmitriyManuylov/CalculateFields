@@ -26,6 +26,10 @@ namespace Calculating_Magnetic_Field.Models
 
         double CalculatePotencial(PointD pointM);
 
+        double GetFieldPropertyInPoint(PointD point);
+
         void SolveProblem();
+
+        void SolveProblemWithRegularization(double parameter);
     }
 }

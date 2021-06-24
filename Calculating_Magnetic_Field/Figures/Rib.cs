@@ -30,7 +30,7 @@ namespace Calculating_Magnetic_Field
         /// </summary>
         public Normal Normal { get; private set; }
 
-        public double LengthElement { get; set; }
+        public double LengthOfElement { get; set; }
 
         /// <summary>
         /// Наклон ребра(вертикальное, горизонтальное, наклонное)
@@ -59,8 +59,8 @@ namespace Calculating_Magnetic_Field
             this.Point1 = point1;
             this.Point2 = point2;
             middleOfRib = new PointD((Point1.X + Point2.X) / 2, (Point1.Y + Point2.Y) / 2);
-            LengthElement =  Math.Sqrt((point2.X - point1.X) * (point2.X - point1.X) + (point2.Y - point1.Y) * (point2.Y - point1.Y));
-            Normal = new Normal(point1, point2, LengthElement);
+            LengthOfElement =  Math.Sqrt((point2.X - point1.X) * (point2.X - point1.X) + (point2.Y - point1.Y) * (point2.Y - point1.Y));
+            Normal = new Normal(point1, point2, LengthOfElement);
             Rib_Position = Rib_Position.Sloping;
             if (IsVertical()) Rib_Position = Rib_Position.Vertical;
             if (IsHorizontal()) Rib_Position = Rib_Position.Horizontal;
@@ -73,13 +73,13 @@ namespace Calculating_Magnetic_Field
 
         public bool IsVertical()
         {
-            if (Math.Abs((Point1.X - Point2.X)/LengthElement)< eps) return true;
+            if (Math.Abs((Point1.X - Point2.X)/LengthOfElement)< eps) return true;
             return false;
         }
 
         public bool IsHorizontal()
         {
-            if (Math.Abs((Point1.Y - Point2.Y) / LengthElement) < eps) return true;
+            if (Math.Abs((Point1.Y - Point2.Y) / LengthOfElement) < eps) return true;
             return false;
         }
 
@@ -110,7 +110,7 @@ namespace Calculating_Magnetic_Field
 
         public double DistanceFromPointToLine(PointD pointM)
         {
-            return Math.Abs((Point2.Y - Point1.Y) * pointM.X - (Point2.X - Point1.X) * pointM.Y + Point2.X * Point1.Y - Point2.Y * Point1.X) / LengthElement;
+            return Math.Abs((Point2.Y - Point1.Y) * pointM.X - (Point2.X - Point1.X) * pointM.Y + Point2.X * Point1.Y - Point2.Y * Point1.X) / LengthOfElement;
         }
 
         public PointPosition Classify(PointD point)
@@ -124,7 +124,7 @@ namespace Calculating_Magnetic_Field
                 return PointPosition.RIGHT;
             if ((a.X * b.X < 0.0) || (a.Y * b.Y < 0.0))
                 return PointPosition.BEHIND;
-            if (LengthElement < Point1.DistanceToOtherPoint(point))
+            if (LengthOfElement < Point1.DistanceToOtherPoint(point))
                 return PointPosition.BEYOND;
             if (Math.Abs(Point1.X - point.X) < eps && Math.Abs(Point1.Y - point.Y) < eps)
                 return PointPosition.ORIGIN;
@@ -144,7 +144,7 @@ namespace Calculating_Magnetic_Field
                 return PointPosition.RIGHT;
             if ((a.X * b.X < 0.0) || (a.Y * b.Y < 0.0))
                 return PointPosition.BEHIND;
-            if (LengthElement < Point1.DistanceToOtherPoint(point))
+            if (LengthOfElement < Point1.DistanceToOtherPoint(point))
                 return PointPosition.BEYOND;
             if (Point1.X == point.X && Point1.Y == point.Y)
                 return PointPosition.ORIGIN;
@@ -160,14 +160,16 @@ namespace Calculating_Magnetic_Field
             double yy = Point1.Y;
             double dx = (Point2.X - xx) / n ;
             double dy = (Point2.Y - yy) / n;
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < n - 1; i++)
             {
                 ribs.Add(new Rib(new PointD(xx, yy), new PointD(xx + dx, yy + dy)));
                 xx += dx;
                 yy += dy;
             }
+            ribs.Add(new Rib(new PointD(xx, yy), Point2));
             return ribs;
         }
+
 
         public LinesIntersection Intersect(Rib rib, ref double t)
         {

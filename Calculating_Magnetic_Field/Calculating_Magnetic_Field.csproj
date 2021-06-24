@@ -95,7 +95,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BorderConditionType.cs" />
+    <Compile Include="BoundaryConditions\IBoundaryCondition.cs" />
+    <Compile Include="BoundaryConditions\LinkingCondition.cs" />
+    <Compile Include="BoundaryConditions\NeumanCondition.cs" />
     <Compile Include="Figures\Bound_Stadium.cs" />
+    <Compile Include="Figures\Poligon.cs" />
     <Compile Include="Figures\LinesIntersection.cs" />
     <Compile Include="Figures\PointsPair.cs" />
     <Compile Include="Figures\StadiumOrientation.cs" />
@@ -159,6 +163,7 @@
       <DependentUpon>PicBox.cs</DependentUpon>
     </Compile>
     <Compile Include="GraphicsCalculation.cs" />
+    <Compile Include="MathOps.cs" />
     <Compile Include="ModelFactories\PDL_Factory_Method.cs" />
     <Compile Include="ModelFactories\PSL_Factory_Method.cs" />
     <Compile Include="ModelFactories\IPotencialFactoryMethod.cs" />

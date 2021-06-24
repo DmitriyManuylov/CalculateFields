@@ -111,5 +111,10 @@ namespace Calculating_Magnetic_Field
         {
             throw new NotImplementedException();
         }
+
+        public List<Rib> SplitBorder(int n)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

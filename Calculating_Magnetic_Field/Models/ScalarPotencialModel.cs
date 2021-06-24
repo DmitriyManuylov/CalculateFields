@@ -285,7 +285,7 @@ namespace Calculating_Magnetic_Field.Models
             for (int j = 0; j < n; j++)
             {
                 magnet_dAdy_On_carg = Integral_dAdy_M(bounds[1].MiddlePoints[j]) + CoilsPotencialGradientOnBound[ni + j].Y_component;
-                resultY += magnet_dAdy_On_carg * ArrDencities[ni + j] * bounds[1].Bound_Ribs[j].LengthElement;
+                resultY += magnet_dAdy_On_carg * ArrDencities[ni + j] * bounds[1].Bound_Ribs[j].LengthOfElement;
             }
             result = resultY;
             return depth * depth * result / (2 * Math.PI * standart_field_property);
@@ -301,7 +301,7 @@ namespace Calculating_Magnetic_Field.Models
             for (int j = 0; j < n; j++)
             {
                 magnet_dAdy_On_carg = CoilsPotencialGradientOnBound[j].Y_component;
-                resultY += magnet_dAdy_On_carg * ArrDencities[j] * bounds[0].Bound_Ribs[j].LengthElement;
+                resultY += magnet_dAdy_On_carg * ArrDencities[j] * bounds[0].Bound_Ribs[j].LengthOfElement;
             }
             result = resultY;
             return depth * depth * result / (2 * Math.PI * standart_field_property);
@@ -319,10 +319,10 @@ namespace Calculating_Magnetic_Field.Models
             PointD MiddleOFRib = rib.GetMiddleOfRib();
             double r = Math.Sqrt((MiddleOFRib.X - pointM.X) * (MiddleOFRib.X - pointM.X) +
                                  (MiddleOFRib.Y - pointM.Y) * (MiddleOFRib.Y - pointM.Y));
-            if (r < rib.LengthElement * 1e-5)
-                return rib.LengthElement * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
+            if (r < rib.LengthOfElement * 1e-5)
+                return rib.LengthOfElement * (Math.Log(1.0 / Math.Sqrt((rib.Point1.X - pointM.X) * (rib.Point1.X - pointM.X) + (rib.Point1.Y - pointM.Y) * (rib.Point1.Y - pointM.Y))) +
                                                      Math.Log(1.0 / Math.Sqrt((rib.Point2.X - pointM.X) * (rib.Point2.X - pointM.X) + (rib.Point2.Y - pointM.Y) * (rib.Point2.Y - pointM.Y)))) / 2;
-            return rib.LengthElement * Math.Log(1.0 / r);
+            return rib.LengthOfElement * Math.Log(1.0 / r);
         }
 
         #region Методы
@@ -335,6 +335,7 @@ namespace Calculating_Magnetic_Field.Models
             PointD pointM;
             PointD pointN;
             Rib ribM;
+            Rib ribN;
             for (int i = 0; i < bounds.Count; i++)
             {
                 n = bounds[i].Bound_Ribs.Count;
@@ -349,9 +350,8 @@ namespace Calculating_Magnetic_Field.Models
                         {
                             if (i == k && j == p) { kernelValues[ni + j, nk + p] = 0; continue; }
 
-                            pointN = bounds[k].Bound_Ribs[p].GetMiddleOfRib();
-                            kernelValues[ni + j, nk + p] = ((pointM.X - pointN.X) * ribM.Normal.CosAlpha + (pointM.Y - pointN.Y) * ribM.Normal.CosBeta) /
-                                                           ((pointN.X - pointM.X) * (pointN.X - pointM.X) + (pointN.Y - pointM.Y) * (pointN.Y - pointM.Y));
+                            ribN = bounds[k].Bound_Ribs[p];
+                            kernelValues[ni + j, nk + p] = Potencial.KernelOfIntegral(ribN, ribM);
                         }
                         nk += m;
                     }
@@ -378,7 +378,7 @@ namespace Calculating_Magnetic_Field.Models
                         for (int j = 0; j < n; j++)
                         {
                             ribN = bounds[i].Bound_Ribs[j];
-                            middleKernelValues[i, nk + p] += kernelValues[ni + j, nk + p] * ribN.LengthElement;
+                            middleKernelValues[i, nk + p] += kernelValues[ni + j, nk + p] * ribN.LengthOfElement;
                         }
                         middleKernelValues[i, nk + p] /= bounds[i].BoundLenth;
                     }
@@ -440,7 +440,7 @@ namespace Calculating_Magnetic_Field.Models
         }
 
 
-        private void CalculateCoefficientsForVectorPotencialWithRegularization()
+        private void CalculateCoefficientsForScalarPotencialWithRegularization()
         {
             double lambdaI, lambdaJ;
             int ni = 0;
@@ -460,9 +460,9 @@ namespace Calculating_Magnetic_Field.Models
                         for (int p = 0; p < bounds[k].Bound_Ribs.Count; p++)
                         {
                             if (i == k && j == p)
-                                MatrixA[ni + j, nk + p] = 1 + lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthElement * middleKernelValues[i, nk + p];
+                                MatrixA[ni + j, nk + p] = 1 + lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthOfElement * middleKernelValues[i, nk + p];
                             else
-                                MatrixA[ni + j, nk + p] = -lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthElement * (kernelValues[ni + j, nk + p] - middleKernelValues[i, nk + p]);
+                                MatrixA[ni + j, nk + p] = -lambdaJ / Math.PI * bounds[k].Bound_Ribs[p].LengthOfElement * (kernelValues[ni + j, nk + p] - middleKernelValues[i, nk + p]);
                         }
                         nk += bounds[k].Bound_Ribs.Count;
 
@@ -542,14 +542,14 @@ namespace Calculating_Magnetic_Field.Models
                                         {
                                             continue;
                                         }
-                                        if(rib.IsVerticalStrictly() && pointSource.Location.X == rib.Point1.X
+                                        if (rib.IsVerticalStrictly() && pointSource.Location.X == rib.Point1.X
                                             ||
                                            rib.IsHorizontalStrictly() && pointSource.Location.Y == rib.Point1.Y)
                                         {
                                             continue;
                                         }
                                     }
-                                    FreeMemberFunOnBound[nj + j] -= (rib.Normal.CosAlpha * grad.X_component + rib.Normal.CosBeta * grad.Y_component);
+                                    FreeMemberFunOnBound[nj + j] += (rib.Normal.CosAlpha * grad.X_component + rib.Normal.CosBeta * grad.Y_component);
                                 }
                             nj += bounds[i].Bound_Ribs.Count;
                         }
@@ -597,7 +597,7 @@ namespace Calculating_Magnetic_Field.Models
             {
                 for (int j = 0; j < bounds[i].Bound_Ribs.Count - 1; j++)
                 {
-                    MidValuesBn[i] += bounds[i].Bound_Ribs[j].LengthElement * FreeMemberFunOnBound[ni + j];
+                    MidValuesBn[i] += bounds[i].Bound_Ribs[j].LengthOfElement * FreeMemberFunOnBound[ni + j];
                 }
                 MidValuesBn[i] /= bounds[i].BoundLenth;
                 ni += bounds[i].Bound_Ribs.Count;
@@ -624,7 +624,7 @@ namespace Calculating_Magnetic_Field.Models
                 PointN = new PointD(x, y);
                 result += d[i] * func(PointN, pointM);
             }
-            result *= rib.LengthElement / 2;
+            result *= rib.LengthOfElement / 2;
             return result;
         }
         public double GaussIntegralDn(Rib ribN, Rib ribM, Func<PointD, Rib, double> func)
@@ -640,13 +640,41 @@ namespace Calculating_Magnetic_Field.Models
                 PointN = new PointD(x, y);
                 result += d[i] * func(PointN, ribM);
             }
-            result *= ribN.LengthElement / 2;
+            result *= ribN.LengthOfElement / 2;
             return result;
         }
 
 
 
+
         #region Расчёт величин
+        private Vector2D CalculateReactionInduction(PointD pointM)
+        {
+            Rib rib;
+            double lenth;
+            Vector2D result;
+
+            double eps = 1e-6;
+
+            result.X_component = 0;
+            result.Y_component = 0;
+            PointD midP;
+            int ni = 0;
+            double r = 0;
+            for (int i = 0; i < bounds.Count; i++)
+            {
+                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
+                {
+                    rib = bounds[i].Bound_Ribs[j];
+
+                    result += Potencial.Calculate_Induction_from_Element(pointM, rib) * ArrDencities[ni + j];
+                }
+                ni += bounds[i].Bound_Ribs.Count;
+            }
+
+            return 0.5 / Math.PI * result;
+        }
+        
         public Vector2D CalculateInduction(PointD pointM)
         {
             double fieldProperty;
@@ -671,7 +699,6 @@ namespace Calculating_Magnetic_Field.Models
             for (int i = 0; i < sources.Count; i++)
             {
                 source_field = sources[i].GetInductionValue(pointM);
-                //sources_field += source_field / ((ChargedThread)sources[i]).FieldProperty;
                 sources_field += source_field;
             }
 
@@ -707,32 +734,7 @@ namespace Calculating_Magnetic_Field.Models
             return fieldProperty;
         }
 
-        private Vector2D CalculateReactionInduction(PointD pointM)
-        {
-            Rib rib;
-            double lenth;
-            Vector2D result;
-
-            double eps = 1e-6;
-
-            result.X_component = 0;
-            result.Y_component = 0;
-            PointD midP;
-            int ni = 0;
-            double r = 0;
-            for (int i = 0; i < bounds.Count; i++)
-            {
-                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
-                {
-                    rib = bounds[i].Bound_Ribs[j];
-
-                    result += Potencial.Calculate_Induction_from_Element(pointM, rib) * ArrDencities[ni + j];
-                }
-                ni += bounds[i].Bound_Ribs.Count;
-            }
-
-            return 0.5 / Math.PI * result;
-        }
+       
 
         private Vector2D CalculateReactionIntensity(PointD pointM)
         {
@@ -754,7 +756,7 @@ namespace Calculating_Magnetic_Field.Models
                     rib = bounds[i].Bound_Ribs[j];
                     midP = new PointD(bounds[i].Bound_Ribs[j].GetMiddleOfRib());
                     r = Math.Sqrt((midP.X - pointM.X) * (midP.X - pointM.X) + (midP.Y - pointM.Y) * (midP.Y - pointM.Y));
-                    lenth = bounds[i].Bound_Ribs[j].LengthElement;
+                    lenth = bounds[i].Bound_Ribs[j].LengthOfElement;
 
                     result.X_component += (pointM.X - midP.X) / (r * r) * ArrDencities[ni + j] * lenth;
                     result.Y_component += (pointM.Y - midP.Y) / (r * r) * ArrDencities[ni + j] * lenth;
@@ -765,23 +767,7 @@ namespace Calculating_Magnetic_Field.Models
             return depth * result / (2 * Math.PI * standart_field_property);
         }
 
-        /// <summary>
-        /// Вычисление потенциала поля реакции среды в точке pointM
-        /// </summary>
-        /// <param name="points">Точка, в которой вычисляется потенциал</param>
-        /// /// <param name="Potencial">Значение потенциала в заданной точке</param>
-        public double Calculate_Sources_Potencial(PointD pointM)
-        {
-
-            double result = 0;
-
-            for (int i = 0; i < sources.Count; i++)
-            {
-                result += sources[i].GetPotencialValue(pointM);
-            }
-
-            return depth * result;
-        }
+        
 
         public void Calculate_Sources_Potencial(PointD[] points, out double[] Potencial)
         {
@@ -793,23 +779,7 @@ namespace Calculating_Magnetic_Field.Models
             }
         }
 
-        /// <summary>
-        /// Вычисление потенциала поля реакции среды в точке pointM
-        /// </summary>
-        /// <param name="points">Точка, в которой вычисляется потенциал</param>
-        /// /// <param name="Potencial">Значение потенциала в заданной точке</param>
-        public double Calculate_ReactionPotencial(PointD pointM)
-        {
-            double result = 0;
-            int ni = 0;
-            for (int i = 0; i < bounds.Count; i++)
-            {
-                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
-                    result += Potencial.Calculate_Potencial_from_Element(pointM, bounds[i].Bound_Ribs[j]) * ArrDencities[ni + j];
-                ni += bounds[i].Bound_Ribs.Count;
-            }
-            return depth / (2.0 * Math.PI * standart_field_property) * result;
-        }
+        
 
         /// <summary>
         /// Вычисление потенциала реакции среды в наборе точек points
@@ -837,12 +807,48 @@ namespace Calculating_Magnetic_Field.Models
             return result;
         }
 
+
+
+        /// <summary>
+        /// Вычисление потенциала поля реакции среды в точке pointM
+        /// </summary>
+        /// <param name="points">Точка, в которой вычисляется потенциал</param>
+        /// /// <param name="Potencial">Значение потенциала в заданной точке</param>
+        public double Calculate_ReactionPotencial(PointD pointM)
+        {
+            double result = 0;
+            int ni = 0;
+            for (int i = 0; i < bounds.Count; i++)
+            {
+                for (int j = 0; j < bounds[i].Bound_Ribs.Count; j++)
+                    result += Potencial.Calculate_Potencial_from_Element(pointM, bounds[i].Bound_Ribs[j]) * ArrDencities[ni + j];
+                ni += bounds[i].Bound_Ribs.Count;
+            }
+            return depth / (2.0 * Math.PI * standart_field_property) * result;
+        }
+        /// <summary>
+        /// Вычисление потенциала поля реакции среды в точке pointM
+        /// </summary>
+        /// <param name="points">Точка, в которой вычисляется потенциал</param>
+        /// /// <param name="Potencial">Значение потенциала в заданной точке</param>
+        public double Calculate_Sources_Potencial(PointD pointM)
+        {
+
+            double result = 0;
+
+            for (int i = 0; i < sources.Count; i++)
+            {
+                result += sources[i].GetPotencialValue(pointM);
+            }
+
+            return depth * result;
+        }
         public double CalculatePotencial(PointD pointM)
         {
             double fieldProperty = GetFieldProperty(pointM);
             double reactionPot = Calculate_ReactionPotencial(pointM);
             double sourcesPot = Calculate_Sources_Potencial(pointM);
-            double potencial = reactionPot*fieldProperty + sourcesPot;
+            double potencial = reactionPot + sourcesPot;
             return potencial;
         }
 
@@ -857,108 +863,61 @@ namespace Calculating_Magnetic_Field.Models
                 n += bounds[i].Bound_Ribs.Count;
             MatrixA = new double[n, n];
             VectorB = new double[n];
-            kernelValues = new double[n, n];
-            middleKernelValues = new double[bounds.Count, n];
+            /*kernelValues = new double[n, n];
+            middleKernelValues = new double[bounds.Count, n];*/
             ArrDencities = new double[n];
             CoilsPotencialGradientOnBound = new Vector2D[n];
             FreeMemberFunOnBound = new double[n];
-            MidValuesBn = new double[bounds.Count];
+            //MidValuesBn = new double[bounds.Count];
 
             if (sources.Count < 1) return;
 
-            CalculateKernels();
-            CalculateMiddleValuesOfKernels();
+            //CalculateKernels();
+            //CalculateMiddleValuesOfKernels();
 
             CalculateSourcesFieldInboundsPoints();
-            CalculateMiddleValuesOf_Bn();
+           // CalculateMiddleValuesOf_Bn();
 
             CalculateCoefficientsForScalarPotencialWithoutRegularization();
 
             matrix = Matrix.Create(MatrixA);
-
             vectorB = Vector.Create(VectorB);
 
             BiCgStabSolve = new BiConjugateGradientSolver<double>(matrix);
             BiCgStabSolve.Preconditioner = new Extreme.Mathematics.LinearAlgebra.IterativeSolvers.Preconditioners.IdentityPreconditioner<double>(matrix);
             Vector<double> res = BiCgStabSolve.Solve(vectorB);
+
             for (int i = 0; i < n; i++)
                 ArrDencities[i] = res[i];
 
             //SolveEq(MatrixA, VectorB, out ArrDencities, n);
 
         }
+
+        public void SolveProblemWithRegularization(double parameter)
+        {
+            int n = 0;
+            for (int i = 0; i < bounds.Count; i++)
+                n += bounds[i].Bound_Ribs.Count;
+            MatrixA = new double[n, n];
+            VectorB = new double[n];
+
+            ArrDencities = new double[n];
+            CoilsPotencialGradientOnBound = new Vector2D[n];
+            FreeMemberFunOnBound = new double[n];
+
+            if (sources.Count < 1) return;
+
+
+            CalculateSourcesFieldInboundsPoints();
+
+            CalculateCoefficientsForScalarPotencialWithoutRegularization();
+            Vector<double> res = MathOps.SolveWithTichonovRegularization(parameter, MatrixA, VectorB);
+            for (int i = 0; i < n; i++)
+                ArrDencities[i] = res[i];
+        }
         #endregion
 
-
-        /// <summary>
-        /// Решение СЛАУ
-        /// </summary>
-        /// <param name="matrix">Матрица коэффициентов</param>
-        /// <param name="freeF">Столбец  свободных членов</param>
-        /// <param name="n">Размерность</param>
-        /// <returns></returns>
-        public void SolveEq(double[,] matrix, double[] freeF, out double[] result, int n)
-        {
-            double[,] matr = (double[,])matrix.Clone();
-            result = new double[freeF.Length];
-            int count, i, j, i_2, j_2;
-            double elem;
-            double[] vector = new double[n];
-            double changingEl_F;
-
-            for (count = n - 1; count >= 0; count--)
-            {
-                // перестановка строк в случае,
-                // если элемент matrix[count,count]=0
-                if (matr[count, count] == 0)
-                {
-                    i_2 = count;
-                    while (matr[i_2, count] == 0)
-                    {
-                        i_2 -= 1;
-                    }
-                    changingEl_F = freeF[i_2];
-                    freeF[i_2] = freeF[count];
-                    freeF[count] = changingEl_F;
-                    for (j_2 = 0; j_2 <= count; j_2++)
-                    {
-                        vector[j_2] = matr[count, j_2];
-                        matr[count, j_2] = matr[i_2, j_2];
-                        matr[i_2, j_2] = vector[j_2];
-                    }
-                }
-
-                //фиксирование элемента matrix[count,count]
-                elem = matr[count, count];
-                //деление строки count на зафиксированный элемент
-                freeF[count] /= elem;
-                for (i = 0; i <= n - 1; i++)
-                {
-                    matr[count, i] = matr[count, i] / elem;
-                }
-
-                for (i = 0; i <= count - 1; i++)
-                {
-                    //Фиксирование элемента i-й строки(выше строки count) столбца count
-                    elem = matr[i, count];
-                    freeF[i] = freeF[i] - freeF[count] * elem;
-                    //Вычитание строки count из верхних строк
-                    for (j = 0; j <= n - 1; j++)
-                    {
-                        matr[i, j] = matr[i, j] - matr[count, j] * elem;
-                    }
-                }
-            }
-            for (count = 0; count <= n - 1; count++)
-            {
-                for (i = count + 1; i <= n - 1; i++)
-                {
-                    freeF[i] -= freeF[count] * matr[i, count];
-                    matr[i, count] = 0;
-                }
-            }
-            result = freeF;
-        }
 
         public TypeOfPotencial GetPotencialType()
         {
@@ -992,6 +951,12 @@ namespace Calculating_Magnetic_Field.Models
             }
             return null;
         }
-        
+
+        public double GetFieldPropertyInPoint(PointD point)
+        {
+            return GetFieldProperty(point);
+        }
+
+       
     }
 }

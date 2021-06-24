@@ -141,10 +141,10 @@ namespace Calculating_Magnetic_Field
             path_to_data_files = Work_With_Files.path_to_data_files;
             pictureBox1.Paint += PictureBox1_Paint;
             InitPointsForGraphic();
-            selectedPair = pointsPairs[10];
+            //selectedPair = pointsPairs[10];
             FillComboBoxOfLineSelecting();
             cbChooseGraphicType.SelectedIndex = 13;
-            cbSelectGraphicLine.SelectedIndex = 10;
+           // cbSelectGraphicLine.SelectedIndex = 10;
             pictureBox1.Invalidate();
         }
 
@@ -161,6 +161,7 @@ namespace Calculating_Magnetic_Field
 
             DrawAxes(graphics);
             DrawFigures(graphics);
+            //DrawLines(graphics);
             DrawSelectedLine(graphics);
 
         }
@@ -196,7 +197,7 @@ namespace Calculating_Magnetic_Field
             if (selectedPair == null)
                 return;
             brush = new SolidBrush(Color.Black);
-            pen = new Pen(brush, 1);
+            pen = new Pen(brush, 3);
             pen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
             PointD p1 = selectedPair.Value.Point1;
             PointD p2 = selectedPair.Value.Point2;
@@ -204,6 +205,24 @@ namespace Calculating_Magnetic_Field
 
             brush.Dispose();
             pen.Dispose();
+        }
+
+        private void DrawLines(Graphics graphics)
+        {
+            if (model == null)
+            {
+                return;
+            }
+            brush = new SolidBrush(Color.Black);
+            pen = new Pen(brush, 1);
+            foreach (Bound bound in model.Bounds)
+            {
+                foreach (Rib rib in bound.Bound_Ribs)
+                {
+                    graphics.DrawLine(pen, ModifyModelPointToPicBoxPoint(new PointF((float)rib.Point1.X, (float)rib.Point1.Y)), ModifyModelPointToPicBoxPoint(new PointF((float)rib.Point2.X, (float)rib.Point2.Y)));
+                }
+            }
+        
         }
 
         private PointF ModifyModelPointToPicBoxPoint(PointF point)
@@ -229,14 +248,27 @@ namespace Calculating_Magnetic_Field
             Redraw(e.Graphics);
         }
         #endregion
-     
+
         private void ButCalculate_Click(object sender, EventArgs e)
         {
             if (model == null) { MessageBox.Show("Модель не создана"); return; }
             if (model.Bounds.Count < 1 && model.Sources.Count < 1) { MessageBox.Show("Не добавлен источник или намагничиваемое тело"); return; }
+            if (checkBoxUseRegularization.Checked)
+            {
+                if (double.TryParse(tbRegularizationParameter.Text, out double result))
+                {
+                    model.SolveProblemWithRegularization(result);
+                }
+                else
+                {
+                    MessageBox.Show("Неверный ввод параметра"); return;
+                }
+            }
+            else
+            {
+                model.SolveProblem();
+            }
 
-
-            model.SolveProblem();
             groupBoxGraphicsCalc.Enabled = true;
             groupBoxPowerLines.Enabled = true;
 
@@ -915,7 +947,7 @@ namespace Calculating_Magnetic_Field
             //вертикальная линия 5
             PointD Point21 = new PointD(0.0016, -0.02);
             PointD Point22 = new PointD(0.0016, 0.02);
-            pointsPairs.Add(new PointsPair { Point1 = Point22, Point2 = Point21 });
+            pointsPairs.Add(new PointsPair { Point1 = Point21, Point2 = Point22 });
 
             //вертикальная линия 6
             PointD Point23 = new PointD(0.0016, -0.02993);
@@ -978,7 +1010,53 @@ namespace Calculating_Magnetic_Field
             PointD Point46 = new PointD(0.02, 0.0195);
             pointsPairs.Add(new PointsPair { Point1 = Point45, Point2 = Point46 });
 
+            //вертикальная линия 14
+            PointD Point47 = new PointD(0.0016, -0.02);
+            PointD Point48 = new PointD(0.0016, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point48, Point2 = Point47 });
 
+            //вертикальная линия 15
+            PointD Point49 = new PointD(0.0005, -0.02);
+            PointD Point50 = new PointD(0.0005, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point49, Point2 = Point50 });
+
+            //вертикальная линия 16
+            pointsPairs.Add(new PointsPair { Point1 = Point50, Point2 = Point49 });
+
+            //вертикальная линия 17
+            PointD Point51 = new PointD(0, -0.01);
+            PointD Point52 = new PointD(0, 0.01);
+            pointsPairs.Add(new PointsPair { Point1 = Point51, Point2 = Point52 });
+            pointsPairs.Add(new PointsPair { Point1 = Point52, Point2 = Point51 });
+
+            //вертикальная линия 18
+            PointD Point53 = new PointD(0, -0.02);
+            PointD Point54 = new PointD(0, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point53, Point2 = Point54 });
+            pointsPairs.Add(new PointsPair { Point1 = Point54, Point2 = Point53 });
+
+            //вертикальная линия 19
+            PointD Point55 = new PointD(0.004, -0.02);
+            PointD Point56 = new PointD(0.004, 0.02);
+            pointsPairs.Add(new PointsPair { Point1 = Point55, Point2 = Point56 });
+            pointsPairs.Add(new PointsPair { Point1 = Point56, Point2 = Point55 });
+
+            //горизонтальная линия 9
+            PointD Point57 = new PointD(-0.02, 0.011);
+            PointD Point58 = new PointD(0.02, 0.011);
+            pointsPairs.Add(new PointsPair { Point1 = Point57, Point2 = Point58 });
+            pointsPairs.Add(new PointsPair { Point1 = Point58, Point2 = Point57 });
+
+            //вертикальная линия 20
+            PointD Point59 = new PointD(0.015, -0.012);
+            PointD Point60 = new PointD(0.015, 0.012);
+            pointsPairs.Add(new PointsPair { Point1 = Point59, Point2 = Point60 });
+            pointsPairs.Add(new PointsPair { Point1 = Point60, Point2 = Point59 });
+            //вертикальная линия 21
+            PointD Point61 = new PointD(-0.015, -0.012);
+            PointD Point62 = new PointD(-0.015, 0.012);
+            pointsPairs.Add(new PointsPair { Point1 = Point61, Point2 = Point62 });
+            pointsPairs.Add(new PointsPair { Point1 = Point62, Point2 = Point61 });
         }
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
@@ -987,6 +1065,113 @@ namespace Calculating_Magnetic_Field
             PointF modifiedPointF = ModifyPicBoxPointToModelPoint(point);
             tbCursorX.Text = modifiedPointF.X.ToString();
             tbCursorY.Text = modifiedPointF.Y.ToString();
+        }
+
+        private void откалиброватьПотенциалToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CalibratePotencial();
+        }
+
+        private void CalibratePotencial()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Выберите файл с потенциалом, рассчитанным МГЭ";
+            openFileDialog.Filter = "Data files (*.dat)|*.dat|All files|*.*";
+            double delta;
+            StreamReader reader;
+            string fileName = "";
+            int kMBE;
+            int kFemm;
+
+
+            List<double> pointsMBE = new List<double>();
+            List<double> functionMBE = new List<double>();
+            List<double> pointsFemm = new List<double>();
+            List<double> functionFemm = new List<double>();
+            int n = 0;
+
+            string path;
+            string str;
+            string[] str2;
+            string[] str3;
+
+            if (openFileDialog.ShowDialog()== DialogResult.OK)
+            {
+                path = openFileDialog.FileName;
+                using(reader = new StreamReader(path))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        str = reader.ReadLine();
+                        str2 = str.Split('\t');
+                        pointsMBE.Add(double.Parse(str2[0]));
+                        functionMBE.Add(double.Parse(str2[1]));
+                    }
+                }
+
+            }
+            else
+            {
+                MessageBox.Show("Ошибка");
+                return;
+            }
+            openFileDialog.Title = "Выберите файл с графиком из FEmm";
+            openFileDialog.Filter = "Text files (*.txt)|*.dat|All files|*.*";
+            
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                path = openFileDialog.FileName;
+                fileName = path + "fromFemmToMBE.dat";
+                using (reader = new StreamReader(path))
+                {
+                    while (!reader.EndOfStream)
+                    {
+                        n++;
+                        str = reader.ReadLine();
+                        str2 = str.Split('\t');
+                        str3 = str2[0].Split('e');
+                        pointsFemm.Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1])) / 1000);
+                        str3 = str2[2].Split('e');
+                        functionFemm.Add(double.Parse(str3[0].Replace('.', ',')) * Math.Pow(10, Int32.Parse(str3[1])));
+                    }
+
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка");
+                return;
+            }
+
+            //kMBE = functionMBE.Count / 2;
+            //kFemm = functionFemm.Count / 2;
+            kMBE = 0;
+            kFemm = 0;
+            delta = functionFemm[kFemm] - functionMBE[kMBE];
+            for(int i = 0; i < n; i++)
+            {
+                functionFemm[i] -= delta;
+            }
+            StreamWriter writer;
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if(saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog.FileName;
+                using (writer = new StreamWriter(fileName))
+                {
+                    for (int i = 0; i < n; i++)
+                    {
+                        writer.WriteLine($"{pointsFemm[i]}\t{functionFemm[i]}");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ошибка");
+                return;
+            }
+
         }
 
         private void cbSelectGraphicLine_SelectedIndexChanged(object sender, EventArgs e)
